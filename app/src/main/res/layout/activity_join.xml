@@ -50,7 +50,7 @@
         android:hint="비밀번호"
         android:ems="10"
         android:inputType="textPassword" />
-<!--
+
     <EditText
         android:id="@+id/edt_password_check"
         android:layout_weight="1"
@@ -62,23 +62,24 @@
 
 
     <RadioGroup
+        android:id="@+id/rg_gender"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <RadioButton
-            android:id="@+id/rbtn_gender_male"
+            android:id="@+id/rb_male"
             android:text="남자"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <RadioButton
-            android:id="@+id/rbtn_gender_female"
+            android:id="@+id/rb_female"
             android:text="여자"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
     </RadioGroup>
-    -->
+
 
 
     <androidx.appcompat.widget.LinearLayoutCompat

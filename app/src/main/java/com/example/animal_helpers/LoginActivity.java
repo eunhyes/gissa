@@ -18,6 +18,8 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -27,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText edt_email, edt_password;
     Button btn_login, btn_join;
+
 
     @Override
     public void onStart() {
@@ -46,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         //파이어베이스 인증 객체
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Animal-Helpers");
 
 
         edt_email = (EditText) findViewById(R.id.edt_email);
