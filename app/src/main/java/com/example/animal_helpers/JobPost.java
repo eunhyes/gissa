@@ -16,9 +16,7 @@ public class JobPost {
     private String address;
     private String body;
     private int time;
-
-    public JobPost() {
-    }
+    private int status;
 
     public JobPost(String Uid, String store, String title, String date, int employees, String location, String condition, String work, String address, String body, int time, int status) {
         this.Uid = Uid;
@@ -35,8 +33,7 @@ public class JobPost {
         this.status = status;
     }
 
-
-    private int status;
+    public JobPost() {}
 
     public String getUid() {
         return Uid;

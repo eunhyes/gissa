@@ -36,17 +36,16 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     final private String TAG = getClass().getSimpleName();
-    ArrayAdapter<String> adapter;
 
-    private FirebaseAuth mAuth;
-    FirebaseDatabase firebaseDatabase;
+
     DatabaseReference PostDatabaseRef;
 
     // 사용할 컴포넌트 선언
     private ListView postlist;
-    Button write_button;
+    private Button write_button;
+    JobPostAdapter adapter;
+    FirebaseUser user;
 
-    ArrayList<String> arrayList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,11 +55,16 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
 
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
+
+
+        adapter = new JobPostAdapter();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
         PostDatabaseRef = FirebaseDatabase.getInstance().getReference().child("JobPost");
         postlist = (ListView) v.findViewById(R.id.postlist);
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, arrayList);
+        write_button = (Button) v.findViewById(R.id.write_button);
+
+        getPost();
 
 
 
@@ -72,13 +76,23 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        write_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), WritePostActivity.class);
+                startActivity(intent);
+            }
+        });
         return v;
     }
     @Override
     public void onResume() {
         super.onResume();
-        // 해당 액티비티가 활성화 될 때, 게시물 리스트를 불러오는 함수를 호출
-        getPost();
+        // 화면이 갱신될 때 마다 listview를 새로고침 -> list item들이 중복되는 걸 방지
+        adapter.notifyDataSetChanged();
+
+
     }
 
 
@@ -91,24 +105,19 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                //리스트 초기화
-                arrayList.clear();
-
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
 
-                    //데이터 가져오기(value 이름으로 된 값을 변수에 담는다.
-                    String sValue = dataSnapshot.child("title").getValue(String.class);
+                    //database에서 데이터 가져오기
+                    String title = dataSnapshot.child("title").getValue(String.class);
+                    String location = dataSnapshot.child("location").getValue(String.class);
+                    String store = dataSnapshot.child("store").getValue(String.class);
 
+                    adapter.addItem(title, location, store);
 
-                    //리스트에 변수를 담는다.
-                    arrayList.add(sValue);
                 }
 
                 //리스트뷰 어뎁터 설정
                 postlist.setAdapter(adapter);
-                //변경될 때 마다 새로고침
-                adapter.notifyDataSetChanged();
-
 
             }
 

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="하이하이 분양소 서울"
+        android:id="@+id/textview_store"
+        android:textSize="14dp"
+        android:textColor="#666666"
+        android:gravity="center_vertical"
+        android:paddingVertical="5dp"
+
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="하이하이 분양소 서울에 주말 봉사자 구합니다"
+        android:id="@+id/textview_title"
+        android:textSize="18dp"
+        android:gravity="center_vertical"
+        android:textColor="#000000"
+        android:paddingVertical="5dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="2">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="서울특별시 광진구 구의동"
+            android:id="@+id/textview_location"
+            android:textSize="12dp"
+            android:gravity="left"
+            android:textColor="#000000"
+            android:layout_weight="1"
+
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:00~17:00"
+            android:id="@+id/textview_time"
+            android:textSize="12dp"
+            android:gravity="right"
+            android:textColor="#000000"
+
+            android:layout_weight="1"
+            />
+
+
+    </LinearLayout>
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
