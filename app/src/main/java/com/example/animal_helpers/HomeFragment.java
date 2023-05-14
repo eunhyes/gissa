@@ -1,5 +1,6 @@
 package com.example.animal_helpers;
 
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -30,7 +31,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Objects;
 
 
 public class HomeFragment extends Fragment {
@@ -45,6 +53,10 @@ public class HomeFragment extends Fragment {
     private Button write_button;
     JobPostAdapter adapter;
     FirebaseUser user;
+
+    String[] result = null;
+    String dt = "";
+
 
 
     @Override
@@ -65,6 +77,8 @@ public class HomeFragment extends Fragment {
         write_button = (Button) v.findViewById(R.id.write_button);
 
         getPost();
+
+
 
 
 
@@ -97,8 +111,6 @@ public class HomeFragment extends Fragment {
 
 
 
-
-
     private void getPost() {
 
         PostDatabaseRef.addValueEventListener(new ValueEventListener() {
@@ -111,8 +123,9 @@ public class HomeFragment extends Fragment {
                     String title = dataSnapshot.child("title").getValue(String.class);
                     String location = dataSnapshot.child("location").getValue(String.class);
                     String store = dataSnapshot.child("store").getValue(String.class);
+                    String date = dataSnapshot.child("date").getValue(String.class);
 
-                    adapter.addItem(title, location, store);
+                    adapter.addItem(title, location, store, date);
 
                 }
 
@@ -128,7 +141,7 @@ public class HomeFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
         });
-    }//getValue
+    }
 
     /*
     // 게시물 리스트를 읽어오는 함수

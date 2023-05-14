@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -11,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="하이하이 분양소 서울"
+        android:text="보호소이름"
         android:id="@+id/textview_store"
         android:textSize="14dp"
         android:textColor="#666666"
@@ -23,7 +22,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="하이하이 분양소 서울에 주말 봉사자 구합니다"
+        android:text="제목"
         android:id="@+id/textview_title"
         android:textSize="18dp"
         android:gravity="center_vertical"
@@ -41,7 +40,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="서울특별시 광진구 구의동"
+            android:text="주소"
             android:id="@+id/textview_location"
             android:textSize="12dp"
             android:gravity="left"
@@ -52,8 +51,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10:00~17:00"
-            android:id="@+id/textview_time"
+            android:text="시간"
+            android:id="@+id/textview_date"
             android:textSize="12dp"
             android:gravity="right"
             android:textColor="#000000"

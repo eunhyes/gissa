@@ -42,6 +42,9 @@ public class JoinActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         DatabaseRef = FirebaseDatabase.getInstance().getReference("Animal-Helpers");
 
+
+
+
         edt_name = (EditText) findViewById(R.id.edt_name);
         edt_email = (EditText) findViewById(R.id.edt_email);
         edt_password = (EditText) findViewById(R.id.edt_password);
@@ -49,6 +52,8 @@ public class JoinActivity extends AppCompatActivity {
         btn_join = (Button) findViewById(R.id.btn_join);
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
         rg_gender = (RadioGroup) findViewById(R.id.rg_gender);
+
+
 
         rg_gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -65,6 +70,8 @@ public class JoinActivity extends AppCompatActivity {
         btn_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
 
                 String email = edt_email.getText().toString().trim();
                 String password = edt_password.getText().toString().trim();

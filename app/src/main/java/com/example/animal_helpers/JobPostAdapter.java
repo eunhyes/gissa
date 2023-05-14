@@ -1,9 +1,8 @@
 package com.example.animal_helpers;
 
-import static android.app.LauncherActivity.*;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class JobPostAdapter extends BaseAdapter {
 
-    ArrayList<JobPost> listViewItemList = new ArrayList<JobPost>();
+    ArrayList<JobPost> listViewItemList = new ArrayList<>();
     Context context;
+    String[] result = null;
+    String mDate = "";
 
     public JobPostAdapter(){}
 
@@ -41,21 +43,28 @@ public class JobPostAdapter extends BaseAdapter {
         TextView titleText = convertView.findViewById(R.id.textview_title);
         TextView locationText = convertView.findViewById(R.id.textview_location);
         TextView storeText = convertView.findViewById(R.id.textview_store);
-//        TextView dateText = convertView.findViewById(R.id.textview_data);
+        TextView dateText = convertView.findViewById(R.id.textview_date);
 
         titleText.setText(listViewItem.getTitle());
         locationText.setText(listViewItem.getLocation());
         storeText.setText(listViewItem.getStore());
+        dateText.setText(listViewItem.getDate());
 
         return convertView;
     }
 
-    public void addItem(String title, String location, String store) {
+    public void addItem(String title, String location, String store, String date) {
         JobPost item = new JobPost();
+
+
+//        result = date.split("-");
+//        mDate= result[1]+"/"+result[2];
+
 
         item.setTitle(title);
         item.setLocation(location);
         item.setStore(store);
+        item.setDate(date);
 
 
         listViewItemList.add(item);
