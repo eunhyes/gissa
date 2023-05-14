@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="30"
+    android:gravity="center_horizontal"
+    tools:context=".MainActivity">
+
+    <Space
+        android:layout_weight="10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+<!--
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="12"
+        app:srcCompat="@drawable/animalhelpers_logo" />
+        -->
+
+    <EditText
+        android:id="@+id/edt_name"
+        android:layout_weight="1"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:hint="이름"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/edt_email"
+        android:layout_weight="1"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:hint="이메일"
+        android:ems="10"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/edt_password"
+        android:layout_weight="1"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/edt_password_check"
+        android:layout_weight="1"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:hint="비밀번호 확인"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+
+    <RadioGroup
+        android:id="@+id/rg_gender"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rb_male"
+            android:text="남자"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <RadioButton
+            android:id="@+id/rb_female"
+            android:text="여자"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RadioGroup>
+
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_join"
+            android:text="join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FEEDD1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
+            android:text="cancel"
+            android:layout_marginStart="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FEEDD1"/>
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
