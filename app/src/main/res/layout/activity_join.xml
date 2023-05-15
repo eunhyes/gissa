@@ -34,6 +34,15 @@
         android:inputType="textPersonName" />
 
     <EditText
+        android:id="@+id/edt_birth"
+        android:layout_weight="1"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:hint="생년월일"
+        android:ems="10"
+        android:inputType="textEmailAddress" />
+
+    <EditText
         android:id="@+id/edt_email"
         android:layout_weight="1"
         android:layout_width="230dp"
@@ -65,7 +74,8 @@
         android:id="@+id/rg_gender"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
 
         <RadioButton
             android:id="@+id/rb_male"

@@ -8,17 +8,21 @@ public class UserAccount {
     private String password;
     private String name;
     private String gender;
+    private String birth;
+    private String type;
 
     public UserAccount() {
     }
 
 
-    public UserAccount(String Uid, String emailId, String password, String name, String gender) {
+    public UserAccount(String Uid, String emailId, String password, String name, String gender, String birth, String type) {
         this.Uid = Uid;
         this.emailId = emailId;
         this.password = password;
         this.name = name;
         this.gender = gender;
+        this.birth = birth;
+        this.type = type;
     }
 
     public String getIdToken() {
@@ -55,4 +59,12 @@ public class UserAccount {
     public String getGender() {return gender;}
 
     public void setGender(String gender) {this.gender = gender;}
+
+    public String getBirth() {return birth;}
+
+    public void setBirth(String birth) {this.birth = birth;}
+
+    public String getType() {return type;}
+
+    public void setType(String type) {this.type = type;}
 }
