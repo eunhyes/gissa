@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // JoinActivity 연결
-                Intent intent = new Intent(LoginActivity.this, JoinActivity_choose.class);
+                Intent intent = new Intent(LoginActivity.this, JoinActivity.class);
                 startActivity(intent);
             }
         });

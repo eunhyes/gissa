@@ -3,68 +3,52 @@ package com.example.animal_helpers;
 
 public class UserAccount {
 
-    private String Uid;     // firebase Uid (고유 토큰정보)
-    private String emailId;     // 이메일
-    private String password;
-    private String name;
-    private String gender;
-    private String birth;
-    private String type;
+    private String Uid;                     // firebase Uid (고유 토큰정보)
+    private String name;                    // 사용자명
+    private String emailId;                 // 이메일
+    private String password;                // 비밀번호
+    private String organizationName;        // 기관명
+    private String address;                 // 주소
+    private String tel;                     // 전화번호
 
     public UserAccount() {
     }
 
-
-    public UserAccount(String Uid, String emailId, String password, String name, String gender, String birth, String type) {
+    public UserAccount(String Uid, String name, String emailId, String password, String organizationName, String address, String tel) {
         this.Uid = Uid;
+        this.name = name;
         this.emailId = emailId;
         this.password = password;
-        this.name = name;
-        this.gender = gender;
-        this.birth = birth;
-        this.type = type;
+        this.organizationName = organizationName;
+        this.address = address;
+        this.tel = tel;
     }
 
     public String getIdToken() {
         return Uid;
     }
-
     public void setIdToken(String idToken) {
         this.Uid = idToken;
     }
 
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getEmailId() {
-        return emailId;
-    }
-
+    public String getEmailId() { return emailId; }
     public void setEmailId(String emailId) {
         this.emailId = emailId;
     }
 
-    public String getPassword() {return password;}
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String getOrganizationName() { return organizationName; }
+    public void setOrganizationName(String organizationName) { this.organizationName = organizationName; }
 
-    public String getName() {
-        return name;
-    }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getTel() { return tel; }
+    public void setTel(String tel) { this.tel = tel; }
 
-    public String getGender() {return gender;}
-
-    public void setGender(String gender) {this.gender = gender;}
-
-    public String getBirth() {return birth;}
-
-    public void setBirth(String birth) {this.birth = birth;}
-
-    public String getType() {return type;}
-
-    public void setType(String type) {this.type = type;}
 }
