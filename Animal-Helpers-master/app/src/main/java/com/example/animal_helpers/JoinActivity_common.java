@@ -1,10 +1,12 @@
 package com.example.animal_helpers;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -14,6 +16,8 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.animal_helpers.models.UserAccount;
+import com.example.animal_helpers.models.VolunteerAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,7 +30,7 @@ public class JoinActivity_common extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference DatabaseRef;
-    private EditText edt_name, edt_birth, edt_email, edt_password_check, edt_password;
+    private EditText edt_name, edt_email, edt_password_check, edt_password;
     private Button btn_cancel, btn_join;
     private RadioGroup rg_gender;
     private String gender, type;
@@ -41,10 +45,19 @@ public class JoinActivity_common extends AppCompatActivity {
         DatabaseRef = FirebaseDatabase.getInstance().getReference("Animal-Helpers");
 
 
+        DatePicker datePicker = (DatePicker)findViewById(R.id.vDatePicker);
+
+        DatePicker.OnDateChangedListener listener = new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            }
+        };
+        datePicker.init(2000, 2, 1, listener);
+
+
 
 
         edt_name = (EditText) findViewById(R.id.edt_name);
-        edt_birth = (EditText) findViewById(R.id.edt_birth);
         edt_email = (EditText) findViewById(R.id.edt_email);
         edt_password = (EditText) findViewById(R.id.edt_password);
         edt_password_check = (EditText) findViewById(R.id.edt_password_check);
@@ -75,7 +88,7 @@ public class JoinActivity_common extends AppCompatActivity {
 
 
                 String email = edt_email.getText().toString().trim();
-                String birth = edt_birth.getText().toString().trim();
+                String birth = String.format("%s%s%s", datePicker.getYear(), (datePicker.getMonth() + 1), datePicker.getDayOfMonth());
                 String password = edt_password.getText().toString().trim();
                 String passwordcheck = edt_password_check.getText().toString().trim();
                 String name = edt_name.getText().toString().trim();
@@ -116,27 +129,29 @@ public class JoinActivity_common extends AppCompatActivity {
                             // 회원가입 성공시
                             Toast.makeText(JoinActivity_common.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                            UserAccount account = new UserAccount();
+                            UserAccount user = new UserAccount();
+//                            VolunteerAccount volunteer = new VolunteerAccount();
                             assert firebaseUser != null;
-                            account.setIdToken(firebaseUser.getUid());
-                            account.setEmailId(firebaseUser.getEmail());
-                            account.setName(name);
-                            account.setBirth(birth);
-                            account.setPassword(password);
-                            account.setGender(gender);
-                            account.setType(type);
-
-                            DatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
+                            user.setUid(firebaseUser.getUid());
+                            user.setEmail(firebaseUser.getEmail());
+                            user.setPassword(password);
+                            /*volunteer.setIdToken(firebaseUser.getUid());
+                            volunteer.setName(name);
+                            volunteer.setBirth(birth);
+                            volunteer.setGender(gender);
+                            volunteer.setType(type);
+*/
+                            DatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(user);
+//                            DatabaseRef.child("VolunteerAccount").child(firebaseUser.getUid()).setValue(volunteer);
                             Intent intent = new Intent(JoinActivity_common.this, LoginActivity.class);
                             startActivity(intent);
                         } else {
                             // 계정이 중복된 경우
                             Log.w("createUserWithEmail:failure", task.getException());
-                            Toast.makeText(JoinActivity_common.this, "이미 존재하는 계정입니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(JoinActivity_common.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
-
 
 }

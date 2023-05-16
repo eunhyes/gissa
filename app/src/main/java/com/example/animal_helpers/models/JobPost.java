@@ -1,4 +1,4 @@
-package com.example.animal_helpers;
+package com.example.animal_helpers.models;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,31 +9,35 @@ public class JobPost {
     private String store;
     private String title;
     private String date;
-    private int employees;
-    private String location;
+    private String address;
     private String condition;
     private String work;
-    private String address;
     private String body;
-    private int time;
-    private int status;
+    private String tel;
+    private String status;
+    private String time;
+    private int employees;
 
-    public JobPost(String Uid, String store, String title, String date, int employees, String location, String condition, String work, String address, String body, int time, int status) {
+    public JobPost() {}
+
+
+
+    public JobPost(String Uid, String store, String title, String date, int employees, String address, String condition, String work, String body, String tel, String time, String status) {
         this.Uid = Uid;
         this.store = store;
         this.title = title;
         this.date = date;
         this.employees = employees;
-        this.location = location;
+        this.address = address;
         this.condition = condition;
         this.work = work;
-        this.address = address;
         this.body = body;
+        this.tel = tel;
         this.time = time;
         this.status = status;
     }
 
-    public JobPost() {}
+
 
     public String getUid() {
         return Uid;
@@ -75,12 +79,12 @@ public class JobPost {
         this.employees = employees;
     }
 
-    public String getLocation() {
-        return location;
+    public String getAddress() {
+        return address;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCondition() {
@@ -99,14 +103,6 @@ public class JobPost {
         this.work = work;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getBody() {
         return body;
     }
@@ -115,19 +111,23 @@ public class JobPost {
         this.body = body;
     }
 
-    public int getTime() {
-        return time;
+    public String getTime() { return time; }
+
+    public void setTime(String time) { this.time = time; }
+
+    public String getTel() {
+        return tel;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -138,11 +138,11 @@ public class JobPost {
         result.put("title", title);
         result.put("date", date);
         result.put("employees", employees);
-        result.put("location", location);
+        result.put("address", address);
         result.put("condition", condition);
         result.put("work", work);
-        result.put("address", address);
         result.put("body", body);
+        result.put("tel", tel);
         result.put("time", time);
         result.put("status", status);
         return result;

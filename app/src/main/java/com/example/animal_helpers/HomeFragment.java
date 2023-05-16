@@ -19,6 +19,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.animal_helpers.models.JobPost;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,13 +40,18 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 
 public class HomeFragment extends Fragment {
 
     final private String TAG = getClass().getSimpleName();
+    ArrayList<String> titleList = new ArrayList<>();
+
+
 
 
     DatabaseReference PostDatabaseRef;
@@ -53,6 +61,7 @@ public class HomeFragment extends Fragment {
     private Button write_button;
     JobPostAdapter adapter;
     FirebaseUser user;
+    Map<String, Object> map;
 
     String[] result = null;
     String dt = "";
@@ -81,12 +90,15 @@ public class HomeFragment extends Fragment {
 
 
 
-
         postlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent intent = new Intent(getActivity(), WritePostActivity.class);
+                Intent intent = new Intent(getActivity(), PostDetail.class);
+                JobPost vo = (JobPost)adapterView.getAdapter().getItem(i);
+                String uid = vo.getUid();
+                intent.putExtra("uid", uid);
+
                 startActivity(intent);
             }
         });
@@ -108,10 +120,41 @@ public class HomeFragment extends Fragment {
 
 
     }
+    /*@Override
+    public void onStart(){
+        super.onStart();
+
+        titleList.clear();
+        PostDatabaseRef.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+
+                    //database에서 데이터 가져오기
+                    titleList.add(dataSnapshot.getValue(String.class));
+
+                }
+
+                //리스트뷰 어뎁터 설정
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                Toast.makeText(getActivity(), "error: " + error.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+*/
 
 
+    protected void getPost() {
 
-    private void getPost() {
 
         PostDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -120,12 +163,14 @@ public class HomeFragment extends Fragment {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
 
                     //database에서 데이터 가져오기
+
+                    String Uid = dataSnapshot.getKey();
                     String title = dataSnapshot.child("title").getValue(String.class);
                     String location = dataSnapshot.child("location").getValue(String.class);
                     String store = dataSnapshot.child("store").getValue(String.class);
                     String date = dataSnapshot.child("date").getValue(String.class);
 
-                    adapter.addItem(title, location, store, date);
+                    adapter.addItem(Uid, title, location, store, date);
 
                 }
 

@@ -14,6 +14,8 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.animal_helpers.models.OrganizationAccount;
+import com.example.animal_helpers.models.UserAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,7 +28,7 @@ public class JoinActivity_agency extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference DatabaseRef;
-    private EditText edt_name, edt_birth, edt_email, edt_password_check, edt_password;
+    private EditText edt_name, edt_email, edt_password_check, edt_password;
     private Button btn_cancel, btn_join;
     private RadioGroup rg_gender;
     private String gender, type;
@@ -44,7 +46,6 @@ public class JoinActivity_agency extends AppCompatActivity {
 
 
         edt_name = (EditText) findViewById(R.id.edt_name);
-        edt_birth = (EditText) findViewById(R.id.edt_birth);
         edt_email = (EditText) findViewById(R.id.edt_email);
         edt_password = (EditText) findViewById(R.id.edt_password);
         edt_password_check = (EditText) findViewById(R.id.edt_password_check);
@@ -75,15 +76,14 @@ public class JoinActivity_agency extends AppCompatActivity {
 
 
                 String email = edt_email.getText().toString().trim();
-                String birth = edt_birth.getText().toString().trim();
                 String password = edt_password.getText().toString().trim();
                 String passwordcheck = edt_password_check.getText().toString().trim();
                 String name = edt_name.getText().toString().trim();
 
-                if (!email.equals("") && !birth.equals("") && !password.equals("")) {
+                if (!email.equals("") && !password.equals("")) {
                     if(password.equals(passwordcheck)){
                         Log.v("test", "email : " + email + " password : " + password);
-                        createUser(email, password, name, birth);
+//TODO                        createUser(email, password, name);
                     } else {
                         Log.v("test",  ""+password+""+passwordcheck);
                         Toast.makeText(JoinActivity_agency.this, "비밀번호가 동일하지 않습니다.", Toast.LENGTH_LONG).show();
@@ -107,7 +107,7 @@ public class JoinActivity_agency extends AppCompatActivity {
 
     }
 
-    private void createUser(String email, String password, String name, String birth) {
+    private void createUser(String email, String password, String name, String tel, String address) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -116,17 +116,18 @@ public class JoinActivity_agency extends AppCompatActivity {
                             // 회원가입 성공시
                             Toast.makeText(JoinActivity_agency.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                            UserAccount account = new UserAccount();
+                            UserAccount user = new UserAccount();
+                            OrganizationAccount organization =  new OrganizationAccount();
                             assert firebaseUser != null;
-                            account.setIdToken(firebaseUser.getUid());
-                            account.setEmailId(firebaseUser.getEmail());
-                            account.setName(name);
-                            account.setPassword(password);
-                            account.setGender(gender);
-                            account.setBirth(birth);
-                            account.setType(type);
+                            user.setEmail(firebaseUser.getEmail());
+                            user.setPassword(password);
+                            organization.setUid(firebaseUser.getUid());
+                            organization.setTel(tel);
+                            organization.setAddress(address);
+                            organization.setOrganizationName(name);
 
-                            DatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
+                            DatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(user);
+                            DatabaseRef.child("OrganizationAccount").child(firebaseUser.getUid()).setValue(organization);
                             Intent intent = new Intent(JoinActivity_agency.this, LoginActivity.class);
                             startActivity(intent);
                         } else {

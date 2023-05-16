@@ -16,6 +16,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.animal_helpers.models.UserAccount;
+import com.example.animal_helpers.models.VolunteerAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -114,14 +116,16 @@ public class JoinActivity extends AppCompatActivity {
                             Toast.makeText(JoinActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             UserAccount account = new UserAccount();
+                            VolunteerAccount volunteer = new VolunteerAccount();
                             assert firebaseUser != null;
-                            account.setIdToken(firebaseUser.getUid());
-                            account.setEmailId(firebaseUser.getEmail());
-                            account.setName(name);
+                            account.setUid(firebaseUser.getUid());
+                            account.setEmail(firebaseUser.getEmail());
                             account.setPassword(password);
-                            account.setGender(gender);
+                            volunteer.setName(name);
+                            volunteer.setGender(gender);
 
                             DatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
+                            DatabaseRef.child("VolunteerAccount").child(firebaseUser.getUid()).setValue(volunteer);
                             finish();
                         } else {
                             // 계정이 중복된 경우

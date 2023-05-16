@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="주소"
-            android:id="@+id/textview_location"
+            android:id="@+id/textview_address"
             android:textSize="12dp"
             android:gravity="left"
             android:textColor="#000000"

@@ -2,15 +2,15 @@ package com.example.animal_helpers;
 
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.animal_helpers.models.JobPost;
+
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class JobPostAdapter extends BaseAdapter {
 
@@ -41,28 +41,25 @@ public class JobPostAdapter extends BaseAdapter {
         }
 
         TextView titleText = convertView.findViewById(R.id.textview_title);
-        TextView locationText = convertView.findViewById(R.id.textview_location);
+        TextView addressText = convertView.findViewById(R.id.textview_address);
         TextView storeText = convertView.findViewById(R.id.textview_store);
         TextView dateText = convertView.findViewById(R.id.textview_date);
 
         titleText.setText(listViewItem.getTitle());
-        locationText.setText(listViewItem.getLocation());
+        addressText.setText(listViewItem.getAddress());
         storeText.setText(listViewItem.getStore());
         dateText.setText(listViewItem.getDate());
 
         return convertView;
     }
 
-    public void addItem(String title, String location, String store, String date) {
+    public void addItem(String Uid, String title, String address, String store, String date) {
         JobPost item = new JobPost();
 
 
-//        result = date.split("-");
-//        mDate= result[1]+"/"+result[2];
-
-
+        item.setUid(Uid);
         item.setTitle(title);
-        item.setLocation(location);
+        item.setAddress(address);
         item.setStore(store);
         item.setDate(date);
 

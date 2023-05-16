@@ -30,8 +30,28 @@
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:hint="이름"
+        android:padding="5dp"
         android:ems="10"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/edt_birth"
+        android:layout_weight="1"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="20sp"
+        android:text="생년월일"
+        android:ems="10"
+        android:inputType="textEmailAddress" />
+
+    <DatePicker
+        android:id="@+id/vDatePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        />
 
     <EditText
         android:id="@+id/edt_email"

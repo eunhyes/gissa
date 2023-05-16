@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="아이조이 수원동탄에서 6/10(토) 봉사자 구합니다"
+                android:textSize="24sp"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:background="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="서울시 강동구"
+                android:textSize="14sp"
+                android:textColor="#666666"
+                android:padding="8dp"
+                android:background="@color/white"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:padding="8dp"
+                android:text="모집조건"
+                android:layout_marginTop="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#ffffff">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textColor="#999999"
+                    android:text="봉사 일시"/>
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="2023.06.10(토)"
+                    android:textColor="#000000"
+                    android:padding="16dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#ffffff">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textColor="#999999"
+                    android:text="봉사 일시"/>
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="10시 30분 ~ 16시 0분"
+                    android:textColor="#000000"
+                    android:padding="16dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#ffffff">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textColor="#999999"
+                    android:text="모집 인원"/>
+
+                <TextView
+                    android:id="@+id/tv_employees"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="12명"
+                    android:textColor="#000000"
+                    android:padding="16dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#ffffff">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textColor="#999999"
+                    android:text="모집 기관"/>
+
+                <TextView
+                    android:id="@+id/tv_store"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="아이조이 수원동탄점"
+                    android:textColor="#000000"
+                    android:padding="16dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#ffffff">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textColor="#999999"
+                    android:text="모집 조건"/>
+
+                <TextView
+                    android:id="@+id/tv_condition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="만 19세 이상"
+                    android:textColor="#000000"
+                    android:padding="16dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#ffffff">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:textColor="#999999"
+                    android:text="연락처"/>
+
+                <TextView
+                    android:id="@+id/tv_tel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="02-423-4875"
+                    android:textColor="#000000"
+                    android:padding="16dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="상세모집내용"
+                android:textSize="22sp"
+                android:padding="8dp"
+                android:textColor="#000000"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"/>
+
+            <TextView
+                android:id="@+id/tv_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="아이조이 요양보호소는 여러가지 피치못한 사정으로, 키우던 반려동물을 보호할 수 없을 때 새로운 주인으로서 아이를 양육하며 극진하게 보호해 주는 프리미엄 요양보호센터입니다."
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:padding="8dp"
+                android:background="@color/white"
+                />
+
+
+            <!-- 여기에 지도 추가-->
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#FFF0DA"
+        android:text="지원하기" />
+</RelativeLayout>

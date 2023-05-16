@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         //파이어베이스 인증 객체
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Animal-Helpers");
+//        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Animal-Helpers");
 
 
         edt_email = (EditText) findViewById(R.id.edt_email);
