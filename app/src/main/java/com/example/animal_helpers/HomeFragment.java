@@ -81,7 +81,7 @@ public class HomeFragment extends Fragment {
         adapter = new JobPostAdapter();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        PostDatabaseRef = FirebaseDatabase.getInstance().getReference().child("JobPost");
+        PostDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("JobPost");
         postlist = (ListView) v.findViewById(R.id.postlist);
         write_button = (Button) v.findViewById(R.id.write_button);
 
@@ -120,37 +120,6 @@ public class HomeFragment extends Fragment {
 
 
     }
-    /*@Override
-    public void onStart(){
-        super.onStart();
-
-        titleList.clear();
-        PostDatabaseRef.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-
-                    //database에서 데이터 가져오기
-                    titleList.add(dataSnapshot.getValue(String.class));
-
-                }
-
-                //리스트뷰 어뎁터 설정
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-                Toast.makeText(getActivity(), "error: " + error.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-*/
 
 
     protected void getPost() {
@@ -167,10 +136,9 @@ public class HomeFragment extends Fragment {
                     String Uid = dataSnapshot.getKey();
                     String title = dataSnapshot.child("title").getValue(String.class);
                     String location = dataSnapshot.child("location").getValue(String.class);
-                    String store = dataSnapshot.child("store").getValue(String.class);
-                    String date = dataSnapshot.child("date").getValue(String.class);
+                    String writingDate = dataSnapshot.child("writingDate").getValue(String.class);
 
-                    adapter.addItem(Uid, title, location, store, date);
+                    adapter.addItem(Uid, title, location, writingDate);
 
                 }
 
@@ -188,72 +156,5 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    /*
-    // 게시물 리스트를 읽어오는 함수
-    class GetBoard extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Log.d(TAG, "onPreExecute");
-        }
-
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            Log.d(TAG, "onPostExecute, " + result);
-
-            // 배열들 초기화
-            titleList.clear();
-            seqList.clear();
-
-            try {
-
-                // 결과물이 JSONArray 형태로 넘어오기 때문에 파싱
-                JSONArray jsonArray = new JSONArray(result);
-
-                for(int i=0;i<jsonArray.length();i++){
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                    //optString = getString 과 비슷함
-                    String title = jsonObject.optString("title");
-                    String seq = jsonObject.optString("seq");
-
-                    // title, seq 값을 변수로 받아서 배열에 추가
-                    titleList.add(title);
-                    seqList.add(seq);
-
-                }
-
-                // ListView 에서 사용할 arrayAdapter를 생성하고, ListView 와 연결
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, titleList);
-                postlist.setAdapter(arrayAdapter);
-
-                // arrayAdapter의 데이터가 변경되었을때 새로고침
-                arrayAdapter.notifyDataSetChanged();
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-        @Override
-        protected String doInBackground(String... params) {
-//
-//            String userid = params[0];
-//            String passwd = params[1];
-            String response ="";
-
-            try {
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return response;
-        }
-    }*/
 
 }

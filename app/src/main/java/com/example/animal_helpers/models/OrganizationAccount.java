@@ -4,13 +4,13 @@ package com.example.animal_helpers.models;
 public class OrganizationAccount {
 
     private String Uid;     // firebase Uid (고유 토큰정보)
-    private String OrganizationName;
+    private String organizationName;
     private String address;
     private String tel;
 
     public OrganizationAccount(String uid, String organizationName, String address, String tel) {
         this.Uid = uid;
-        this.OrganizationName = organizationName;
+        this.organizationName = organizationName;
         this.address = address;
         this.tel = tel;
     }
@@ -21,9 +21,9 @@ public class OrganizationAccount {
 
     public void setUid(String uid) {Uid = uid;}
 
-    public String getOrganizationName() {return OrganizationName;}
+    public String getOrganizationName() {return organizationName;}
 
-    public void setOrganizationName(String organizationName) {OrganizationName = organizationName;}
+    public void setOrganizationName(String organizationName) {this.organizationName = organizationName;}
 
     public String getAddress() {return address;}
 

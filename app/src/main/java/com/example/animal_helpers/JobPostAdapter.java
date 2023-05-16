@@ -16,8 +16,6 @@ public class JobPostAdapter extends BaseAdapter {
 
     ArrayList<JobPost> listViewItemList = new ArrayList<>();
     Context context;
-    String[] result = null;
-    String mDate = "";
 
     public JobPostAdapter(){}
 
@@ -40,28 +38,27 @@ public class JobPostAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.listview_item,parent,false);
         }
 
+
         TextView titleText = convertView.findViewById(R.id.textview_title);
         TextView addressText = convertView.findViewById(R.id.textview_address);
-        TextView storeText = convertView.findViewById(R.id.textview_store);
-        TextView dateText = convertView.findViewById(R.id.textview_date);
+        TextView writingDateText = convertView.findViewById(R.id.textview_writingDate);
+
 
         titleText.setText(listViewItem.getTitle());
         addressText.setText(listViewItem.getAddress());
-        storeText.setText(listViewItem.getStore());
-        dateText.setText(listViewItem.getDate());
+        writingDateText.setText(listViewItem.getWritingDate());
 
         return convertView;
     }
 
-    public void addItem(String Uid, String title, String address, String store, String date) {
+    public void addItem(String Uid, String title, String address, String writingDate) {
         JobPost item = new JobPost();
 
 
         item.setUid(Uid);
         item.setTitle(title);
         item.setAddress(address);
-        item.setStore(store);
-        item.setDate(date);
+        item.setWritingDate(writingDate);
 
 
         listViewItemList.add(item);

@@ -3,17 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     >
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="700dp"
         >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:orientation="vertical">
 
             <TextView
@@ -58,10 +57,10 @@
                     android:layout_height="wrap_content"
                     android:padding="12dp"
                     android:textColor="#999999"
-                    android:text="봉사 일시"/>
+                    android:text="봉사 기간"/>
 
                 <TextView
-                    android:id="@+id/tv_time"
+                    android:id="@+id/tv_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="2023.06.10(토)"
@@ -81,10 +80,10 @@
                     android:layout_height="wrap_content"
                     android:padding="12dp"
                     android:textColor="#999999"
-                    android:text="봉사 일시"/>
+                    android:text="봉사 시간"/>
 
                 <TextView
-                    android:id="@+id/tv_date"
+                    android:id="@+id/tv_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="10시 30분 ~ 16시 0분"

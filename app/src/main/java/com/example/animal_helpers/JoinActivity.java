@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.animal_helpers.models.OrganizationAccount;
 import com.example.animal_helpers.models.UserAccount;
 import com.example.animal_helpers.models.VolunteerAccount;
 import androidx.annotation.IdRes;
@@ -139,18 +140,19 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
                             Toast.makeText(JoinActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             UserAccount account = new UserAccount();
-                            VolunteerAccount volunteer = new VolunteerAccount();
+                            OrganizationAccount organization = new OrganizationAccount();
                             assert firebaseUser != null;
                             account.setUid(firebaseUser.getUid());
                             account.setEmail(firebaseUser.getEmail());
                             account.setPassword(password);
-                            account.setOrganizationName(organizationName);
+                            organization.setOrganizationName(organizationName);
                             String address = city + " " + sigungu + " " + detail;
-                            account.setAddress(address);
-                            account.setTel(tel);
+                            organization.setAddress(address);
+                            organization.setTel(tel);
 
                             DatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
-                            DatabaseRef.child("VolunteerAccount").child(firebaseUser.getUid()).setValue(volunteer);
+                            DatabaseRef.child("OrganizationAccount").child(firebaseUser.getUid()).setValue(organization);
+
                             finish();
                         } else {
                             // 계정이 중복된 경우

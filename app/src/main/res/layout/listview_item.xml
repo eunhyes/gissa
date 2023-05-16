@@ -10,18 +10,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="보호소이름"
-        android:id="@+id/textview_store"
-        android:textSize="14dp"
-        android:textColor="#666666"
-        android:gravity="center_vertical"
-        android:paddingVertical="5dp"
-
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="제목"
         android:id="@+id/textview_title"
         android:textSize="18dp"
@@ -52,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="시간"
-            android:id="@+id/textview_date"
+            android:id="@+id/textview_writingDate"
             android:textSize="12dp"
             android:gravity="right"
             android:textColor="#000000"

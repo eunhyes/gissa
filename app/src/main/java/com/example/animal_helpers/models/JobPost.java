@@ -6,38 +6,43 @@ import java.util.Map;
 public class JobPost {
 
     private String Uid;     // firebase Uid (고유 토큰정보)
-    private String store;
+    private String activityPlace;
     private String title;
-    private String date;
+    private String writingDate;
     private String address;
     private String condition;
     private String work;
     private String body;
     private String tel;
     private String status;
-    private String time;
+    private String startDate;
+    private String endDate;
+    private String startTime;
+    private String endTime;
+
+
+
     private int employees;
 
     public JobPost() {}
 
-
-
-    public JobPost(String Uid, String store, String title, String date, int employees, String address, String condition, String work, String body, String tel, String time, String status) {
-        this.Uid = Uid;
-        this.store = store;
+    public JobPost(String uid, String activityPlace, String title, String writingDate, String address, String condition, String work, String body, String tel, String status, String startDate, String endDate, String startTime, String endTime, int employees) {
+        Uid = uid;
+        this.activityPlace = activityPlace;
         this.title = title;
-        this.date = date;
-        this.employees = employees;
+        this.writingDate = writingDate;
         this.address = address;
         this.condition = condition;
         this.work = work;
         this.body = body;
         this.tel = tel;
-        this.time = time;
         this.status = status;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.employees = employees;
     }
-
-
 
     public String getUid() {
         return Uid;
@@ -47,12 +52,12 @@ public class JobPost {
         Uid = uid;
     }
 
-    public String getStore() {
-        return store;
+    public String getActivityPlace() {
+        return activityPlace;
     }
 
-    public void setStore(String store) {
-        this.store = store;
+    public void setActivityPlace(String activityPlace) {
+        this.activityPlace = activityPlace;
     }
 
     public String getTitle() {
@@ -63,12 +68,12 @@ public class JobPost {
         this.title = title;
     }
 
-    public String getDate() {
-        return date;
+    public String getWritingDate() {
+        return writingDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setWritingDate(String writingDate) {
+        this.writingDate = writingDate;
     }
 
     public int getEmployees() {
@@ -111,10 +116,6 @@ public class JobPost {
         this.body = body;
     }
 
-    public String getTime() { return time; }
-
-    public void setTime(String time) { this.time = time; }
-
     public String getTel() {
         return tel;
     }
@@ -131,19 +132,50 @@ public class JobPost {
         this.status = status;
     }
 
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("uid", Uid);
-        result.put("store", store);
+        result.put("activityPlace", activityPlace);
         result.put("title", title);
-        result.put("date", date);
+        result.put("writingDate", writingDate);
         result.put("employees", employees);
         result.put("address", address);
         result.put("condition", condition);
         result.put("work", work);
         result.put("body", body);
         result.put("tel", tel);
-        result.put("time", time);
         result.put("status", status);
         return result;
     }
