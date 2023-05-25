@@ -117,26 +117,28 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
 
             // 선택된 도시에 따라서 해당 도시의 구/군 목록을 설정
             switch (selectedCity) {
-                case "서울특별시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_seoul, android.R.layout.simple_spinner_dropdown_item); break;
-                case "부산광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_busan, android.R.layout.simple_spinner_dropdown_item); break;
-                case "인천광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_incheon, android.R.layout.simple_spinner_dropdown_item); break;
-                case "대구광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_daegu, android.R.layout.simple_spinner_dropdown_item); break;
-                case "광주광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gwangju, android.R.layout.simple_spinner_dropdown_item); break;
-                case "대전광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_daejeon, android.R.layout.simple_spinner_dropdown_item); break;
-                case "울산광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_ulsan, android.R.layout.simple_spinner_dropdown_item); break;
-                case "세종특별자치시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_sejong, android.R.layout.simple_spinner_dropdown_item); break;
-                case "경기도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gyeonggi, android.R.layout.simple_spinner_dropdown_item); break;
-                case "강원도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gangwon, android.R.layout.simple_spinner_dropdown_item); break;
-                case "충청북도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_chung_buk, android.R.layout.simple_spinner_dropdown_item); break;
-                case "충청남도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_chung_nam, android.R.layout.simple_spinner_dropdown_item); break;
-                case "경상북도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gyeong_buk, android.R.layout.simple_spinner_dropdown_item); break;
-                case "경상남도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gyeong_nam, android.R.layout.simple_spinner_dropdown_item); break;
-                case "전라북도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_jeon_buk, android.R.layout.simple_spinner_dropdown_item); break;
-                case "전라남도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_jeon_nam, android.R.layout.simple_spinner_dropdown_item); break;
-                case "제주특별자치도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_jeju, android.R.layout.simple_spinner_dropdown_item); break;
+                case "서울특별시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_seoul, android.R.layout.simple_spinner_dropdown_item); city="서울특별시"; break;
+                case "인천광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_incheon, android.R.layout.simple_spinner_dropdown_item); city="인천광역시"; break;
+                case "부산광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_busan, android.R.layout.simple_spinner_dropdown_item); city="부산광역시"; break;
+                case "대구광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_daegu, android.R.layout.simple_spinner_dropdown_item); city="대구광역시"; break;
+                case "광주광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gwangju, android.R.layout.simple_spinner_dropdown_item); city="광주광역시"; break;
+                case "대전광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_daejeon, android.R.layout.simple_spinner_dropdown_item); city="대전광역시"; break;
+                case "울산광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_ulsan, android.R.layout.simple_spinner_dropdown_item); city="울산광역시"; break;
+                case "세종특별자치시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_sejong, android.R.layout.simple_spinner_dropdown_item); city="세종특별자치시"; break;
+                case "경기도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gyeonggi, android.R.layout.simple_spinner_dropdown_item); city="경기도"; break;
+                case "강원도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gangwon, android.R.layout.simple_spinner_dropdown_item); city="강원도"; break;
+                case "충청북도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_chung_buk, android.R.layout.simple_spinner_dropdown_item); city="충청북도"; break;
+                case "충청남도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_chung_nam, android.R.layout.simple_spinner_dropdown_item); city="충청남도"; break;
+                case "경상북도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gyeong_buk, android.R.layout.simple_spinner_dropdown_item); city="경상북도"; break;
+                case "경상남도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gyeong_nam, android.R.layout.simple_spinner_dropdown_item); city="경상남도"; break;
+                case "전라북도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_jeon_buk, android.R.layout.simple_spinner_dropdown_item); city="전라북도"; break;
+                case "전라남도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_jeon_nam, android.R.layout.simple_spinner_dropdown_item); city="전라남도"; break;
+                case "제주특별자치도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_jeju, android.R.layout.simple_spinner_dropdown_item); city="제주특별자치도"; break;
                 default: districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_empty, android.R.layout.simple_spinner_dropdown_item); break;
             }
             spi_district.setAdapter(districtAdapter);
+        } else if (parent.getId() == R.id.spi_district) {
+            district = parent.getItemAtPosition(position).toString();
         }
     }
     @Override
