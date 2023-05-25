@@ -31,18 +31,17 @@
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textSize="20sp"
-        android:text="생년월일"
+        android:textSize="15sp"
+        android:text=" 생년월일"
         android:ems="10"
         android:inputType="textEmailAddress" />
 
     <DatePicker
         android:id="@+id/vDatePicker"
-        android:layout_width="wrap_content"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        />
+        android:datePickerMode="spinner" />
 
     <EditText
         android:id="@+id/edt_email"
@@ -81,17 +80,17 @@
         android:inputType="textEmailAddress" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Spinner
-            android:id="@+id/spi_1"
+            android:id="@+id/spi_city"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.20"/>
         <Spinner
-            android:id="@+id/spi_2"
+            android:id="@+id/spi_district"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.20"/>
@@ -138,9 +137,6 @@
             android:layout_height="wrap_content"
             android:background="#FEEDD1"/>
 
-
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </LinearLayout>
-

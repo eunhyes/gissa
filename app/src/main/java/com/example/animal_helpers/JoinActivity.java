@@ -1,6 +1,6 @@
 package com.example.animal_helpers;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,15 +8,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.animal_helpers.models.OrganizationAccount;
 import com.example.animal_helpers.models.UserAccount;
-import com.example.animal_helpers.models.VolunteerAccount;
-import androidx.annotation.IdRes;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,18 +32,18 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
     private EditText edt_name, edt_email, edt_password, edt_password_check;
     private EditText edt_organizationName, edt_detail, edt_tel;
     private Button btn_cancel, btn_join;
-    private String city, sigungu;
+    private String city, district;
 
-    private Spinner spi_1, spi_2;
-    private ArrayAdapter<CharSequence> adapter, adapter_seoul;
+    private Spinner spi_city, spi_district;
+    private ArrayAdapter<CharSequence> adapter;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
         mAuth = FirebaseAuth.getInstance();
         DatabaseRef = FirebaseDatabase.getInstance().getReference("Animal-Helpers");
-
 
 
 
@@ -60,15 +57,13 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
         btn_join = (Button) findViewById(R.id.btn_join);
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
 
-        spi_1 = (Spinner) findViewById(R.id.spi_1);
+        spi_city = (Spinner) findViewById(R.id.spi_city);
         adapter = ArrayAdapter.createFromResource(this, R.array.spinner_region, android.R.layout.simple_spinner_dropdown_item);
-        spi_1.setAdapter(adapter);
-        spi_1.setOnItemSelectedListener(this);
+        spi_city.setAdapter(adapter);
+        spi_city.setOnItemSelectedListener(this);
 
-        spi_2 = (Spinner) findViewById(R.id.spi_2);
-        adapter_seoul = ArrayAdapter.createFromResource(this, R.array.spinner_region_seoul, android.R.layout.simple_spinner_dropdown_item);
-        spi_2.setAdapter(adapter_seoul);
-        spi_2.setOnItemSelectedListener(this);
+        spi_district = (Spinner) findViewById(R.id.spi_district);
+        spi_district.setOnItemSelectedListener(this);
 
 
 
@@ -115,12 +110,33 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == R.id.spi_1) {
-            // spi_1 스피너의 선택 이벤트 처리
-            city = parent.getItemAtPosition(position).toString();
-        } else if (parent.getId() == R.id.spi_2) {
-            // spi_2 스피너의 선택 이벤트 처리
-            sigungu = parent.getItemAtPosition(position).toString();
+        if (parent.getId() == R.id.spi_city) {
+            // spi_city 스피너의 선택 이벤트 처리
+            String selectedCity = parent.getItemAtPosition(position).toString();
+            ArrayAdapter<CharSequence> districtAdapter;
+
+            // 선택된 도시에 따라서 해당 도시의 구/군 목록을 설정
+            switch (selectedCity) {
+                case "서울특별시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_seoul, android.R.layout.simple_spinner_dropdown_item); break;
+                case "부산광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_busan, android.R.layout.simple_spinner_dropdown_item); break;
+                case "인천광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_incheon, android.R.layout.simple_spinner_dropdown_item); break;
+                case "대구광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_daegu, android.R.layout.simple_spinner_dropdown_item); break;
+                case "광주광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gwangju, android.R.layout.simple_spinner_dropdown_item); break;
+                case "대전광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_daejeon, android.R.layout.simple_spinner_dropdown_item); break;
+                case "울산광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_ulsan, android.R.layout.simple_spinner_dropdown_item); break;
+                case "세종특별자치시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_sejong, android.R.layout.simple_spinner_dropdown_item); break;
+                case "경기도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gyeonggi, android.R.layout.simple_spinner_dropdown_item); break;
+                case "강원도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gangwon, android.R.layout.simple_spinner_dropdown_item); break;
+                case "충청북도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_chung_buk, android.R.layout.simple_spinner_dropdown_item); break;
+                case "충청남도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_chung_nam, android.R.layout.simple_spinner_dropdown_item); break;
+                case "경상북도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gyeong_buk, android.R.layout.simple_spinner_dropdown_item); break;
+                case "경상남도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gyeong_nam, android.R.layout.simple_spinner_dropdown_item); break;
+                case "전라북도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_jeon_buk, android.R.layout.simple_spinner_dropdown_item); break;
+                case "전라남도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_jeon_nam, android.R.layout.simple_spinner_dropdown_item); break;
+                case "제주특별자치도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_jeju, android.R.layout.simple_spinner_dropdown_item); break;
+                default: districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_empty, android.R.layout.simple_spinner_dropdown_item); break;
+            }
+            spi_district.setAdapter(districtAdapter);
         }
     }
     @Override
@@ -146,7 +162,7 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
                             account.setEmail(firebaseUser.getEmail());
                             account.setPassword(password);
                             organization.setOrganizationName(organizationName);
-                            String address = city + " " + sigungu + " " + detail;
+                            String address = city + " " + district + " " + detail;
                             organization.setAddress(address);
                             organization.setTel(tel);
 

@@ -8,14 +8,14 @@ public class OrganizationAccount {
     private String address;
     private String tel;
 
+    public OrganizationAccount() {}
+
     public OrganizationAccount(String uid, String organizationName, String address, String tel) {
         this.Uid = uid;
         this.organizationName = organizationName;
         this.address = address;
         this.tel = tel;
     }
-
-    public OrganizationAccount() {}
 
     public String getUid() {return Uid;}
 
@@ -32,6 +32,5 @@ public class OrganizationAccount {
     public String getTel() {return tel;}
 
     public void setTel(String tel) {this.tel = tel;}
-
 
 }

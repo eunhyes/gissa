@@ -8,14 +8,12 @@ public class UserAccount {
     private String emailId;                 // 이메일
     private String password;                // 비밀번호
 
-    public UserAccount() {
-    }
+    public UserAccount() {}
 
     public UserAccount(String Uid, String emailId, String password) {
         this.Uid = Uid;
         this.emailId = emailId;
         this.password = password;
-
     }
 
     public String getIdToken() {
