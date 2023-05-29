@@ -27,9 +27,10 @@ import java.util.Calendar;
 
 
 public class WritePostActivity extends AppCompatActivity {
+
     DatabaseReference PostDatabaseRef;
     Button btn_upload;
-    EditText edt_title, edt_body, edt_condition, edt_employees;
+    EditText edt_title, edt_body, edt_condition, edt_employees, edt_address;
     TextView tv_startDate, tv_endDate, tv_startTime, tv_endTime;
 
     final private String TAG = getClass().getSimpleName();
@@ -38,6 +39,8 @@ public class WritePostActivity extends AppCompatActivity {
 
     FirebaseUser user;
     FirebaseAuth mAuth;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class WritePostActivity extends AppCompatActivity {
             edt_body = findViewById(R.id.edt_body);
             edt_condition = findViewById(R.id.edt_condition);
             edt_employees = findViewById(R.id.edt_employees);
+            edt_address = findViewById(R.id.edt_address);
             tv_startDate = findViewById(R.id.tv_startDate);
             tv_endDate = findViewById(R.id.tv_endDate);
             tv_startTime = findViewById(R.id.tv_startTime);
@@ -62,7 +66,6 @@ public class WritePostActivity extends AppCompatActivity {
 
         } catch (NullPointerException e) {
             Log.v("아무것도 안쓴상태", "" + e);
-
         }
 
 
@@ -73,21 +76,18 @@ public class WritePostActivity extends AppCompatActivity {
                 getDate(tv_startDate);
             }
         });
-
         tv_endDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getDate(tv_endDate);
             }
         });
-
         tv_startTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getTime(tv_startTime);
             }
         });
-
         tv_endTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,12 +108,15 @@ public class WritePostActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void WritePost() {
 
         String uid = user.getUid();
         String body = edt_body.getText().toString();
         String title = edt_title.getText().toString();
         String employees = edt_employees.getText().toString();
+        String address = edt_address.getText().toString();
         String condition = edt_condition.getText().toString();
         String writingDate = LocalDate.now().atStartOfDay().format(formatter);
         String startDate = tv_startDate.getText().toString();
@@ -122,16 +125,17 @@ public class WritePostActivity extends AppCompatActivity {
         String endTime = tv_endTime.getText().toString();
 
 
+
         PostDatabaseRef.child(uid).child("title").setValue(title);
         PostDatabaseRef.child(uid).child("body").setValue(body);
         PostDatabaseRef.child(uid).child("employees").setValue(employees);
+        PostDatabaseRef.child(uid).child("address").setValue(address);
         PostDatabaseRef.child(uid).child("condition").setValue(condition);
         PostDatabaseRef.child(uid).child("writingDate").setValue(writingDate);
         PostDatabaseRef.child(uid).child("startDate").setValue(startDate);
         PostDatabaseRef.child(uid).child("endDate").setValue(endDate);
         PostDatabaseRef.child(uid).child("startTime").setValue(startTime);
         PostDatabaseRef.child(uid).child("endTime").setValue(endTime);
-
 
     }
 
