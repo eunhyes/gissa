@@ -81,7 +81,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="봉사시간"/>
+            android:text="봉사날짜"/>
 
         <TextView
             android:id="@+id/tv_startDate"
@@ -89,8 +89,9 @@
             android:background="#eeeeee"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="5"
-            android:hint="시작날짜 입력"
+            android:hint="시작 날짜"
             android:clickable="true"
             />
 
@@ -110,8 +111,9 @@
             android:background="#eeeeee"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="5"
-            android:hint="종료날짜 입력"
+            android:hint="종료 날짜"
             android:clickable="true"
             />
     </LinearLayout>
@@ -133,8 +135,9 @@
             android:background="#eeeeee"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="5"
-            android:hint="시작시간 입력"
+            android:hint="시작 시간"
             android:clickable="true"
             />
 
@@ -154,9 +157,32 @@
             android:background="#eeeeee"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="5"
-            android:hint="종료시간 입력"
+            android:hint="종료 시간"
             android:clickable="true"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="장소"/>
+
+        <EditText
+            android:id="@+id/edt_address"
+            android:padding="16dp"
+            android:background="#eeeeee"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="도로명이나 지번을 입력하세요."
             />
     </LinearLayout>
 
