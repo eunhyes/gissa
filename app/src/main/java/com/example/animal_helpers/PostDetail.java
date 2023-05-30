@@ -1,13 +1,8 @@
 package com.example.animal_helpers;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -21,20 +16,16 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import net.daum.mf.map.api.MapPOIItem;
-import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 public class PostDetail extends AppCompatActivity {
 
     DatabaseReference PostDatabaseRef, rootRef, OrganizationRef;
     TextView tv_body, tv_title, tv_address, tv_employees, tv_store, tv_condition, tv_tel, tv_time, tv_date;
-    Button btn_register;
     MapView mapView;
+    Button btn_register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,13 +79,13 @@ public class PostDetail extends AppCompatActivity {
                 } else {
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
 
-                    date = task.getResult().child("JobPost").child(uid).child("startDate").getValue(String.class) + "~" + task.getResult().child("JobPost").child(uid).child("endDate").getValue(String.class);
-                    time = task.getResult().child("JobPost").child(uid).child("startTime").getValue(String.class) + "~" + task.getResult().child("JobPost").child(uid).child("endTime").getValue(String.class);
-                    tv_store.setText(task.getResult().child("OrganizationAccount").child(uid).child("organizationName").getValue(String.class));
-                    tv_address.setText(task.getResult().child("OrganizationAccount").child(uid).child("address").getValue(String.class));
-                    tv_tel.setText(task.getResult().child("OrganizationAccount").child(uid).child("tel").getValue(String.class));
-                    tv_title.setText(task.getResult().child("JobPost").child(uid).child("title").getValue(String.class));
-                    tv_body.setText(task.getResult().child("JobPost").child(uid).child("body").getValue(String.class));
+                    date = task.getResult().child("JobPost").child(uid).child("startDate").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endDate").getValue(String.class);
+                    time = task.getResult().child("JobPost").child(uid).child("startTime").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endTime").getValue(String.class);
+                    tv_store    .setText(task.getResult().child("OrganizationAccount").child(uid).child("organizationName").getValue(String.class));
+                    tv_address  .setText(task.getResult().child("JobPost").child(uid).child("address").getValue(String.class));
+                    tv_tel      .setText(task.getResult().child("OrganizationAccount").child(uid).child("tel").getValue(String.class));
+                    tv_title    .setText(task.getResult().child("JobPost").child(uid).child("title").getValue(String.class));
+                    tv_body     .setText(task.getResult().child("JobPost").child(uid).child("body").getValue(String.class));
                     tv_employees.setText(task.getResult().child("JobPost").child(uid).child("employees").getValue(String.class));
                     tv_condition.setText(task.getResult().child("JobPost").child(uid).child("condition").getValue(String.class));
 
@@ -141,6 +132,5 @@ public class PostDetail extends AppCompatActivity {
                 tv_date.setText(date);
             }
         });
-
     }
 }

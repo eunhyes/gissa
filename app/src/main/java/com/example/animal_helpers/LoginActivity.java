@@ -38,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
     Button btn_login, btn_join;
 
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -97,8 +96,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         };
-
-
     }
 
     public void loginUser(String email, String password) {
@@ -106,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        
+
                         if (task.isSuccessful()) {
                             // 로그인 성공
                             Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
