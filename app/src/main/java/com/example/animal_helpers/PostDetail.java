@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -15,8 +17,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
+
+import java.io.IOException;
+import java.util.List;
 
 public class PostDetail extends AppCompatActivity {
 
@@ -46,6 +52,7 @@ public class PostDetail extends AppCompatActivity {
         tv_time = (TextView) findViewById(R.id.tv_time);
 
         mapView = new MapView(this);
+        final Geocoder geocoder = new Geocoder(this);
 
 
 
@@ -54,6 +61,7 @@ public class PostDetail extends AppCompatActivity {
             String date;
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
+
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
                 }
@@ -70,14 +78,44 @@ public class PostDetail extends AppCompatActivity {
                     tv_employees.setText(task.getResult().child("JobPost").child(uid).child("employees").getValue(String.class));
                     tv_condition.setText(task.getResult().child("JobPost").child(uid).child("condition").getValue(String.class));
 
+
+
+                    String address = tv_address.getText().toString();
+                    double lat = 0.0;
+                    double lot = 0.0;
+                    List<Address> addressList = null;
+
+                    try {
+                        addressList = geocoder.getFromLocationName(address, 10);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (addressList != null && addressList.size() > 0) {
+                        Address location = addressList.get(0);
+                        lat = location.getLatitude();
+                        lot = location.getLongitude();
+
+                        MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(lat, lot);
+
+                        MapPOIItem marker = new MapPOIItem();
+                        marker.setItemName(address);
+                        marker.setTag(0);
+                        marker.setMapPoint(mapPoint);
+                        marker.setMarkerType(MapPOIItem.MarkerType.BluePin);
+                        marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+                        mapView.addPOIItem(marker);
+
+                        mapView.setMapCenterPoint(mapPoint, true);
+                    }
+
                     ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.map_view);
                     mapViewContainer.addView(mapView);
-
-                    mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.209432, 126.976840), true);
 
                     mapView.setZoomLevel(1, true);
                     mapView.zoomIn(true);
                     mapView.zoomOut(true);
+
                 }
                 tv_time.setText(time);
                 tv_date.setText(date);
