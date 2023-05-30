@@ -3,31 +3,26 @@ package com.example.animal_helpers;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.animal_helpers.models.JobPost;
-import com.example.animal_helpers.models.OrganizationAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.time.LocalDate;
-
-import kotlinx.coroutines.Job;
+import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapView;
 
 public class PostDetail extends AppCompatActivity {
 
     DatabaseReference PostDatabaseRef, rootRef, OrganizationRef;
     TextView tv_body, tv_title, tv_address, tv_employees, tv_store, tv_condition, tv_tel, tv_time, tv_date;
+    MapView mapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +45,7 @@ public class PostDetail extends AppCompatActivity {
         tv_date = (TextView) findViewById(R.id.tv_date);
         tv_time = (TextView) findViewById(R.id.tv_time);
 
+        mapView = new MapView(this);
 
 
 
@@ -67,18 +63,25 @@ public class PostDetail extends AppCompatActivity {
                     date = task.getResult().child("JobPost").child(uid).child("startDate").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endDate").getValue(String.class);
                     time = task.getResult().child("JobPost").child(uid).child("startTime").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endTime").getValue(String.class);
                     tv_store    .setText(task.getResult().child("OrganizationAccount").child(uid).child("organizationName").getValue(String.class));
-                    tv_address  .setText(task.getResult().child("OrganizationAccount").child(uid).child("address").getValue(String.class));
+                    tv_address  .setText(task.getResult().child("JobPost").child(uid).child("address").getValue(String.class));
                     tv_tel      .setText(task.getResult().child("OrganizationAccount").child(uid).child("tel").getValue(String.class));
                     tv_title    .setText(task.getResult().child("JobPost").child(uid).child("title").getValue(String.class));
                     tv_body     .setText(task.getResult().child("JobPost").child(uid).child("body").getValue(String.class));
                     tv_employees.setText(task.getResult().child("JobPost").child(uid).child("employees").getValue(String.class));
                     tv_condition.setText(task.getResult().child("JobPost").child(uid).child("condition").getValue(String.class));
+
+                    ViewGroup mapViewContainer = (ViewGroup) findViewById(R.id.map_view);
+                    mapViewContainer.addView(mapView);
+
+                    mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(37.209432, 126.976840), true);
+
+                    mapView.setZoomLevel(1, true);
+                    mapView.zoomIn(true);
+                    mapView.zoomOut(true);
                 }
                 tv_time.setText(time);
                 tv_date.setText(date);
             }
-
         });
-
     }
 }
