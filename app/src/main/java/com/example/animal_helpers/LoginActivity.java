@@ -4,7 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +25,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText edt_email, edt_password;
     Button btn_login, btn_join;
+
 
 
     @Override
@@ -48,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
 //        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Animal-Helpers");
-
 
         edt_email = (EditText) findViewById(R.id.edt_email);
         edt_password = (EditText) findViewById(R.id.edt_password);
@@ -97,12 +106,14 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        
                         if (task.isSuccessful()) {
                             // 로그인 성공
                             Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                             mAuth.addAuthStateListener(firebaseAuthListener);
                         } else {
                             // 로그인 실패
+                            Log.v("task result", String.valueOf(task.getException()));
                             Toast.makeText(LoginActivity.this, "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -119,8 +130,6 @@ public class LoginActivity extends AppCompatActivity {
             mAuth.removeAuthStateListener(firebaseAuthListener);
         }
     }
-
-
 }
 
 

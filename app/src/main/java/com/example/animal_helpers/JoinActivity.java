@@ -163,6 +163,7 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
                             account.setUid(firebaseUser.getUid());
                             account.setEmail(firebaseUser.getEmail());
                             account.setPassword(password);
+                            account.setName(name);
                             organization.setOrganizationName(organizationName);
                             String address = city + " " + district + " " + detail;
                             organization.setAddress(address);
