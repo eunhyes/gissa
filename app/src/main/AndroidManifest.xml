@@ -72,5 +72,6 @@
                 android:value="" />
         </activity>
         <meta-data android:name="com.kakao.sdk.AppKey" android:value="691dcdcd2d71193da561d893d49ff6a8"/>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDTZ1BM1_ywhJIqjWLYOnHz5y8esTpMvOc" />
     </application>
 </manifest>
