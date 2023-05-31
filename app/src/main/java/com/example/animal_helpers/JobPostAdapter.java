@@ -3,10 +3,15 @@ package com.example.animal_helpers;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.animal_helpers.models.JobPost;
 
@@ -16,6 +21,8 @@ public class JobPostAdapter extends BaseAdapter {
 
     ArrayList<JobPost> listViewItemList = new ArrayList<>();
     Context context;
+    LayoutInflater layoutInflater;
+    private JobPostAdapter item;
 
     public JobPostAdapter(){}
 
@@ -42,15 +49,48 @@ public class JobPostAdapter extends BaseAdapter {
         TextView titleText = convertView.findViewById(R.id.textview_title);
         TextView addressText = convertView.findViewById(R.id.textview_address);
         TextView writingDateText = convertView.findViewById(R.id.textview_writingDate);
+        ImageButton imageButton = convertView.findViewById(R.id.imageButton_menu);
 
 
         titleText.setText(listViewItem.getTitle());
         addressText.setText(listViewItem.getAddress());
         writingDateText.setText(listViewItem.getWritingDate());
 
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
+        });
+
         return convertView;
     }
 
+    private void showPopupMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(context, view);
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menu_edit:
+                        // editItem();
+                        return true;
+                    case R.id.menu_delete:
+                        //deleteItem();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.postedit_menu, popupMenu.getMenu());
+        popupMenu.show();
+
+    }
     public void addItem(String Uid, String title, String address, String writingDate) {
         JobPost item = new JobPost();
 
