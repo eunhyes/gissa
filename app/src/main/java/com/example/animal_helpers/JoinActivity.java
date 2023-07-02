@@ -11,12 +11,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.animal_helpers.models.OrganizationAccount;
-import com.example.animal_helpers.models.UserAccount;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.animal_helpers.models.OrganizationAccount;
+import com.example.animal_helpers.models.UserAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -162,7 +161,6 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
                             assert firebaseUser != null;
                             account.setUid(firebaseUser.getUid());
                             account.setEmail(firebaseUser.getEmail());
-                            account.setPassword(password);
                             account.setName(name);
                             organization.setOrganizationName(organizationName);
                             String address = city + " " + district + " " + detail;

@@ -1,9 +1,7 @@
 package com.example.animal_helpers;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,10 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.animal_helpers.models.ChatModel;
-import com.example.animal_helpers.models.ChatUser;
-import com.example.animal_helpers.models.OrganizationAccount;
-import com.example.animal_helpers.models.UserAccount;
-import com.google.android.gms.common.api.Response;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -34,32 +27,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
-import java.util.TreeMap;
 
 public class ChatActivity extends AppCompatActivity {
     private String chatRoomUid; //채팅방 하나 id
     private String myUid;       //나의 id
     private String destUid;     //상대방 uid
-
     private RecyclerView recyclerView;
     private Button button;
     private EditText editText;
-
     private FirebaseDatabase firebaseDatabase;
-
     private String destUser;
-
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy.MM.dd HH:mm");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -236,7 +220,8 @@ public class ChatActivity extends AppCompatActivity {
                 Log.v("error chat","나");
                 ((ViewHolder)holder).textViewMsg.setText(comments.get(position).message);
                 ((ViewHolder)holder).textViewMsg.setBackgroundResource(R.drawable.back_et_mymsgbox);
-                ((ViewHolder)holder).linearLayoutDest.setVisibility(View.VISIBLE);        //상대방 레이아웃
+                ((ViewHolder)holder).linearLayoutDest.setVisibility(View.VISIBLE);
+                ((ViewHolder)holder).textViewName.setVisibility(View.INVISIBLE);//상대방 레이아웃
                 ((ViewHolder)holder).linearLayoutRoot.setGravity(Gravity.RIGHT);
                 ((ViewHolder)holder).linearLayoutTime.setGravity(Gravity.RIGHT);
             }else{
@@ -246,6 +231,7 @@ public class ChatActivity extends AppCompatActivity {
                 ((ViewHolder)holder).linearLayoutDest.setVisibility(View.VISIBLE);
                 ((ViewHolder)holder).textViewMsg.setBackgroundResource(R.drawable.back_et_othermsgbox);
                 ((ViewHolder)holder).textViewMsg.setText(comments.get(position).message);
+                ((ViewHolder)holder).textViewName.setVisibility(View.VISIBLE);
                 ((ViewHolder)holder).linearLayoutRoot.setGravity(Gravity.LEFT);
                 ((ViewHolder)holder).linearLayoutTime.setGravity(Gravity.LEFT);
             }

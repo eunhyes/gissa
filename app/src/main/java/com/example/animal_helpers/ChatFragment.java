@@ -7,11 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.animal_helpers.models.ChatModel;
-import com.example.animal_helpers.models.UserAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,9 +46,9 @@ public class ChatFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
 
-
         return v;
     }
+
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
@@ -67,19 +62,19 @@ public class ChatFragment extends Fragment {
     class ChatRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
         private List<ChatModel> chatModels = new ArrayList<>();
-        private ArrayList<String> mData = null ;
         private String uid;
         public ChatRecyclerViewAdapter() {
             Log.v("items", "실행중");
             uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-//"users/"+ uid
-            FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/"+ uid).addListenerForSingleValueEvent(new ValueEventListener() {
+
+
+            //채팅방 목록 불러오기
+            FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/"+ uid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot item : snapshot.getChildren()){
-                        chatModels.add(item.getValue(ChatModel.class));
-
+                            chatModels.add(item.getValue(ChatModel.class));
                     }
                     notifyDataSetChanged();
                 }
@@ -110,6 +105,7 @@ public class ChatFragment extends Fragment {
                     destinationUid = user;
                 }
             }
+            Log.v("채팅방", destinationUid);
             assert destinationUid != null;
             FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("UserAccount").child(destinationUid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -130,6 +126,7 @@ public class ChatFragment extends Fragment {
             });
 
 
+            //마지막메세지 띄우기
             Map<String,ChatModel.Comment> commentMap = new TreeMap<>(Collections.reverseOrder());
             commentMap.putAll(chatModels.get(position).comments);
             String lastMessageKey = (String) commentMap.keySet().toArray()[0];
