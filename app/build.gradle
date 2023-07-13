@@ -46,6 +46,15 @@ dependencies {
     //파이어베이스 인증
     implementation 'com.google.firebase:firebase-auth:9.0.2'
 
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+
+    //cardview
+    implementation "androidx.cardview:cardview:1.0.0"
+
+    //이미지 로드 라이브러리
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
+
+
 
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
     implementation 'androidx.navigation:navigation-ui:2.5.3'

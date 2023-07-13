@@ -35,13 +35,13 @@ public class ChatFragment extends Fragment {
     DatabaseReference chatroomRef;
     ChatRecyclerViewAdapter adapter;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chat, container, false);
         chatroomRef = FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("chatrooms");
         adapter = new ChatRecyclerViewAdapter();
+
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.fragment_chat_recyclerView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
