@@ -22,6 +22,8 @@
         android:theme="@style/Theme.AnimalHelpers"
         tools:replace="android:allowBackup"
         tools:targetApi="31">
+        <!--ClipboardService error-->
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <activity
             android:name=".ChatActivity"
             android:exported="false" />
