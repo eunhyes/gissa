@@ -36,15 +36,12 @@ public class AccountFragment extends Fragment {
     FirebaseStorage storage = null;
     Uri uri = null;
     ImageView iv_profile;
-//    Button select, view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_account, container, false);
 
-//        select = (Button) v.findViewById(R.id.select);
-//        view = (Button) v.findViewById(R.id.view);
         iv_profile = (ImageView) v.findViewById(R.id.iv_profile);
         storage = FirebaseStorage.getInstance();
         String Uid = FirebaseAuth.getInstance().getUid();

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +65,7 @@ public class ChatActivity extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        if (editText.getText().toString() == null){
+        if (editText.getText().toString() == null) {
             button.setEnabled(false);
         } else {
             button.setEnabled(true);
@@ -149,26 +150,22 @@ public class ChatActivity extends AppCompatActivity {
 
 
     }
-    class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>
-    {
+
+    class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
         List<ChatModel.Comment> comments;
 
-        public RecyclerViewAdapter(){
+        public RecyclerViewAdapter() {
             comments = new ArrayList<>();
 
             getDestUid();
         }
 
         //상대방 uid 하나(single) 읽기
-        private void getDestUid()
-        {
+        private void getDestUid() {
             firebaseDatabase.getReference().child("Animal-Helpers").child("UserAccount").child(destUid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     destUser = (String) snapshot.child("name").getValue();
-
-
-
                     Log.v("destUser", String.valueOf(destUser));
 
                     //채팅 내용 읽어들임
@@ -182,95 +179,104 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         //채팅 내용 읽어들임
-        private void getMessageList()
-        {
+        private void getMessageList() {
             FirebaseDatabase.getInstance().getReference().child("chatrooms").child(chatRoomUid).child("comments").addValueEventListener(new ValueEventListener() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     comments.clear();
 
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren())
-                    {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         comments.add(dataSnapshot.getValue(ChatModel.Comment.class));
 
                     }
                     notifyDataSetChanged();
 
-                    recyclerView.scrollToPosition(comments.size()-1);
+                    recyclerView.scrollToPosition(comments.size() - 1);
                 }
+
                 @Override
-                public void onCancelled(@NonNull DatabaseError error) { }
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
             });
         }
 
         @NonNull
         @Override
         public RecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_messagebox,parent,false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_messagebox, parent, false);
             return new ViewHolder(view);
         }
+
         @SuppressLint("RtlHardcoded")
         @Override
         public void onBindViewHolder(@NonNull RecyclerViewAdapter.ViewHolder holder, int position) {
+            Function f = new Function();
+            f.getUserProfileImage(destUid, holder.imageViewProfile, getApplicationContext());
 
-            if(comments.get(position).uid.equals(myUid)) //나의 uid 이면
+            if (comments.get(position).uid.equals(myUid)) //나의 uid 이면
             {
                 //나의 말풍선 오른쪽으로
-                Log.v("error chat","나");
-                ((ViewHolder)holder).textViewMsg.setText(comments.get(position).message);
-                ((ViewHolder)holder).textViewMsg.setBackgroundResource(R.drawable.back_et_mymsgbox);
-                ((ViewHolder)holder).linearLayoutDest.setVisibility(View.VISIBLE);
-                ((ViewHolder)holder).textViewName.setVisibility(View.INVISIBLE);//상대방 레이아웃
-                ((ViewHolder)holder).linearLayoutRoot.setGravity(Gravity.RIGHT);
-                ((ViewHolder)holder).linearLayoutTime.setGravity(Gravity.RIGHT);
-            }else{
+                Log.v("error chat", "나");
+                ((ViewHolder) holder).imageViewProfile.setVisibility(View.INVISIBLE);
+                ((ViewHolder) holder).textViewMsg.setText(comments.get(position).message);
+                ((ViewHolder) holder).textViewMsg.setBackgroundResource(R.drawable.back_et_mymsgbox);
+                ((ViewHolder) holder).linearLayoutDest.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).textViewName.setVisibility(View.INVISIBLE);//상대방 레이아웃
+                ((ViewHolder) holder).linearLayoutRoot.setGravity(Gravity.RIGHT);
+                ((ViewHolder) holder).linearLayoutTime.setGravity(Gravity.RIGHT);
+            } else {
                 //상대방 말풍선 왼쪽
-                Log.v("error chat","상대방");
-                ((ViewHolder)holder).textViewName.setText(destUser);
-                ((ViewHolder)holder).linearLayoutDest.setVisibility(View.VISIBLE);
-                ((ViewHolder)holder).textViewMsg.setBackgroundResource(R.drawable.back_et_othermsgbox);
-                ((ViewHolder)holder).textViewMsg.setText(comments.get(position).message);
-                ((ViewHolder)holder).textViewName.setVisibility(View.VISIBLE);
-                ((ViewHolder)holder).linearLayoutRoot.setGravity(Gravity.LEFT);
-                ((ViewHolder)holder).linearLayoutTime.setGravity(Gravity.LEFT);
+                Log.v("error chat", "상대방");
+                ((ViewHolder) holder).imageViewProfile.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).textViewName.setText(destUser);
+                ((ViewHolder) holder).linearLayoutDest.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).textViewMsg.setBackgroundResource(R.drawable.back_et_othermsgbox);
+                ((ViewHolder) holder).textViewMsg.setText(comments.get(position).message);
+                ((ViewHolder) holder).textViewName.setVisibility(View.VISIBLE);
+                ((ViewHolder) holder).linearLayoutRoot.setGravity(Gravity.LEFT);
+                ((ViewHolder) holder).linearLayoutTime.setGravity(Gravity.LEFT);
             }
-            ((ViewHolder)holder).textViewTimeStamp.setText(getDateTime(position));
-
+            ((ViewHolder) holder).textViewTimeStamp.setText(getDateTime(position));
         }
 
-        public String getDateTime(int position)
-        {
-            long unixTime=(long) comments.get(position).timestamp;
+        public String getDateTime(int position) {
+            long unixTime = (long) comments.get(position).timestamp;
             Date date = new Date(unixTime);
             simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
             return simpleDateFormat.format(date);
         }
+
 
         @Override
         public int getItemCount() {
             return comments.size();
         }
 
-        private class ViewHolder extends RecyclerView.ViewHolder
-        {
+        private class ViewHolder extends RecyclerView.ViewHolder {
             public TextView textViewMsg;   //메시지 내용
             public TextView textViewName;
             public TextView textViewTimeStamp;
+            public ImageView imageViewProfile;
             public LinearLayout linearLayoutDest;
             public LinearLayout linearLayoutRoot;
             public LinearLayout linearLayoutTime;
 
+
             public ViewHolder(@NonNull View itemView) {
                 super(itemView);
 
-                textViewMsg = (TextView)itemView.findViewById(R.id.item_messagebox_textview_msg);
-                textViewName = (TextView)itemView.findViewById(R.id.item_messagebox_TextView_name);
-                textViewTimeStamp = (TextView)itemView.findViewById(R.id.item_messagebox_textview_timestamp);
-                linearLayoutDest = (LinearLayout)itemView.findViewById(R.id.item_messagebox_LinearLayout);
-                linearLayoutRoot = (LinearLayout)itemView.findViewById(R.id.item_messagebox_root);
-                linearLayoutTime = (LinearLayout)itemView.findViewById(R.id.item_messagebox_layout_timestamp);
+                imageViewProfile = (ImageView) itemView.findViewById(R.id.item_messagebox_profile);
+                textViewMsg = (TextView) itemView.findViewById(R.id.item_messagebox_textview_msg);
+                textViewName = (TextView) itemView.findViewById(R.id.item_messagebox_TextView_name);
+                textViewTimeStamp = (TextView) itemView.findViewById(R.id.item_messagebox_textview_timestamp);
+                linearLayoutDest = (LinearLayout) itemView.findViewById(R.id.item_messagebox_LinearLayout);
+                linearLayoutRoot = (LinearLayout) itemView.findViewById(R.id.item_messagebox_root);
+                linearLayoutTime = (LinearLayout) itemView.findViewById(R.id.item_messagebox_layout_timestamp);
             }
         }
     }
+
 }
+
+

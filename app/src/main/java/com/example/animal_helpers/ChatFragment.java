@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -63,6 +64,7 @@ public class ChatFragment extends Fragment {
 
         private List<ChatModel> chatModels = new ArrayList<>();
         private String uid;
+        Function function = new Function();
         public ChatRecyclerViewAdapter() {
             Log.v("items", "실행중");
             uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
@@ -107,6 +109,7 @@ public class ChatFragment extends Fragment {
             }
             Log.v("채팅방", destinationUid);
             assert destinationUid != null;
+            String destUid = destinationUid;
             FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("UserAccount").child(destinationUid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -114,8 +117,10 @@ public class ChatFragment extends Fragment {
                     assert account != null;
                     Log.v("name", Objects.requireNonNull(snapshot.getValue()).toString());
                     */
+
                     String destUserName = (String) snapshot.child("name").getValue();
                     customViewHolder.textView_title.setText(destUserName);
+                    function.getUserProfileImage(destUid,customViewHolder.imageView_profile, getActivity());
                     Log.v("destUserName",destUserName);
                 }
 
@@ -144,6 +149,7 @@ public class ChatFragment extends Fragment {
 
             public TextView textView_title;
             public TextView textView_last_massage;
+            public ImageView imageView_profile;
             public CustomViewHolder(View view) {
                 super(view);
 
@@ -168,13 +174,14 @@ public class ChatFragment extends Fragment {
                         }
                     }
                 });
-
+                imageView_profile = (ImageView) view.findViewById(R.id.item_chat_imageView);
                 textView_title = (TextView) view.findViewById(R.id.item_chat_tv_title);
                 textView_last_massage = (TextView) view.findViewById(R.id.item_chat_tv_last_massage);
 
             }
         }
     }
+
 
 
 
