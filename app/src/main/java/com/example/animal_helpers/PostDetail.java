@@ -90,9 +90,9 @@ public class PostDetail extends AppCompatActivity {
 
                     date = task.getResult().child("JobPost").child(uid).child("startDate").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endDate").getValue(String.class);
                     time = task.getResult().child("JobPost").child(uid).child("startTime").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endTime").getValue(String.class);
-                    tv_store    .setText(task.getResult().child("OrganizationAccount").child(uid).child("organizationName").getValue(String.class));
+                    tv_store    .setText(task.getResult().child("UserAccount").child(uid).child("nickname").getValue(String.class));
                     tv_address  .setText(task.getResult().child("JobPost").child(uid).child("address").getValue(String.class));
-                    tv_tel      .setText(task.getResult().child("OrganizationAccount").child(uid).child("tel").getValue(String.class));
+                    tv_tel      .setText(task.getResult().child("UserAccount").child(uid).child("tel").getValue(String.class));
                     tv_title    .setText(task.getResult().child("JobPost").child(uid).child("title").getValue(String.class));
                     tv_body     .setText(task.getResult().child("JobPost").child(uid).child("body").getValue(String.class));
                     tv_employees.setText(task.getResult().child("JobPost").child(uid).child("employees").getValue(String.class));

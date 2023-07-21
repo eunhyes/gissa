@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.animal_helpers.models.OrganizationAccount;
 import com.example.animal_helpers.models.UserAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +28,7 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
     private FirebaseAuth mAuth;
     private DatabaseReference DatabaseRef;
     private EditText edt_name, edt_email, edt_password, edt_password_check;
-    private EditText edt_organizationName, edt_detail, edt_tel;
+    private EditText edt_nickname, edt_detail, edt_tel;
     private Button btn_cancel, btn_join;
     private String city, district;
 
@@ -50,7 +49,7 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
         edt_email = (EditText) findViewById(R.id.edt_email);
         edt_password = (EditText) findViewById(R.id.edt_password);
         edt_password_check = (EditText) findViewById(R.id.edt_password_check);
-        edt_organizationName = (EditText) findViewById(R.id.edt_organizationName);
+        edt_nickname = (EditText) findViewById(R.id.edt_nickname);
         edt_detail = (EditText) findViewById(R.id.edt_detail);
         edt_tel = (EditText) findViewById(R.id.edt_tel);
         btn_join = (Button) findViewById(R.id.btn_join);
@@ -74,17 +73,17 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
                 String email = edt_email.getText().toString().trim();
                 String password = edt_password.getText().toString().trim();
                 String passwordcheck = edt_password_check.getText().toString().trim();
-                String organizationName = edt_organizationName.getText().toString().trim();
+                String nickname = edt_nickname.getText().toString().trim();
                 String detail = edt_detail.getText().toString().trim();
                 String tel = edt_tel.getText().toString().trim();
 
 
 
                 if (!name.equals("") && !email.equals("") && !password.equals("")
-                        && !organizationName.equals("") && !detail.equals("") && !tel.equals("")) {
+                        && !nickname.equals("") && !detail.equals("") && !tel.equals("")) {
                     if(password.equals(passwordcheck)){
                         Log.v("test", "email : " + email + " password : " + password);
-                        createUser(name, email, password, organizationName, detail, tel);
+                        createUser(name, email, password, nickname, detail, tel);
                     } else {
                         Log.v("test",  ""+password+""+passwordcheck);
                         Toast.makeText(JoinActivity.this, "비밀번호가 동일하지 않습니다.", Toast.LENGTH_LONG).show();
@@ -147,7 +146,7 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-    private void createUser(String name, String email, String password, String organizationName, String detail, String tel) {
+    private void createUser(String name, String email, String password, String nickname, String detail, String tel) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -157,18 +156,18 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
                             Toast.makeText(JoinActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             UserAccount account = new UserAccount();
-                            OrganizationAccount organization = new OrganizationAccount();
+//                            OrganizationAccount organization = new OrganizationAccount();
                             assert firebaseUser != null;
                             account.setUid(firebaseUser.getUid());
                             account.setEmail(firebaseUser.getEmail());
                             account.setName(name);
-                            organization.setOrganizationName(organizationName);
+                            account.setNickname(nickname);
                             String address = city + " " + district + " " + detail;
-                            organization.setAddress(address);
-                            organization.setTel(tel);
+                            account.setAddress(address);
+                            account.setTel(tel);
 
                             DatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
-                            DatabaseRef.child("OrganizationAccount").child(firebaseUser.getUid()).setValue(organization);
+//                            DatabaseRef.child("OrganizationAccount").child(firebaseUser.getUid()).setValue(organization);
 
                             finish();
                         } else {

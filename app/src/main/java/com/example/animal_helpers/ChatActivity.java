@@ -44,7 +44,8 @@ public class ChatActivity extends AppCompatActivity {
     private EditText editText;
     private FirebaseDatabase firebaseDatabase;
     private String destUser;
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy.MM.dd HH:mm");
+    @SuppressLint("SimpleDateFormat")
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy.MM.dd HH:mm");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -60,26 +60,27 @@ public class ChatFragment extends Fragment {
     }
 
 
-    class ChatRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    class ChatRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private List<ChatModel> chatModels = new ArrayList<>();
         private String uid;
         Function function = new Function();
+
         public ChatRecyclerViewAdapter() {
             Log.v("items", "실행중");
             uid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
-
             //채팅방 목록 불러오기
-            FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/"+ uid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference().child("chatrooms").orderByChild("users/" + uid).equalTo(true).addListenerForSingleValueEvent(new ValueEventListener() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot item : snapshot.getChildren()){
-                            chatModels.add(item.getValue(ChatModel.class));
+                    for (DataSnapshot item : snapshot.getChildren()) {
+                        chatModels.add(item.getValue(ChatModel.class));
                     }
                     notifyDataSetChanged();
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Log.v("error", String.valueOf(error));
@@ -91,7 +92,7 @@ public class ChatFragment extends Fragment {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat,parent,false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat, parent, false);
 
             return new CustomViewHolder(view);
         }
@@ -102,8 +103,8 @@ public class ChatFragment extends Fragment {
             CustomViewHolder customViewHolder = (CustomViewHolder) holder;
             String destinationUid = null;
 
-            for(String user : chatModels.get(position).users.keySet()){
-                if(!user.equals(uid)){
+            for (String user : chatModels.get(position).users.keySet()) {
+                if (!user.equals(uid)) {
                     destinationUid = user;
                 }
             }
@@ -120,8 +121,8 @@ public class ChatFragment extends Fragment {
 
                     String destUserName = (String) snapshot.child("name").getValue();
                     customViewHolder.textView_title.setText(destUserName);
-                    function.getUserProfileImage(destUid,customViewHolder.imageView_profile, getActivity());
-                    Log.v("destUserName",destUserName);
+                    function.getUserProfileImage(destUid, customViewHolder.imageView_profile, getActivity());
+                    Log.v("destUserName", destUserName);
                 }
 
                 @Override
@@ -132,11 +133,11 @@ public class ChatFragment extends Fragment {
 
 
             //마지막메세지 띄우기
-            Map<String,ChatModel.Comment> commentMap = new TreeMap<>(Collections.reverseOrder());
+            Map<String, ChatModel.Comment> commentMap = new TreeMap<>(Collections.reverseOrder());
             commentMap.putAll(chatModels.get(position).comments);
             String lastMessageKey = (String) commentMap.keySet().toArray()[0];
             customViewHolder.textView_last_massage.setText(Objects.requireNonNull(chatModels.get(position).comments.get(lastMessageKey)).message);
-            Log.v("last massage",Objects.requireNonNull(chatModels.get(position).comments.get(lastMessageKey)).message);
+            Log.v("last massage", Objects.requireNonNull(chatModels.get(position).comments.get(lastMessageKey)).message);
 
         }
 
@@ -150,27 +151,29 @@ public class ChatFragment extends Fragment {
             public TextView textView_title;
             public TextView textView_last_massage;
             public ImageView imageView_profile;
+
             public CustomViewHolder(View view) {
                 super(view);
 
+                //목록 아이템을 클릭했을 시
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int pos = getAdapterPosition() ;
+                        int pos = getAdapterPosition();
                         if (pos != RecyclerView.NO_POSITION) {
 
                             Intent intent = new Intent(getActivity(), ChatActivity.class);
 
                             String destinationUid = null;
-                            for(String user : chatModels.get(pos).users.keySet()){
-                                if(!user.equals(uid)){
+                            for (String user : chatModels.get(pos).users.keySet()) {
+                                if (!user.equals(uid)) {
                                     destinationUid = user;
                                 }
                             }
-                            Log.v("destURR",destinationUid);
+                            Log.v("destURR", destinationUid);
                             intent.putExtra("destUid", destinationUid);
                             startActivity(intent);
-                            notifyItemChanged(pos) ;
+                            notifyItemChanged(pos);
                         }
                     }
                 });

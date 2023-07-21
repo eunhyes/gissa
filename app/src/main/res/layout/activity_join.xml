@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+
     <EditText
         android:id="@+id/edt_name"
         android:layout_weight="1"
@@ -71,12 +72,12 @@
         android:inputType="textPassword" />
 
     <EditText
-        android:id="@+id/edt_organizationName"
+        android:id="@+id/edt_nickname"
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
-        android:hint="기관명"
+        android:hint="닉네임"
         android:inputType="textEmailAddress" />
 
     <androidx.appcompat.widget.LinearLayoutCompat

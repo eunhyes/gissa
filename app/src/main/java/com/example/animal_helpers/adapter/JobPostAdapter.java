@@ -1,4 +1,4 @@
-package com.example.animal_helpers;
+package com.example.animal_helpers.adapter;
 
 
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.animal_helpers.R;
 import com.example.animal_helpers.models.JobPost;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ public class JobPostAdapter extends BaseAdapter {
 
     ArrayList<JobPost> listViewItemList = new ArrayList<>();
     Context context;
-
 
     public JobPostAdapter(){}
 
@@ -34,22 +34,18 @@ public class JobPostAdapter extends BaseAdapter {
         context = parent.getContext();
         JobPost listViewItem = listViewItemList.get(position);
 
-        if(convertView == null){
+        if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.listview_item,parent,false);
+            convertView = inflater.inflate(R.layout.listview_item, parent, false);
         }
 
         TextView titleText = convertView.findViewById(R.id.textview_title);
         TextView addressText = convertView.findViewById(R.id.textview_address);
         TextView writingDateText = convertView.findViewById(R.id.textview_writingDate);
 
-
         titleText.setText(listViewItem.getTitle());
         addressText.setText(listViewItem.getAddress());
         writingDateText.setText(listViewItem.getWritingDate());
-
-
-
 
         return convertView;
     }
