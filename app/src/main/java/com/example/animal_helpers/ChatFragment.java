@@ -1,6 +1,7 @@
 package com.example.animal_helpers;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,8 +62,11 @@ public class ChatFragment extends Fragment {
 
 
     class ChatRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+        Context context;
 
         private List<ChatModel> chatModels = new ArrayList<>();
+
+
         private String uid;
         Function function = new Function();
 
@@ -93,7 +97,7 @@ public class ChatFragment extends Fragment {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat, parent, false);
-
+//            View itemView = LayoutInflater.inflate(R.layout.item_chat, parent, false);
             return new CustomViewHolder(view);
         }
 
@@ -102,6 +106,7 @@ public class ChatFragment extends Fragment {
 
             CustomViewHolder customViewHolder = (CustomViewHolder) holder;
             String destinationUid = null;
+
 
             for (String user : chatModels.get(position).users.keySet()) {
                 if (!user.equals(uid)) {
@@ -145,6 +150,7 @@ public class ChatFragment extends Fragment {
         public int getItemCount() {
             return chatModels.size();
         }
+
 
         private class CustomViewHolder extends RecyclerView.ViewHolder {
 

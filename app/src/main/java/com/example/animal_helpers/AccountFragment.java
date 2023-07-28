@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -36,13 +37,16 @@ public class AccountFragment extends Fragment {
     FirebaseStorage storage = null;
     Uri uri = null;
     ImageView iv_profile;
+    Button btn_logout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_account, container, false);
 
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         iv_profile = (ImageView) v.findViewById(R.id.iv_profile);
+        btn_logout = (Button) v.findViewById(R.id.btn_logout);
         storage = FirebaseStorage.getInstance();
         String Uid = FirebaseAuth.getInstance().getUid();
 
@@ -52,6 +56,14 @@ public class AccountFragment extends Fragment {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT );
             intent.setType("image/*");
             launcher.launch(intent);
+        });
+
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                Log.d("logout", "로그아웃");
+            }
         });
 
 //        view.setOnClickListener(view -> show(Uid));
