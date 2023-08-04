@@ -1,6 +1,7 @@
 package com.example.animal_helpers;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,17 +26,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class JoinActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class JoinActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference DatabaseRef;
-    private EditText edt_name, edt_email, edt_password, edt_password_check;
-    private EditText edt_nickname, edt_detail, edt_tel;
-    private Button btn_cancel, btn_join;
-    private String city, district;
+    private EditText edt_name, edt_email, edt_password, edt_password_check, edt_address, edt_address_detail;
+    private EditText edt_nickname, edt_tel;
+    private Button btn_cancel, btn_join, btn_address;
 
-    private Spinner spi_city, spi_district;
-    private ArrayAdapter<CharSequence> adapter;
+    private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
+    private ActivityResultLauncher<Intent> launcher;
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -50,18 +54,37 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
         edt_password = (EditText) findViewById(R.id.edt_password);
         edt_password_check = (EditText) findViewById(R.id.edt_password_check);
         edt_nickname = (EditText) findViewById(R.id.edt_nickname);
-        edt_detail = (EditText) findViewById(R.id.edt_detail);
         edt_tel = (EditText) findViewById(R.id.edt_tel);
+        edt_address = (EditText) findViewById(R.id.edt_address);
+        edt_address_detail = (EditText) findViewById(R.id.edt_address_detail);
         btn_join = (Button) findViewById(R.id.btn_join);
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
+        btn_address = (Button) findViewById(R.id.btn_address);
 
-        spi_city = (Spinner) findViewById(R.id.spi_city);
-        adapter = ArrayAdapter.createFromResource(this, R.array.spinner_region, android.R.layout.simple_spinner_dropdown_item);
-        spi_city.setAdapter(adapter);
-        spi_city.setOnItemSelectedListener(this);
 
-        spi_district = (Spinner) findViewById(R.id.spi_district);
-        spi_district.setOnItemSelectedListener(this);
+
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    // 하위 액티비티의 결과 처리
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent intent = result.getData();
+                        if (intent != null) {
+                            String data = intent.getStringExtra("data");
+                            if (data != null) {
+                                edt_address.setText(data);
+                            }
+                        }
+                    }
+                });
+        if (btn_address != null) {
+            btn_address.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(JoinActivity.this, WebViewActivity.class);
+                    launcher.launch(i); // startActivityForResult 대신 launcher.launch() 사용
+                }
+            });
+        }
 
 
 
@@ -74,16 +97,19 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
                 String password = edt_password.getText().toString().trim();
                 String passwordcheck = edt_password_check.getText().toString().trim();
                 String nickname = edt_nickname.getText().toString().trim();
-                String detail = edt_detail.getText().toString().trim();
                 String tel = edt_tel.getText().toString().trim();
+                String address = edt_address.getText().toString().trim();
+                String address_detail = edt_address_detail.getText().toString().trim();
+
+                address = address + " " + address_detail;
 
 
 
                 if (!name.equals("") && !email.equals("") && !password.equals("")
-                        && !nickname.equals("") && !detail.equals("") && !tel.equals("")) {
+                        && !nickname.equals("") && !tel.equals("") && !address.equals("")) {
                     if(password.equals(passwordcheck)){
                         Log.v("test", "email : " + email + " password : " + password);
-                        createUser(name, email, password, nickname, detail, tel);
+                        createUser(name, email, password, nickname, tel, address);
                     } else {
                         Log.v("test",  ""+password+""+passwordcheck);
                         Toast.makeText(JoinActivity.this, "비밀번호가 동일하지 않습니다.", Toast.LENGTH_LONG).show();
@@ -106,47 +132,7 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getId() == R.id.spi_city) {
-            // spi_city 스피너의 선택 이벤트 처리
-            String selectedCity = parent.getItemAtPosition(position).toString();
-            ArrayAdapter<CharSequence> districtAdapter;
-
-            // 선택된 도시에 따라서 해당 도시의 구/군 목록을 설정
-            switch (selectedCity) {
-                case "서울특별시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_seoul, android.R.layout.simple_spinner_dropdown_item); city="서울특별시"; break;
-                case "인천광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_incheon, android.R.layout.simple_spinner_dropdown_item); city="인천광역시"; break;
-                case "부산광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_busan, android.R.layout.simple_spinner_dropdown_item); city="부산광역시"; break;
-                case "대구광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_daegu, android.R.layout.simple_spinner_dropdown_item); city="대구광역시"; break;
-                case "광주광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gwangju, android.R.layout.simple_spinner_dropdown_item); city="광주광역시"; break;
-                case "대전광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_daejeon, android.R.layout.simple_spinner_dropdown_item); city="대전광역시"; break;
-                case "울산광역시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_ulsan, android.R.layout.simple_spinner_dropdown_item); city="울산광역시"; break;
-                case "세종특별자치시": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_sejong, android.R.layout.simple_spinner_dropdown_item); city="세종특별자치시"; break;
-                case "경기도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gyeonggi, android.R.layout.simple_spinner_dropdown_item); city="경기도"; break;
-                case "강원도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gangwon, android.R.layout.simple_spinner_dropdown_item); city="강원도"; break;
-                case "충청북도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_chung_buk, android.R.layout.simple_spinner_dropdown_item); city="충청북도"; break;
-                case "충청남도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_chung_nam, android.R.layout.simple_spinner_dropdown_item); city="충청남도"; break;
-                case "경상북도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gyeong_buk, android.R.layout.simple_spinner_dropdown_item); city="경상북도"; break;
-                case "경상남도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_gyeong_nam, android.R.layout.simple_spinner_dropdown_item); city="경상남도"; break;
-                case "전라북도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_jeon_buk, android.R.layout.simple_spinner_dropdown_item); city="전라북도"; break;
-                case "전라남도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_jeon_nam, android.R.layout.simple_spinner_dropdown_item); city="전라남도"; break;
-                case "제주특별자치도": districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_region_jeju, android.R.layout.simple_spinner_dropdown_item); city="제주특별자치도"; break;
-                default: districtAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_empty, android.R.layout.simple_spinner_dropdown_item); break;
-            }
-            spi_district.setAdapter(districtAdapter);
-        } else if (parent.getId() == R.id.spi_district) {
-            district = parent.getItemAtPosition(position).toString();
-        }
-    }
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        // 아무것도 선택되지 않았을 때 처리
-    }
-
-
-
-    private void createUser(String name, String email, String password, String nickname, String detail, String tel) {
+    private void createUser(String name, String email, String password, String nickname, String tel, String address) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -162,9 +148,8 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
                             account.setEmail(firebaseUser.getEmail());
                             account.setName(name);
                             account.setNickname(nickname);
-                            String address = city + " " + district + " " + detail;
-                            account.setAddress(address);
                             account.setTel(tel);
+                            account.setAddress(address);
 
                             DatabaseRef.child("UserAccount").child(firebaseUser.getUid()).setValue(account);
 //                            DatabaseRef.child("OrganizationAccount").child(firebaseUser.getUid()).setValue(organization);
@@ -178,6 +163,4 @@ public class JoinActivity extends AppCompatActivity implements AdapterView.OnIte
                     }
                 });
     }
-
-
 }

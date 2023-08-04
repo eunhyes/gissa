@@ -80,32 +80,52 @@
         android:hint="닉네임"
         android:inputType="textEmailAddress" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="230dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/spi_city"
-            android:layout_width="120dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_address"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.20"/>
-        <Spinner
-            android:id="@+id/spi_district"
-            android:layout_width="120dp"
+            android:layout_weight="1"
+            android:layout_marginStart="30dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:minLines="2" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_address"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.20"/>
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="30dp"
+            android:text="주소찾기"
+            android:background="#FEEDD1" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/edt_detail"
-        android:layout_weight="1"
-        android:layout_width="230dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout_address_detail"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="상세주소"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_address_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:minLines="2" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <EditText
         android:id="@+id/edt_tel"

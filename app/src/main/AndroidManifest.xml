@@ -86,6 +86,11 @@
                 android:value="" />
         </activity>
 
+        <activity
+            android:name=".WebViewActivity"
+            android:exported="true">
+        </activity>
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="691dcdcd2d71193da561d893d49ff6a8" />
