@@ -1,29 +1,28 @@
 package com.example.animal_helpers;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.animal_helpers.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-import com.google.firebase.auth.FirebaseAuth;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    private ActivityMainBinding binding;
     BottomNavigationView bottomNavigationView;
-    LinearLayout home_ly;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+//        View view = binding.getRoot();
+        setContentView(binding.getRoot());
 
         init();
         SettingListener();
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void init() {
-        home_ly = findViewById(R.id.home_ly);
+//        home_ly = findViewById(R.id.home_ly);
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
     }
 

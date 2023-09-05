@@ -8,12 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.animal_helpers.databinding.ActivityPostDetailBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,15 +30,17 @@ import java.util.Objects;
 
 public class PostDetail extends AppCompatActivity {
 
+    private ActivityPostDetailBinding binding;
     DatabaseReference PostDatabaseRef, rootRef, OrganizationRef;
-    TextView tv_body, tv_title, tv_address, tv_employees, tv_store, tv_condition, tv_tel, tv_time, tv_date;
     MapView mapView;
-    Button btn_register;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_detail);
+        binding = ActivityPostDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         Intent intent = this.getIntent();
         String myUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
@@ -48,26 +49,15 @@ public class PostDetail extends AppCompatActivity {
         PostDatabaseRef = rootRef.child("JobPost");
         OrganizationRef = rootRef.child("OrganizationAccount");
 
-        btn_register = (Button) findViewById(R.id.btn_register);
-        tv_body = (TextView) findViewById(R.id.tv_body);
-        tv_title = (TextView) findViewById(R.id.tv_title);
-        tv_address = (TextView) findViewById(R.id.tv_address);
-        tv_employees = (TextView) findViewById(R.id.tv_employees);
-        tv_store = (TextView) findViewById(R.id.tv_store);
-        tv_condition = (TextView) findViewById(R.id.tv_condition);
-        tv_tel = (TextView) findViewById(R.id.tv_tel);
-        tv_date = (TextView) findViewById(R.id.tv_date);
-        tv_time = (TextView) findViewById(R.id.tv_time);
-
         if(myUid.equals(uid)){
-            btn_register.setEnabled(false);
-            btn_register.setBackgroundColor(Color.parseColor("#999999"));
+            binding.btnRegister.setEnabled(false);
+            binding.btnRegister.setBackgroundColor(Color.parseColor("#999999"));
         }
         mapView = new MapView(this);
         final Geocoder geocoder = new Geocoder(this);
 
 
-        btn_register.setOnClickListener(new View.OnClickListener() {
+        binding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PostDetail.this, ChatActivity.class);
@@ -90,17 +80,17 @@ public class PostDetail extends AppCompatActivity {
 
                     date = task.getResult().child("JobPost").child(uid).child("startDate").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endDate").getValue(String.class);
                     time = task.getResult().child("JobPost").child(uid).child("startTime").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endTime").getValue(String.class);
-                    tv_store    .setText(task.getResult().child("UserAccount").child(uid).child("nickname").getValue(String.class));
-                    tv_address  .setText(task.getResult().child("JobPost").child(uid).child("address").getValue(String.class));
-                    tv_tel      .setText(task.getResult().child("UserAccount").child(uid).child("tel").getValue(String.class));
-                    tv_title    .setText(task.getResult().child("JobPost").child(uid).child("title").getValue(String.class));
-                    tv_body     .setText(task.getResult().child("JobPost").child(uid).child("body").getValue(String.class));
-                    tv_employees.setText(task.getResult().child("JobPost").child(uid).child("employees").getValue(String.class));
-                    tv_condition.setText(task.getResult().child("JobPost").child(uid).child("condition").getValue(String.class));
+                    binding.tvStore    .setText(task.getResult().child("UserAccount").child(uid).child("nickname").getValue(String.class));
+                    binding.tvAddress  .setText(task.getResult().child("JobPost").child(uid).child("address").getValue(String.class));
+                    binding.tvTel      .setText(task.getResult().child("UserAccount").child(uid).child("tel").getValue(String.class));
+                    binding.tvTitle    .setText(task.getResult().child("JobPost").child(uid).child("title").getValue(String.class));
+                    binding.tvBody     .setText(task.getResult().child("JobPost").child(uid).child("body").getValue(String.class));
+                    binding.tvEmployees.setText(task.getResult().child("JobPost").child(uid).child("employees").getValue(String.class));
+                    binding.tvCondition.setText(task.getResult().child("JobPost").child(uid).child("condition").getValue(String.class));
 
 
 
-                    String address = tv_address.getText().toString();
+                    String address = binding.tvAddress.getText().toString();
                     double lat = 0.0;
                     double lot = 0.0;
                     List<Address> addressList = null;
@@ -137,8 +127,8 @@ public class PostDetail extends AppCompatActivity {
                     mapView.zoomOut(true);
 
                 }
-                tv_time.setText(time);
-                tv_date.setText(date);
+                binding.tvTime.setText(time);
+                binding.tvDate.setText(date);
             }
         });
     }

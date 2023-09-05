@@ -25,7 +25,6 @@ public class IntroActivity extends AppCompatActivity {
         introThread.start();
     }
 
-
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         @Override
@@ -40,7 +39,7 @@ public class IntroActivity extends AppCompatActivity {
     @SuppressLint("ObsoleteSdkInt")
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {  //SDK_INT 버전에서 조건에 의해 차단
-            CharSequence name = "물섭취량 알림"; //채널이름
+            CharSequence name = "animal-helper"; //채널이름
             String description = "channel_description"; //채널설명
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("water_intake_channel_id", name, importance);

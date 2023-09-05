@@ -2,7 +2,6 @@ package com.example.animal_helpers;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,12 +67,9 @@ public class HomeFragment extends Fragment {
         getPost();
 
 
-
-
         postlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.v("작동", "게시글 클릭");
                 Intent intent = new Intent(getActivity(), PostDetail.class);
                 JobPost vo = (JobPost)adapterView.getAdapter().getItem(i);
                 String uid = vo.getUid();

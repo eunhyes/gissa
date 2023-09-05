@@ -4,13 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.animal_helpers.databinding.ActivityLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -21,11 +20,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private ActivityLoginBinding binding;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private FirebaseAuth mAuth;
 
-    EditText edt_email, edt_password;
-    Button btn_login, btn_join;
+
 
 
 
@@ -43,20 +42,18 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         //파이어베이스 인증 객체
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
 //        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Animal-Helpers");
 
-        edt_email = (EditText) findViewById(R.id.edt_email);
-        edt_password = (EditText) findViewById(R.id.edt_password);
-        btn_login = (Button) findViewById(R.id.btn_login);
-        btn_join = (Button) findViewById(R.id.btn_join);
 
 
-        btn_join.setOnClickListener(new View.OnClickListener() {
+
+        binding.btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // JoinActivity 연결
@@ -65,11 +62,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
+        binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!edt_email.getText().toString().equals("") && !edt_password.getText().toString().equals("")) {
-                    loginUser(edt_email.getText().toString(), edt_password.getText().toString());
+                if (!binding.edtEmail.getText().toString().equals("") && !binding.edtPassword.getText().toString().equals("")) {
+                    loginUser(binding.edtEmail.getText().toString(), binding.edtPassword.getText().toString());
                 } else {
                     Toast.makeText(LoginActivity.this, "계정과 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show();
                 }

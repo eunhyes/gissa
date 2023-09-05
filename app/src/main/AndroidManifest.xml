@@ -24,7 +24,14 @@
         tools:targetApi="31">
         <activity
             android:name=".IntroActivity"
-            android:exported="false" />
+            android:exported="true">
+            <!-- 아래 있는 intent-filter 블럭을 원하는 activity 블럭 안에 넣으면 첫화면이 해당 activity로 바뀜 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!-- ClipboardService error -->
         <uses-library
             android:name="org.apache.http.legacy"
@@ -67,12 +74,7 @@
             android:name=".LoginActivity"
             android:exported="true">
 
-            <!-- 아래 있는 intent-filter 블럭을 원하는 activity 블럭 안에 넣으면 첫화면이 해당 activity로 바뀜 -->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
             <meta-data
                 android:name="android.app.lib_name"

@@ -5,11 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -17,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.animal_helpers.databinding.ActivityJoinBinding;
 import com.example.animal_helpers.models.UserAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,12 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class JoinActivity extends AppCompatActivity {
 
+    private ActivityJoinBinding binding;
     private FirebaseAuth mAuth;
     private DatabaseReference DatabaseRef;
-    private EditText edt_name, edt_email, edt_password, edt_password_check, edt_address, edt_address_detail;
-    private EditText edt_nickname, edt_tel;
-    private Button btn_cancel, btn_join, btn_address;
-
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     private ActivityResultLauncher<Intent> launcher;
 
@@ -43,23 +36,12 @@ public class JoinActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_join);
+
+        binding = ActivityJoinBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         mAuth = FirebaseAuth.getInstance();
         DatabaseRef = FirebaseDatabase.getInstance().getReference("Animal-Helpers");
-
-
-
-        edt_name = (EditText) findViewById(R.id.edt_name);
-        edt_email = (EditText) findViewById(R.id.edt_email);
-        edt_password = (EditText) findViewById(R.id.edt_password);
-        edt_password_check = (EditText) findViewById(R.id.edt_password_check);
-        edt_nickname = (EditText) findViewById(R.id.edt_nickname);
-        edt_tel = (EditText) findViewById(R.id.edt_tel);
-        edt_address = (EditText) findViewById(R.id.edt_address);
-        edt_address_detail = (EditText) findViewById(R.id.edt_address_detail);
-        btn_join = (Button) findViewById(R.id.btn_join);
-        btn_cancel = (Button) findViewById(R.id.btn_cancel);
-        btn_address = (Button) findViewById(R.id.btn_address);
 
 
 
@@ -71,42 +53,49 @@ public class JoinActivity extends AppCompatActivity {
                         if (intent != null) {
                             String data = intent.getStringExtra("data");
                             if (data != null) {
-                                edt_address.setText(data);
+                                binding.edtAddress.setText(data);
                             }
                         }
                     }
                 });
-        if (btn_address != null) {
-            btn_address.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(JoinActivity.this, WebViewActivity.class);
-                    launcher.launch(i); // startActivityForResult 대신 launcher.launch() 사용
-                }
-            });
-        }
 
 
+        /*binding.btnAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(JoinActivity.this, WebViewActivity.class);
+                launcher.launch(i); // startActivityForResult 대신 launcher.launch() 사용
 
-        btn_join.setOnClickListener(new View.OnClickListener() {
+            }
+        });*/
+
+        binding.btnAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(JoinActivity.this, WebViewActivity.class);
+                launcher.launch(i); // startActivityForResult 대신 launcher.launch() 사용
+            }
+        });
+
+
+        binding.btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String name = edt_name.getText().toString().trim();
-                String email = edt_email.getText().toString().trim();
-                String password = edt_password.getText().toString().trim();
-                String passwordcheck = edt_password_check.getText().toString().trim();
-                String nickname = edt_nickname.getText().toString().trim();
-                String tel = edt_tel.getText().toString().trim();
-                String address = edt_address.getText().toString().trim();
-                String address_detail = edt_address_detail.getText().toString().trim();
+                String name = binding.edtName.getText().toString().trim();
+                String email = binding.edtEmail.getText().toString().trim();
+                String password = binding.edtPassword.getText().toString().trim();
+                String passwordcheck = binding.edtPasswordCheck.getText().toString().trim();
+                String nickname = binding.edtNickname.getText().toString().trim();
+                String tel = binding.edtTel.getText().toString().trim();
+                String address = binding.edtAddress.getText().toString().trim();
+                String address_detail = binding.edtAddressDetail.getText().toString().trim();
 
                 address = address + " " + address_detail;
 
 
 
-                if (!name.equals("") && !email.equals("") && !password.equals("")
-                        && !nickname.equals("") && !tel.equals("") && !address.equals("")) {
+                if (!name.equals("") && !email.equals("") && !password.equals("") && !nickname.equals("") && !tel.equals("") && !address.equals("")) {
                     if(password.equals(passwordcheck)){
                         Log.v("test", "email : " + email + " password : " + password);
                         createUser(name, email, password, nickname, tel, address);
@@ -122,7 +111,7 @@ public class JoinActivity extends AppCompatActivity {
             }
         });
 
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
+        binding.btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
