@@ -10,154 +10,283 @@
     android:gravity="center_horizontal"
     tools:context=".MainActivity">
 
-    <Space
-        android:layout_weight="10"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
 
 
-    <EditText
-        android:id="@+id/edt_name"
-        android:layout_weight="1"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:hint="이름"
-        android:padding="5dp"
-        android:ems="10"
-        android:inputType="textPersonName" />
-
-    <TextView
-        android:id="@+id/edt_birth"
-        android:layout_weight="1"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="15sp"
-        android:text=" 생년월일"
-        android:ems="10"
-        android:inputType="textEmailAddress" />
-
-    <DatePicker
-        android:id="@+id/vDatePicker"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner" />
-
-    <EditText
-        android:id="@+id/edt_email"
-        android:layout_weight="1"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:hint="이메일"
-        android:ems="10"
-        android:inputType="textEmailAddress" />
-
-    <EditText
-        android:id="@+id/edt_password"
-        android:layout_weight="1"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:hint="비밀번호"
-        android:ems="10"
-        android:inputType="textPassword" />
-
-    <EditText
-        android:id="@+id/edt_password_check"
-        android:layout_weight="1"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:hint="비밀번호 확인"
-        android:ems="10"
-        android:inputType="textPassword" />
-
-    <EditText
-        android:id="@+id/edt_nickname"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="닉네임"
-        android:inputType="textEmailAddress" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="30dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:minLines="2" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/btn_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="30dp"
-            android:text="주소찾기"
-            android:background="#FEEDD1" />
-
-    </LinearLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_layout_address_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edt_address_detail"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:minLines="2" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <EditText
-        android:id="@+id/edt_tel"
-        android:layout_weight="1"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:hint="전화번호"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:layout_marginBottom="30dp"/>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_join"
-            android:text="join"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FEEDD1" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_weight="10" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_cancel"
-            android:text="cancel"
-            android:layout_marginStart="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FEEDD1"/>
+            <TextView
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:text=" 이름"
+                android:textSize="20sp" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <EditText
+                android:id="@+id/edt_name"
+                android:layout_width="360dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/edit_text_border"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:padding="5dp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_weight="10" />
+
+
+            <TextView
+                android:id="@+id/edt_birth"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:text=" 생년월일"
+                android:textSize="20sp" />
+
+            <DatePicker
+                android:id="@+id/vDatePicker"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_weight="10" />
+
+            <TextView
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:text=" 이메일"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/edt_email"
+                android:layout_width="360dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/edit_text_border" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_weight="10" />
+
+            <TextView
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:text=" 비밀번호"
+                android:textSize="20sp" />
+
+
+            <EditText
+                android:id="@+id/edt_password"
+                android:layout_width="360dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:background="@drawable/edit_text_border" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_weight="10" />
+
+            <TextView
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:text=" 비밀번호 확인"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/edt_password_check"
+                android:layout_width="360dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:background="@drawable/edit_text_border" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="10" />
+
+            <TextView
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:text=" 닉네임"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/edt_nickname"
+                android:layout_width="360dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/edit_text_border" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="10" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/input_layout_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_weight="1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:minLines="2" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btn_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="30dp"
+                    android:background="#FEEDD1"
+                    android:text="주소찾기"
+                    android:textSize="18dp"/>
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_layout_address_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_address_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:minLines="2" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="10" />
+
+            <TextView
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:text=" 휴대폰 번호"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/edt_tel"
+                android:layout_width="360dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="30dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:background="@drawable/edit_text_border" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="10" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_join"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#FEEDD1"
+                    android:text="join" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:background="#FEEDD1"
+                    android:text="cancel" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="10" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
