@@ -19,6 +19,7 @@ public class JobPost {
     private String endDate;
     private String startTime;
     private String endTime;
+    private boolean Favorite;
 
 
 
@@ -26,7 +27,7 @@ public class JobPost {
 
     public JobPost() {}
 
-    public JobPost(String uid, String activityPlace, String title, String writingDate, String address, String condition, String work, String body, String tel, String status, String startDate, String endDate, String startTime, String endTime, int employees) {
+    public JobPost(String uid, String activityPlace, String title, String writingDate, String address, String condition, String work, String body, String tel, String status, String startDate, String endDate, String startTime, String endTime, int employees, boolean Favorite) {
         Uid = uid;
         this.activityPlace = activityPlace;
         this.title = title;
@@ -42,7 +43,12 @@ public class JobPost {
         this.startTime = startTime;
         this.endTime = endTime;
         this.employees = employees;
+        this.Favorite = Favorite;
     }
+
+    public boolean GetFavorite() { return Favorite; }
+
+    public void setFavorite(boolean favorite) { Favorite = favorite; }
 
     public String getUid() {
         return Uid;
@@ -177,6 +183,7 @@ public class JobPost {
         result.put("body", body);
         result.put("tel", tel);
         result.put("status", status);
+        result.put("Favorite", Favorite);
         return result;
     }
 }
