@@ -23,12 +23,6 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
     private FirebaseAuth mAuth;
-
-
-
-
-
-
     @Override
     public void onStart() {
         super.onStart();

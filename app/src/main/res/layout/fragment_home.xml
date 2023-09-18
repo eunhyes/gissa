@@ -10,8 +10,8 @@
         android:orientation="vertical"
         android:layout_height="match_parent">
 
-        <ListView
-            android:id="@+id/postlist"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_home_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

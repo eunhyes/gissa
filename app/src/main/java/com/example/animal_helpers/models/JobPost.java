@@ -23,12 +23,12 @@ public class JobPost {
 
 
 
-    private int employees;
+    private String employees;
 
     public JobPost() {}
 
-    public JobPost(String uid, String activityPlace, String title, String writingDate, String address, String condition, String work, String body, String tel, String status, String startDate, String endDate, String startTime, String endTime, int employees, boolean Favorite) {
-        Uid = uid;
+    public JobPost(String uid, String activityPlace, String title, String writingDate, String address, String condition, String work, String body, String tel, String status, String startDate, String endDate, String startTime, String endTime, String employees, boolean Favorite) {
+        this.Uid = uid;
         this.activityPlace = activityPlace;
         this.title = title;
         this.writingDate = writingDate;
@@ -45,6 +45,20 @@ public class JobPost {
         this.employees = employees;
         this.Favorite = Favorite;
     }
+    public JobPost(String uid, String body, String title, String address, String condition, String writingDate, String startDate, String endDate, String startTime, String endTime, String employees){
+        this.Uid = uid;
+        this.body = body;
+        this.title = title;
+        this.address = address;
+        this.condition = condition;
+        this.writingDate = writingDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.employees = employees;
+    }
+
 
     public boolean GetFavorite() { return Favorite; }
 
@@ -82,11 +96,9 @@ public class JobPost {
         this.writingDate = writingDate;
     }
 
-    public int getEmployees() {
-        return employees;
-    }
+    public String getEmployees() { return employees; }
 
-    public void setEmployees(int employees) {
+    public void setEmployees(String employees) {
         this.employees = employees;
     }
 
@@ -172,18 +184,21 @@ public class JobPost {
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("uid", Uid);
-        result.put("activityPlace", activityPlace);
+        result.put("body", body);
         result.put("title", title);
-        result.put("writingDate", writingDate);
-        result.put("employees", employees);
         result.put("address", address);
         result.put("condition", condition);
-        result.put("work", work);
-        result.put("body", body);
-        result.put("tel", tel);
-        result.put("status", status);
-        result.put("Favorite", Favorite);
+        result.put("writingDate", writingDate);
+        result.put("startDate", startDate);
+        result.put("endDate", endDate);
+        result.put("startTime", startTime);
+        result.put("endTime", endTime);
+        result.put("employees", employees);
+//        result.put("activityPlace", activityPlace);
+//        result.put("work", work);
+//        result.put("tel", tel);
+//        result.put("status", status);
+//        result.put("Favorite", Favorite);
         return result;
     }
 }

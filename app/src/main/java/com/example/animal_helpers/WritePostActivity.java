@@ -1,8 +1,6 @@
 package com.example.animal_helpers;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -12,10 +10,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.animal_helpers.databinding.ActivityWritePostBinding;
+import com.example.animal_helpers.models.JobPost;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -24,14 +25,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class WritePostActivity extends AppCompatActivity {
 
     DatabaseReference PostDatabaseRef;
     Button btn_upload;
-    EditText edt_title, edt_body, edt_condition, edt_employees, edt_address;
-    TextView tv_startDate, tv_endDate, tv_startTime, tv_endTime;
+    private ActivityWritePostBinding binding;
 
     final private String TAG = getClass().getSimpleName();
 
@@ -41,102 +43,64 @@ public class WritePostActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write_post);
+        binding = ActivityWritePostBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         PostDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("JobPost");
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
-        try { //예외처리
-            edt_title = findViewById(R.id.edt_title);
-            edt_body = findViewById(R.id.edt_body);
-            edt_condition = findViewById(R.id.edt_condition);
-            edt_employees = findViewById(R.id.edt_employees);
-            edt_address = findViewById(R.id.edt_address);
-            tv_startDate = findViewById(R.id.tv_startDate);
-            tv_endDate = findViewById(R.id.tv_endDate);
-            tv_startTime = findViewById(R.id.tv_startTime);
-            tv_endTime = findViewById(R.id.tv_endTime);
-            btn_upload = findViewById(R.id.btn_upload);
-
-        } catch (NullPointerException e) {
-            Log.v("아무것도 안쓴상태", "" + e);
-        }
-
-
-
-        tv_startDate.setOnClickListener(new View.OnClickListener() {
+        binding.tvStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDate(tv_startDate);
+                getDate(binding.tvStartDate);
             }
         });
-        tv_endDate.setOnClickListener(new View.OnClickListener() {
+        binding.tvEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getDate(tv_endDate);
+                getDate(binding.tvEndDate);
             }
         });
-        tv_startTime.setOnClickListener(new View.OnClickListener() {
+        binding.tvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getTime(tv_startTime);
+                getTime(binding.tvStartTime);
             }
         });
-        tv_endTime.setOnClickListener(new View.OnClickListener() {
+        binding.tvEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getTime(tv_endTime);
+                getTime(binding.tvEndTime);
             }
         });
 
 
+        binding.btnUpload.setOnClickListener(new View.OnClickListener() {
 
-        btn_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WritePost();
-//                finish();
+                String uid = user.getUid();
+                String body = binding.edtBody.getText().toString();
+                String title = binding.edtTitle.getText().toString();
+                String address = binding.edtAddress.getText().toString();
+                String condition = binding.edtCondition.getText().toString();
+                String startDate = binding.tvStartTime.getText().toString();
+                String endDate = binding.tvEndDate.getText().toString();
+                String startTime = binding.tvStartTime.getText().toString();
+                String endTime = binding.tvEndTime.getText().toString();
+                String employees = binding.edtEmployees.getText().toString();
+                String writingDate = LocalDate.now().atStartOfDay().format(formatter);
+                writeNewPost(uid, body, title, address, condition, writingDate, startDate, endDate, startTime, endTime, employees);
+//
                 Intent intent = new Intent(WritePostActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
-    }
-
-
-
-    private void WritePost() {
-
-        String uid = user.getUid();
-        String body = edt_body.getText().toString();
-        String title = edt_title.getText().toString();
-        String employees = edt_employees.getText().toString();
-        String address = edt_address.getText().toString();
-        String condition = edt_condition.getText().toString();
-        String writingDate = LocalDate.now().atStartOfDay().format(formatter);
-        String startDate = tv_startDate.getText().toString();
-        String endDate = tv_endDate.getText().toString();
-        String startTime = tv_startTime.getText().toString();
-        String endTime = tv_endTime.getText().toString();
-
-
-
-        PostDatabaseRef.child(uid).child("title").setValue(title);
-        PostDatabaseRef.child(uid).child("body").setValue(body);
-        PostDatabaseRef.child(uid).child("employees").setValue(employees);
-        PostDatabaseRef.child(uid).child("address").setValue(address);
-        PostDatabaseRef.child(uid).child("condition").setValue(condition);
-        PostDatabaseRef.child(uid).child("writingDate").setValue(writingDate);
-        PostDatabaseRef.child(uid).child("startDate").setValue(startDate);
-        PostDatabaseRef.child(uid).child("endDate").setValue(endDate);
-        PostDatabaseRef.child(uid).child("startTime").setValue(startTime);
-        PostDatabaseRef.child(uid).child("endTime").setValue(endTime);
-
     }
 
 
@@ -159,7 +123,7 @@ public class WritePostActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    private void getTime(TextView tv){
+    private void getTime(TextView tv) {
         final Calendar c = Calendar.getInstance(); //  Calendar 객체로 시간 얻어오기
         int h = c.get(Calendar.HOUR_OF_DAY);
         int m = c.get(Calendar.MINUTE);
@@ -168,10 +132,23 @@ public class WritePostActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                tv.setText(hourOfDay + "시 " + minute+"분");
+                tv.setText(hourOfDay + "시 " + minute + "분");
             }
         }, h, m, false); // true이면 24시각제, false이면 12시각제(오전/오후)인데 텍스트뷰 표시할 때는 24시각제
         timePickerDialog.show();
+
     }
+
+
+    private void writeNewPost(String uid, String body, String title, String address, String condition, String writingDate, String startDate, String endDate, String startTime, String endTime, String employees) {
+        JobPost post = new JobPost(uid, body, title, address, condition, writingDate, startDate, endDate, startTime, endTime, employees);
+        Map<String, Object> postValues = post.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put(uid, postValues);
+        Log.v("에러", childUpdates.toString());
+        PostDatabaseRef.updateChildren(childUpdates);
+
+    }
+
 
 }

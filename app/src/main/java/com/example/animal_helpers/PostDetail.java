@@ -13,12 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.animal_helpers.databinding.ActivityPostDetailBinding;
+import com.example.animal_helpers.models.JobPost;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -47,7 +50,6 @@ public class PostDetail extends AppCompatActivity {
         String uid = intent.getStringExtra("uid");
         rootRef = FirebaseDatabase.getInstance().getReference().child("Animal-Helpers");
         PostDatabaseRef = rootRef.child("JobPost");
-        OrganizationRef = rootRef.child("OrganizationAccount");
 
         if(myUid.equals(uid)){
             binding.btnRegister.setEnabled(false);
@@ -67,6 +69,23 @@ public class PostDetail extends AppCompatActivity {
         });
 
 
+        rootRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                JobPost post = snapshot.getValue(JobPost.class);
+                if (post != null) {
+                    binding.tvStore.setText(post.getWritingDate());
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         rootRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             String time;
             String date;
@@ -78,11 +97,29 @@ public class PostDetail extends AppCompatActivity {
                 } else {
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
 
+                    //            FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("JobPost").addListenerForSingleValueEvent(new ValueEventListener() {
+//                @SuppressLint("NotifyDataSetChanged")
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                    for (DataSnapshot item : snapshot.getChildren()) {
+//                        JobPostModels.add(item.getValue(JobPost.class));
+//                    }
+//                    notifyDataSetChanged();
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//                    Log.v("error", String.valueOf(error));
+//
+//                }
+//            });
+
+
                     date = task.getResult().child("JobPost").child(uid).child("startDate").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endDate").getValue(String.class);
                     time = task.getResult().child("JobPost").child(uid).child("startTime").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endTime").getValue(String.class);
                     binding.tvStore    .setText(task.getResult().child("UserAccount").child(uid).child("nickname").getValue(String.class));
-                    binding.tvAddress  .setText(task.getResult().child("JobPost").child(uid).child("address").getValue(String.class));
                     binding.tvTel      .setText(task.getResult().child("UserAccount").child(uid).child("tel").getValue(String.class));
+                    binding.tvAddress  .setText(task.getResult().child("JobPost").child(uid).child("address").getValue(String.class));
                     binding.tvTitle    .setText(task.getResult().child("JobPost").child(uid).child("title").getValue(String.class));
                     binding.tvBody     .setText(task.getResult().child("JobPost").child(uid).child("body").getValue(String.class));
                     binding.tvEmployees.setText(task.getResult().child("JobPost").child(uid).child("employees").getValue(String.class));
@@ -131,5 +168,6 @@ public class PostDetail extends AppCompatActivity {
                 binding.tvDate.setText(date);
             }
         });
+
     }
 }
