@@ -3,8 +3,12 @@ package com.example.animal_helpers;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -30,6 +34,8 @@ public class JoinActivity extends AppCompatActivity {
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     private ActivityResultLauncher<Intent> launcher;
 
+    EditText et_email;
+    TextView tv_error_email;
 
 
     @SuppressLint("MissingInflatedId")
@@ -44,6 +50,36 @@ public class JoinActivity extends AppCompatActivity {
         DatabaseRef = FirebaseDatabase.getInstance().getReference("Animal-Helpers");
 
 
+        //이메일 warningtext
+
+        et_email = findViewById(R.id.edt_email);
+        tv_error_email = findViewById(R.id.tv_error_email);
+
+        et_email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()){
+                tv_error_email.setText("이메일 형식으로 입력해주세요.");
+                et_email.setBackgroundResource(R.drawable.red_edittext);
+            }
+            else{
+                tv_error_email.setText("");
+                et_email.setBackgroundResource(R.drawable.white_edittext);
+                }
+
+            }
+
+        });
+
+            
 
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -60,6 +96,7 @@ public class JoinActivity extends AppCompatActivity {
                 });
 
 
+
         /*binding.btnAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +106,7 @@ public class JoinActivity extends AppCompatActivity {
             }
         });*/
 
-        binding.btnAddress.setOnClickListener(new View.OnClickListener() {
+        binding.inputLayoutAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(JoinActivity.this, WebViewActivity.class);
@@ -152,4 +189,11 @@ public class JoinActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
+
 }
+
+
+
+

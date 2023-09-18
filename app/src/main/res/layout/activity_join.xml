@@ -43,10 +43,10 @@
                 android:layout_width="360dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@drawable/edit_text_border"
+                android:background="@drawable/white_edittext"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:padding="5dp" />
+                android:paddingLeft="5dp" />
 
             <Space
                 android:layout_width="match_parent"
@@ -94,13 +94,21 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:ems="10"
+                android:paddingLeft="5dp"
                 android:inputType="textEmailAddress"
-                android:background="@drawable/edit_text_border" />
+                android:background="@drawable/white_edittext" />
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_weight="10" />
+
+            <TextView
+                android:id="@+id/tv_error_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FF0000"
+                app:layout_constraintTop_toBottomOf="@+id/edt_email"
+                tools:text="테스트"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="30dp"
+              />
 
             <TextView
                 android:layout_width="360dp"
@@ -121,7 +129,8 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPassword"
-                android:background="@drawable/edit_text_border" />
+                android:paddingLeft="5dp"
+                android:background="@drawable/white_edittext" />
 
             <Space
                 android:layout_width="match_parent"
@@ -146,7 +155,8 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPassword"
-                android:background="@drawable/edit_text_border" />
+                android:paddingLeft="5dp"
+                android:background="@drawable/white_edittext" />
 
             <Space
                 android:layout_width="match_parent"
@@ -170,61 +180,86 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textEmailAddress"
-                android:background="@drawable/edit_text_border" />
+                android:inputType="text"
+                android:paddingLeft="5dp"
+                android:background="@drawable/white_edittext" />
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="10" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:text=" 주소"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="360dp"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_address"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_weight="1">
+                    android:layout_width="360dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="center_horizontal"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edt_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:minLines="2" />
 
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/btn_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="30dp"
-                    android:background="#FEEDD1"
-                    android:text="주소찾기"
-                    android:textSize="18dp"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edt_address"
+                    android:layout_width="360dp"
+                    android:layout_height="40dp"
+                    android:inputType="text"
+                    android:paddingLeft="5dp"
+                    android:background="@drawable/white_edittext"
+                    />
 
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_address_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
+                android:layout_width="360dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_address_detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="360dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:ems="10"
                     android:inputType="text"
-                    android:minLines="2" />
+                    android:hint="상세 주소를 입력해주세요."
+                    android:paddingLeft="10dp"
+                    android:textSize="15dp"
+                    android:background="@drawable/white_edittext"
+                    />
+
             </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!--    <Button
+                             android:id="@+id/btn_address"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center_vertical"
+                             android:layout_marginEnd="30dp"
+                             android:background="#FEEDD1"
+                             android:text="주소찾기"
+                             android:textSize="18dp"/>
+
+                              -->
+
 
             <Space
                 android:layout_width="match_parent"
@@ -250,7 +285,10 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:background="@drawable/edit_text_border" />
+                android:hint="'-' 빼고 입력해주세요."
+                android:paddingLeft="10dp"
+                android:textSize="15sp"
+                android:background="@drawable/white_edittext" />
 
             <Space
                 android:layout_width="match_parent"
