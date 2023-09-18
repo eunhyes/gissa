@@ -54,14 +54,14 @@ public class JobPostAdapter extends BaseAdapter {
     }
 
 
-    public void addItem(String Uid, String title, String address, String writingDate, boolean Favorite) {
+    public void addItem(String Uid, String title, String address, String writingDate) {
         JobPost item = new JobPost();
 
         item.setUid(Uid);
         item.setTitle(title);
         item.setAddress(address);
         item.setWritingDate(writingDate);
-        item.setFavorite(Favorite);
+
         //*Todo: 여기까지 수정함
 
         listViewItemList.add(item);
