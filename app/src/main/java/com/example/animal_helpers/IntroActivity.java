@@ -20,7 +20,6 @@ public class IntroActivity extends AppCompatActivity {
 
         createNotificationChannel();
 
-
         IntroThread introThread = new IntroThread(handler);
         introThread.start();
     }
@@ -38,10 +37,10 @@ public class IntroActivity extends AppCompatActivity {
 
     @SuppressLint("ObsoleteSdkInt")
     private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {  //SDK_INT 버전에서 조건에 의해 차단
-            CharSequence name = "animal-helper"; //채널이름
-            String description = "channel_description"; //채널설명
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "animal-helper";
+            String description = "channel_description";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("water_intake_channel_id", name, importance);
             channel.setDescription(description);
 
@@ -49,6 +48,4 @@ public class IntroActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-
-
 }
