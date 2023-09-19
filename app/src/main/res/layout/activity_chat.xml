@@ -34,6 +34,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:text="전송"
-        android:background="#FEEDD1"
-        />
+        android:background="#0080FF"
+        android:textColor="#FFFFFF"
+    />
 </RelativeLayout>
