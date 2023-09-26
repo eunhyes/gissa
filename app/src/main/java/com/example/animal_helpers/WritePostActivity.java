@@ -95,8 +95,7 @@ public class WritePostActivity extends AppCompatActivity {
                 String endTime = binding.tvEndTime.getText().toString();
                 String employees = binding.edtEmployees.getText().toString();
                 String writingDate = LocalDate.now().atStartOfDay().format(formatter);
-                writeNewPost(uid, body, title, address, condition, writingDate, startDate, endDate, startTime, endTime, employees);
-//
+                writeNewPost(uid, body,  title, address, condition, writingDate, startDate, endDate, startTime, endTime, employees);
                 Intent intent = new Intent(WritePostActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -141,7 +140,7 @@ public class WritePostActivity extends AppCompatActivity {
 
 
     private void writeNewPost(String uid, String body, String title, String address, String condition, String writingDate, String startDate, String endDate, String startTime, String endTime, String employees) {
-        JobPost post = new JobPost(uid, body, title, address, condition, writingDate, startDate, endDate, startTime, endTime, employees);
+        JobPost post = new JobPost(uid, body, title,  address, condition, writingDate, startDate, endDate, startTime, endTime, employees);
         Map<String, Object> postValues = post.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put(uid, postValues);

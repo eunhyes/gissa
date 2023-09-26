@@ -6,15 +6,15 @@ import java.util.Map;
 public class JobPost {
 
     private String Uid;     // firebase Uid (고유 토큰정보)
-    private String activityPlace;
+    private String activityPlace; // x
     private String title;
     private String writingDate;
     private String address;
     private String condition;
-    private String work;
+    private String work; // x
     private String body;
     private String tel;
-    private String status;
+    private String status; // x
     private String startDate;
     private String endDate;
     private String startTime;

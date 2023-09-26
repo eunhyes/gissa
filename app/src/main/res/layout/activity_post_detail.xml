@@ -32,21 +32,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="서울시 강동구"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textColor="#666666"
                 android:padding="8dp"
                 android:background="@color/white"
                 />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#ffffff"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:padding="8dp"
-                android:text="모집조건"
-                android:layout_marginTop="5dp"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -59,7 +51,8 @@
                     android:layout_height="wrap_content"
                     android:padding="12dp"
                     android:textColor="#999999"
-                    android:text="봉사 기간"/>
+                    android:text="날짜"
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/tv_date"
@@ -68,7 +61,7 @@
                     android:text="2023.06.10(토)"
                     android:textColor="#000000"
                     android:padding="16dp"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -82,7 +75,9 @@
                     android:layout_height="wrap_content"
                     android:padding="12dp"
                     android:textColor="#999999"
-                    android:text="봉사 시간"/>
+                    android:text="시간"
+                    android:textSize="16sp"
+                    />
 
                 <TextView
                     android:id="@+id/tv_time"
@@ -91,7 +86,32 @@
                     android:text="10시 30분 ~ 16시 0분"
                     android:textColor="#000000"
                     android:padding="16dp"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#ffffff">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="모집조건"
+                    android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/edt_condition"
+                    android:padding="16dp"
+                    android:background="#ffffff"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="만 19세 이상"
+                    android:textSize="16sp"
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -105,7 +125,8 @@
                     android:layout_height="wrap_content"
                     android:padding="12dp"
                     android:textColor="#999999"
-                    android:text="모집 인원"/>
+                    android:text="모집 인원"
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/tv_employees"
@@ -114,7 +135,7 @@
                     android:text="12명"
                     android:textColor="#000000"
                     android:padding="16dp"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -128,7 +149,8 @@
                     android:layout_height="wrap_content"
                     android:padding="12dp"
                     android:textColor="#999999"
-                    android:text="모집 기관"/>
+                    android:text="장소"
+                    android:textSize="16sp"/>
 
                 <TextView
                     android:id="@+id/tv_store"
@@ -137,53 +159,7 @@
                     android:text="아이조이 수원동탄점"
                     android:textColor="#000000"
                     android:padding="16dp"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="#ffffff">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:textColor="#999999"
-                    android:text="모집 조건"/>
-
-                <TextView
-                    android:id="@+id/tv_condition"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="만 19세 이상"
-                    android:textColor="#000000"
-                    android:padding="16dp"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="#ffffff">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:textColor="#999999"
-                    android:text="연락처"/>
-
-                <TextView
-                    android:id="@+id/tv_tel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="02-423-4875"
-                    android:textColor="#000000"
-                    android:padding="16dp"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -200,8 +176,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="상세모집내용"
-                android:textSize="22sp"
+                android:text="상세 내용"
+                android:textSize="18sp"
                 android:padding="8dp"
                 android:textColor="#000000"
                 android:layout_marginTop="5dp"
@@ -219,14 +195,17 @@
                 />
 
         </LinearLayout>
+
     </ScrollView>
 
     <Button
         android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFF0DA"
-        android:text="지원하기" />
+        android:background="#0080ff"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:text="채팅하기" />
 
 </LinearLayout>
 

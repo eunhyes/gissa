@@ -24,6 +24,7 @@
             android:background="#0080FF"
             android:textColor="#FFFFFF"
             android:text="새 글 작성하기"
+            android:textSize="18sp"
             />
 
     </LinearLayout>
