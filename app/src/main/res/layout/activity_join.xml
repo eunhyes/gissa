@@ -46,7 +46,8 @@
                 android:background="@drawable/white_edittext"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:paddingLeft="5dp" />
+                android:paddingLeft="5dp"
+                android:textSize="20sp"/>
 
             <Space
                 android:layout_width="match_parent"
@@ -96,7 +97,8 @@
                 android:ems="10"
                 android:paddingLeft="5dp"
                 android:inputType="textEmailAddress"
-                android:background="@drawable/white_edittext" />
+                android:background="@drawable/white_edittext"
+                android:textSize="20sp"/>
 
 
             <TextView
@@ -108,7 +110,7 @@
                 tools:text="테스트"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="30dp"
-              />
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="360dp"
@@ -182,7 +184,8 @@
                 android:ems="10"
                 android:inputType="text"
                 android:paddingLeft="5dp"
-                android:background="@drawable/white_edittext" />
+                android:background="@drawable/white_edittext"
+                android:textSize="20sp"/>
 
             <Space
                 android:layout_width="match_parent"
@@ -222,6 +225,7 @@
                     android:inputType="text"
                     android:paddingLeft="5dp"
                     android:background="@drawable/white_edittext"
+                    android:textSize="20sp"
                     />
 
             </LinearLayout>
@@ -241,7 +245,7 @@
                     android:inputType="text"
                     android:hint="상세 주소를 입력해주세요."
                     android:paddingLeft="10dp"
-                    android:textSize="15dp"
+                    android:textSize="20sp"
                     android:background="@drawable/white_edittext"
                     />
 
@@ -287,7 +291,7 @@
                 android:inputType="textPersonName"
                 android:hint="'-' 빼고 입력해주세요."
                 android:paddingLeft="10dp"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:background="@drawable/white_edittext" />
 
             <Space
@@ -314,7 +318,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:background="#FEEDD1"
-                    android:text="cancel" />
+                    android:text="cancel"
+                    />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

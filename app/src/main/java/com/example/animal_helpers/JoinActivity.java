@@ -28,14 +28,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class JoinActivity extends AppCompatActivity {
 
-    private ActivityJoinBinding binding;
     private FirebaseAuth mAuth;
     private DatabaseReference DatabaseRef;
     private static final int SEARCH_ADDRESS_ACTIVITY = 10000;
     private ActivityResultLauncher<Intent> launcher;
+    private ActivityJoinBinding binding;
 
     EditText et_email;
     TextView tv_error_email;
+
 
 
     @SuppressLint("MissingInflatedId")
