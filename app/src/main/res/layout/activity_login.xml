@@ -14,7 +14,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="100dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="100dp"
     />
 
     <EditText
@@ -26,7 +26,7 @@
         android:hint="이메일"
         android:inputType="textEmailAddress"
         android:background="@drawable/white_edittext"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:paddingLeft="10dp"
         />
 
@@ -40,7 +40,7 @@
         android:hint="비밀번호"
         android:inputType="textPassword"
         android:background="@drawable/white_edittext"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="50dp"
         android:paddingLeft="10dp"
         />
 

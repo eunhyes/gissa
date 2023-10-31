@@ -20,81 +20,72 @@
                 android:id="@+id/iv_profile"
                 android:layout_width="75dp"
                 android:layout_height="150dp"
-                android:src="@drawable/default_profile"
                 android:layout_gravity="start|center_vertical"
-                android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:importantForAccessibility="no">
-            </ImageView>
+                android:importantForAccessibility="no"
+                android:src="@drawable/default_profile"></ImageView>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="8dp">
-            </androidx.cardview.widget.CardView>
+                app:cardCornerRadius="8dp"></androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="70dp">
-        </Space>
+            android:layout_height="70dp"></Space>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#DDDDDD"
             android:layout_marginTop="0.1dp"
-            />
+            android:background="#DDDDDD" />
 
         <Button
             android:id="@+id/btn_viewmyposts"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:text="내가 쓴 글 조회"
+            android:background="@android:color/transparent"
             android:gravity="start|center_vertical"
             android:paddingStart="16dp"
-            android:background="@android:color/transparent">
-        </Button>
+            android:text="내가 쓴 글 조회"></Button>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#DDDDDD"
             android:layout_marginTop="0.1dp"
-            />
+            android:background="#DDDDDD" />
 
         <Button
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:text="로그아웃"
+            android:background="@android:color/transparent"
             android:gravity="start|center_vertical"
             android:paddingStart="16dp"
-            android:background="@android:color/transparent">
-        </Button>
+            android:text="로그아웃"></Button>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#DDDDDD"
             android:layout_marginTop="0.1dp"
-            />
+            android:background="#DDDDDD" />
 
         <Button
             android:id="@+id/btn_quit"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:text="회원탈퇴"
+            android:background="@android:color/transparent"
             android:gravity="start|center_vertical"
             android:paddingStart="16dp"
-            android:background="@android:color/transparent">
-        </Button>
+            android:text="회원탈퇴"></Button>
     </LinearLayout>
 </FrameLayout>
