@@ -3,7 +3,7 @@ package com.example.animal_helpers.models;
 import java.util.HashMap;
 import java.util.Map;
 
-public class JobPost {
+public class JobPost extends HashMap<String, String> {
 
     private String Uid;     // firebase Uid (고유 토큰정보)
     private String activityPlace;
@@ -59,10 +59,25 @@ public class JobPost {
         this.employees = employees;
     }
 
+    public JobPost(String Uid, String title, String address, String writingDate){
+        this.Uid = Uid;
+        this.title = title;
+        this.address = address;
+        this.writingDate = writingDate;
+    }
 
-    public boolean GetFavorite() { return Favorite; }
+    public boolean isFavorite() {
+        return Favorite;
+    }
 
-    public void setFavorite(boolean favorite) { Favorite = favorite; }
+    public void setFavorite(boolean favorite) {
+        Favorite = favorite;
+    }
+
+
+    //    public boolean GetFavorite() { return Favorite; }
+//
+//    public void setFavorite(boolean favorite) { Favorite = favorite; }
 
     public String getUid() {
         return Uid;
@@ -184,6 +199,7 @@ public class JobPost {
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
+        result.put("uid", Uid);
         result.put("body", body);
         result.put("title", title);
         result.put("address", address);

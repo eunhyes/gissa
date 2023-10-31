@@ -31,7 +31,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.Objects;
 
-
 public class AccountFragment extends Fragment {
 
     FirebaseStorage storage = null;
@@ -49,7 +48,6 @@ public class AccountFragment extends Fragment {
         btn_logout = (Button) v.findViewById(R.id.btn_logout);
         storage = FirebaseStorage.getInstance();
         String Uid = FirebaseAuth.getInstance().getUid();
-
         show(Uid);
 
         iv_profile.setOnClickListener(view -> {

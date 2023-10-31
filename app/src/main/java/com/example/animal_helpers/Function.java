@@ -21,12 +21,7 @@ public class Function {
             @Override
             public void onSuccess(Uri uri) {
                 //이미지 로드 성공시
-
-                Glide.with(context)
-                        .load(uri)
-                        .into(imageView);
-
-
+                Glide.with(context).load(uri).into(imageView);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -34,10 +29,7 @@ public class Function {
                 //이미지 로드 실패시
                 Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show();
                 Log.v("에러", String.valueOf(exception));
-
-
             }
-
         });
 
     }

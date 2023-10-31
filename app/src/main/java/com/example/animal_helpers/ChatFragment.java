@@ -33,21 +33,20 @@ import java.util.TreeMap;
 
 
 public class ChatFragment extends Fragment {
-
     DatabaseReference chatroomRef;
     ChatRecyclerViewAdapter adapter;
-
+    RecyclerView recyclerView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_chat, container, false);
-        chatroomRef = FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("chatrooms");
-        adapter = new ChatRecyclerViewAdapter();
 
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.fragment_chat_recyclerView);
+        adapter = new ChatRecyclerViewAdapter();
+        recyclerView = (RecyclerView) v.findViewById(R.id.fragment_chat_recyclerView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
 
+        chatroomRef = FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("chatrooms");
         return v;
     }
 
@@ -63,12 +62,9 @@ public class ChatFragment extends Fragment {
 
     class ChatRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         Context context;
-
         private List<ChatModel> chatModels = new ArrayList<>();
-
-
         private String uid;
-        Function function = new Function();
+        private Function function = new Function();
 
         public ChatRecyclerViewAdapter() {
             Log.v("items", "실행중");
@@ -84,7 +80,6 @@ public class ChatFragment extends Fragment {
                     }
                     notifyDataSetChanged();
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Log.v("error", String.valueOf(error));
@@ -97,7 +92,6 @@ public class ChatFragment extends Fragment {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_chat, parent, false);
-//            View itemView = LayoutInflater.inflate(R.layout.item_chat, parent, false);
             return new CustomViewHolder(view);
         }
 

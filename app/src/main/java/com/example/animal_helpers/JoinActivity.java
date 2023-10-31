@@ -27,7 +27,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class JoinActivity extends AppCompatActivity {
-
     private ActivityJoinBinding binding;
     private FirebaseAuth mAuth;
     private DatabaseReference DatabaseRef;
@@ -49,9 +48,7 @@ public class JoinActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         DatabaseRef = FirebaseDatabase.getInstance().getReference("Animal-Helpers");
 
-
         //이메일 warningtext
-
         et_email = findViewById(R.id.edt_email);
         tv_error_email = findViewById(R.id.tv_error_email);
 
@@ -66,20 +63,18 @@ public class JoinActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()){
-                tv_error_email.setText("이메일 형식으로 입력해주세요.");
-                et_email.setBackgroundResource(R.drawable.red_edittext);
-            }
-            else{
-                tv_error_email.setText("");
-                et_email.setBackgroundResource(R.drawable.white_edittext);
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
+                    tv_error_email.setText("이메일 형식으로 입력해주세요.");
+                    et_email.setBackgroundResource(R.drawable.red_edittext);
+                } else {
+                    tv_error_email.setText("");
+                    et_email.setBackgroundResource(R.drawable.white_edittext);
                 }
 
             }
 
         });
 
-            
 
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -131,13 +126,12 @@ public class JoinActivity extends AppCompatActivity {
                 address = address + " " + address_detail;
 
 
-
                 if (!name.equals("") && !email.equals("") && !password.equals("") && !nickname.equals("") && !tel.equals("") && !address.equals("")) {
-                    if(password.equals(passwordcheck)){
+                    if (password.equals(passwordcheck)) {
                         Log.v("test", "email : " + email + " password : " + password);
                         createUser(name, email, password, nickname, tel, address);
                     } else {
-                        Log.v("test",  ""+password+""+passwordcheck);
+                        Log.v("test", "" + password + "" + passwordcheck);
                         Toast.makeText(JoinActivity.this, "비밀번호가 동일하지 않습니다.", Toast.LENGTH_LONG).show();
                     }
                     // 이메일과 비밀번호가 공백이 아닌 경우
@@ -155,7 +149,6 @@ public class JoinActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void createUser(String name, String email, String password, String nickname, String tel, String address) {
@@ -189,7 +182,6 @@ public class JoinActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
 
 }

@@ -28,16 +28,17 @@ import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 public class PostDetail extends AppCompatActivity {
 
     private ActivityPostDetailBinding binding;
-    DatabaseReference PostDatabaseRef, rootRef, OrganizationRef;
+    DatabaseReference rootRef;
+    DatabaseReference databaseRef;
     MapView mapView;
-
-
+    String uid, body, title, address, condition, writingDate, startDate, endDate, startTime, endTime, employees;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +46,29 @@ public class PostDetail extends AppCompatActivity {
         binding = ActivityPostDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        Intent intent = this.getIntent();
         String myUid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        String uid = intent.getStringExtra("uid");
-        rootRef = FirebaseDatabase.getInstance().getReference().child("Animal-Helpers");
-        PostDatabaseRef = rootRef.child("JobPost");
+
+        Bundle bundle = getIntent().getExtras();
+        HashMap<String, Object> receivedDataMap = (HashMap<String, Object>) bundle.getSerializable("dataMap");
+
+        if(receivedDataMap != null){
+            uid = (String) receivedDataMap.get("uid");
+            body = (String) receivedDataMap.get("body");
+            title = (String) receivedDataMap.get("title");
+            address = (String) receivedDataMap.get("address");
+            condition = (String) receivedDataMap.get("condition");
+            writingDate = (String) receivedDataMap.get("writingDate");
+            startDate = (String) receivedDataMap.get("startDate");
+            endDate = (String) receivedDataMap.get("endDate");
+            startTime = (String) receivedDataMap.get("startTime");
+            endTime = (String) receivedDataMap.get("endTime");
+            employees = (String) receivedDataMap.get("employees");
+        }
+//        Intent intent = this.getIntent();
+//        String uid = intent.getStringExtra("uid");
+
+        databaseRef = FirebaseDatabase.getInstance().getReference();
+        rootRef = databaseRef.child("Animal-Helpers");
 
         if(myUid.equals(uid)){
             binding.btnRegister.setEnabled(false);
@@ -57,7 +76,6 @@ public class PostDetail extends AppCompatActivity {
         }
         mapView = new MapView(this);
         final Geocoder geocoder = new Geocoder(this);
-
 
         binding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +86,6 @@ public class PostDetail extends AppCompatActivity {
             }
         });
 
-
         rootRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -77,21 +94,16 @@ public class PostDetail extends AppCompatActivity {
                 if (post != null) {
                     binding.tvStore.setText(post.getWritingDate());
                 }
-
-
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
         rootRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             String time;
             String date;
+
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
                 } else {
@@ -114,16 +126,23 @@ public class PostDetail extends AppCompatActivity {
 //                }
 //            });
 
-
-                    date = task.getResult().child("JobPost").child(uid).child("startDate").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endDate").getValue(String.class);
-                    time = task.getResult().child("JobPost").child(uid).child("startTime").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endTime").getValue(String.class);
+                    date = startDate+"~"+endDate;
+                    time = startTime+"~"+endTime;
                     binding.tvStore    .setText(task.getResult().child("UserAccount").child(uid).child("nickname").getValue(String.class));
                     binding.tvTel      .setText(task.getResult().child("UserAccount").child(uid).child("tel").getValue(String.class));
+                    binding.tvAddress  .setText(address);
+                    binding.tvTitle    .setText(title);
+                    binding.tvBody     .setText(body);
+                    binding.tvEmployees.setText(employees);
+                    binding.tvCondition.setText(condition);
+
+                    /*date = task.getResult().child("JobPost").child(uid).child("startDate").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endDate").getValue(String.class);
+                    time = task.getResult().child("JobPost").child(uid).child("startTime").getValue(String.class)+"~"+task.getResult().child("JobPost").child(uid).child("endTime").getValue(String.class);
                     binding.tvAddress  .setText(task.getResult().child("JobPost").child(uid).child("address").getValue(String.class));
                     binding.tvTitle    .setText(task.getResult().child("JobPost").child(uid).child("title").getValue(String.class));
                     binding.tvBody     .setText(task.getResult().child("JobPost").child(uid).child("body").getValue(String.class));
                     binding.tvEmployees.setText(task.getResult().child("JobPost").child(uid).child("employees").getValue(String.class));
-                    binding.tvCondition.setText(task.getResult().child("JobPost").child(uid).child("condition").getValue(String.class));
+                    binding.tvCondition.setText(task.getResult().child("JobPost").child(uid).child("condition").getValue(String.class));*/
 
 
 

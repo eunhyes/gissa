@@ -90,7 +90,7 @@ public class ChatActivity extends AppCompatActivity {
                     button.setEnabled(false);
                     firebaseDatabase.getReference().child("chatrooms").push().setValue(chatModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
+                        public void onSuccess(Void aVoicd) {
                             checkChatRoom();
                         }
                     });

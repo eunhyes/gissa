@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -31,8 +30,7 @@ import java.util.Map;
 
 public class WritePostActivity extends AppCompatActivity {
 
-    DatabaseReference PostDatabaseRef;
-    Button btn_upload;
+    DatabaseReference rootRef;
     private ActivityWritePostBinding binding;
 
     final private String TAG = getClass().getSimpleName();
@@ -49,7 +47,7 @@ public class WritePostActivity extends AppCompatActivity {
         binding = ActivityWritePostBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        PostDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("JobPost");
+        rootRef = FirebaseDatabase.getInstance().getReference().child("Animal-Helpers");
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -96,13 +94,11 @@ public class WritePostActivity extends AppCompatActivity {
                 String employees = binding.edtEmployees.getText().toString();
                 String writingDate = LocalDate.now().atStartOfDay().format(formatter);
                 writeNewPost(uid, body, title, address, condition, writingDate, startDate, endDate, startTime, endTime, employees);
-//
                 Intent intent = new Intent(WritePostActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
     }
-
 
 
     private void getDate(TextView tv) {
@@ -136,17 +132,18 @@ public class WritePostActivity extends AppCompatActivity {
             }
         }, h, m, false); // true이면 24시각제, false이면 12시각제(오전/오후)인데 텍스트뷰 표시할 때는 24시각제
         timePickerDialog.show();
-
     }
-
 
     private void writeNewPost(String uid, String body, String title, String address, String condition, String writingDate, String startDate, String endDate, String startTime, String endTime, String employees) {
         JobPost post = new JobPost(uid, body, title, address, condition, writingDate, startDate, endDate, startTime, endTime, employees);
+        String key = rootRef.child("posts").push().getKey();
         Map<String, Object> postValues = post.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put(uid, postValues);
+        childUpdates.put("/posts/" + key, postValues);
+        childUpdates.put("/user-posts/" + uid + "/" + key, postValues);
         Log.v("에러", childUpdates.toString());
-        PostDatabaseRef.updateChildren(childUpdates);
+
+        rootRef.updateChildren(childUpdates);
 
     }
 
