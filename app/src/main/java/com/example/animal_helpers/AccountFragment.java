@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -18,6 +19,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -26,9 +28,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
@@ -50,6 +54,7 @@ public class AccountFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_account, container, false);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
         iv_profile = (ImageView) v.findViewById(R.id.iv_profile);
         btn_viewmyposts = (Button) v.findViewById(R.id.btn_viewmyposts);
         btn_logout = (Button) v.findViewById(R.id.btn_logout);
@@ -105,6 +110,39 @@ public class AccountFragment extends Fragment {
                 }
             }
         });
+
+        // AccountFragment.java
+
+        if (user != null) {
+            // 사용자가 로그인한 경우
+            String userId = user.getUid(); // 사용자의 UID 가져오기
+
+            // Firebase Database 또는 Firestore를 사용하여 사용자의 닉네임을 가져오기
+            // 예를 들어 Firebase Database를 사용한다면 다음과 같이 데이터를 가져올 수 있습니다.
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("UserAccount").child(userId);
+
+            userRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // 사용자의 닉네임을 가져오고 CardView의 TextView에 설정
+                        String nickname = dataSnapshot.child("nickname").getValue(String.class);
+
+                        CardView cardView = v.findViewById(R.id.cardView);
+                        TextView nicknameTextView = cardView.findViewById(R.id.nicknameTextView);
+                        nicknameTextView.setText(nickname);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // 오류 처리
+                }
+            });
+        } else {
+            // 사용자가 로그인하지 않은 경우
+            // 로그인 화면으로 이동하거나 다른 처리를 수행하세요.
+        }
 
         return v;
     }
