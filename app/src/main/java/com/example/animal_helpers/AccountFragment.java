@@ -25,7 +25,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -34,9 +39,10 @@ import java.util.Objects;
 public class AccountFragment extends Fragment {
 
     FirebaseStorage storage = null;
+    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     Uri uri = null;
     ImageView iv_profile;
-    Button btn_logout;
+    Button btn_viewmyposts, btn_logout, btn_quit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,9 +51,12 @@ public class AccountFragment extends Fragment {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         iv_profile = (ImageView) v.findViewById(R.id.iv_profile);
+        btn_viewmyposts = (Button) v.findViewById(R.id.btn_viewmyposts);
         btn_logout = (Button) v.findViewById(R.id.btn_logout);
+        btn_quit = (Button) v.findViewById(R.id.btn_quit);
         storage = FirebaseStorage.getInstance();
         String Uid = FirebaseAuth.getInstance().getUid();
+
         show(Uid);
 
         iv_profile.setOnClickListener(view -> {
@@ -64,8 +73,28 @@ public class AccountFragment extends Fragment {
             }
         });
 
-//        view.setOnClickListener(view -> show(Uid));
-//        select.setOnClickListener(view -> upload(Uid));
+        btn_quit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+
+                if (currentUser != null) {
+                    // Firebase Authentication에서 사용자 삭제
+                    currentUser.delete()
+                            .addOnCompleteListener(getActivity(), task -> {
+                                if (task.isSuccessful()) {
+                                    // 로그아웃
+                                    mAuth.signOut();
+                                    // 회원탈퇴 완료 후 원하는 화면으로 이동 (예: 로그인 화면)
+                                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                                    requireActivity().finish();
+                                } else {
+                                    Toast.makeText(getActivity(), "회원탈퇴 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+            }
+        });
 
         return v;
     }
