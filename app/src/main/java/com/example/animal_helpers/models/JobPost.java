@@ -19,7 +19,7 @@ public class JobPost extends HashMap<String, String> {
     private String endDate;
     private String startTime;
     private String endTime;
-    private boolean Favorite;
+    private boolean favorite;
 
 
 
@@ -43,7 +43,7 @@ public class JobPost extends HashMap<String, String> {
         this.startTime = startTime;
         this.endTime = endTime;
         this.employees = employees;
-        this.Favorite = Favorite;
+        this.favorite = Favorite;
     }
     public JobPost(String uid, String body, String title, String address, String condition, String writingDate, String startDate, String endDate, String startTime, String endTime, String employees){
         this.Uid = uid;
@@ -59,19 +59,20 @@ public class JobPost extends HashMap<String, String> {
         this.employees = employees;
     }
 
-    public JobPost(String Uid, String title, String address, String writingDate){
+    public JobPost(String Uid, String title, String address, String writingDate, boolean favorite){
         this.Uid = Uid;
         this.title = title;
         this.address = address;
         this.writingDate = writingDate;
+        this.favorite = favorite;
     }
 
     public boolean isFavorite() {
-        return Favorite;
+        return favorite;
     }
 
     public void setFavorite(boolean favorite) {
-        Favorite = favorite;
+        favorite = favorite;
     }
 
 

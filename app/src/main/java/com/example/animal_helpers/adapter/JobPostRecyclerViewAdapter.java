@@ -26,6 +26,9 @@ import java.util.Map;
 public class JobPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     private List<JobPost> JobPostModels = new ArrayList<>();
+    private List<JobPost> filteredList;
+
+
     public JobPostRecyclerViewAdapter(Context context) {
         this.context = context;
 //            FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("JobPost").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -46,10 +49,25 @@ public class JobPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 //            });
     }
     public JobPostRecyclerViewAdapter(Context context, List<JobPost> JobPostModels){
-        this.JobPostModels = JobPostModels;
         this.context = context;
+        this.JobPostModels = JobPostModels;
+        this.filteredList = new ArrayList<>(JobPostModels);
     }
 
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void filter(String query) {
+        query = query.toLowerCase();
+        filteredList.clear();
+
+        for (JobPost post : JobPostModels) {
+            if (post.getTitle().toLowerCase().contains(query)) {
+                filteredList.add(post);
+            }
+        }
+
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -97,12 +115,11 @@ public class JobPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
                         // 데이터 리스트로부터 아이템 데이터 참조.
-                        JobPost vo = JobPostModels.get(pos);
-                        String uid = vo.getUid();
+//                        JobPost vo = JobPostModels.get(pos);
+//                        String uid = vo.getUid();
                         Map<String, Object> postValues = JobPostModels.get(pos).toMap();
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("dataMap", (Serializable) postValues);
-
                         Intent intent = new Intent(context, PostDetail.class);
 //                        intent.putExtra("uid", postValues);
                         intent.putExtras(bundle);
@@ -122,17 +139,19 @@ public class JobPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     @SuppressLint("NotifyDataSetChanged")
     public void setFilteredJobPosts(List<JobPost> filteredJobPosts) {
         this.JobPostModels = filteredJobPosts;
-        notifyDataSetChanged(); // 변경 사항을 RecyclerView에 알립니다.
+        notifyDataSetChanged();
+        // 변경 사항을 RecyclerView에 알립니다.
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void addItem(String Uid, String title, String address, String writingDate) {
+    public void addItem(String Uid, String title, String address, String writingDate, boolean favorite) {
         JobPost item = new JobPost();
 
         item.setUid(Uid);
         item.setTitle(title);
         item.setAddress(address);
         item.setWritingDate(writingDate);
+        item.setFavorite(favorite);
 
         JobPostModels.add(item);
         //            this.notifyDataSetChanged();
