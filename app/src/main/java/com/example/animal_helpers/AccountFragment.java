@@ -68,8 +68,18 @@ public class AccountFragment extends Fragment {
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuth.signOut();
-                Log.d("logout", "로그아웃");
+                FirebaseUser currentUser = mAuth.getCurrentUser();
+                if (currentUser != null) {
+                    mAuth.signOut(); // 로그아웃
+                    Log.d("logout", "로그아웃");
+
+                    // 로그아웃 후 로그인 화면으로 이동
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                    requireActivity().finish();
+                } else {
+                    Log.d("logout", "사용자 세션이 null입니다.");
+                }
             }
         });
 
