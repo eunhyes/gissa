@@ -72,7 +72,7 @@ public class JobPost extends HashMap<String, String> {
     }
 
     public void setFavorite(boolean favorite) {
-        favorite = favorite;
+        this.favorite = favorite;
     }
 
 

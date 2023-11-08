@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,61 +37,39 @@ public class HomeFragment extends Fragment {
     JobPostRecyclerViewAdapter adapter;
     FirebaseUser user;
     Context context;
-    List<JobPost> JobPostItemList = new ArrayList<>();
+
+
+    SearchView search_view;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-        adapter = new JobPostRecyclerViewAdapter(getActivity(), JobPostItemList);
-        recyclerView = (RecyclerView) v.findViewById(R.id.fragment_home_recyclerView);
-        recyclerView.setAdapter(adapter);
+        recyclerView = v.findViewById(R.id.fragment_home_recyclerView);
+        search_view = v.findViewById(R.id.search_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
+        adapter = new JobPostRecyclerViewAdapter(getActivity(), getData());
+        recyclerView.setAdapter(adapter);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         write_button = (Button) v.findViewById(R.id.write_button);
 
-        FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("posts").addValueEventListener(new ValueEventListener() {
+
+
+        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // 사용자가 검색 버튼을 누를 때 처리할 작업
+
+                return true;
+            }
+
             @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                JobPostItemList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    JobPost post = dataSnapshot.getValue(JobPost.class);
-                    JobPostItemList.add(post);
-
-                    Log.v("postdata", String.valueOf(JobPostItemList));
-                    //database에서 데이터 가져오기
-//                    String Uid = dataSnapshot.getKey();
-//                    String title = dataSnapshot.child("title").getValue(String.class);
-//                    String location = dataSnapshot.child("location").getValue(String.class);
-//                    String writingDate = dataSnapshot.child("writingDate").getValue(String.class);
-
-//                    adapter.addItem(Uid, title, location, writingDate);
-                }
-                adapter.notifyDataSetChanged();
-            }
-/*
-            EditText searchEditText = findViewById(R.id.searchEditText);
-            searchEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String query = s.toString();
-                    adapter.filter(query);
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });*/
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            public boolean onQueryTextChange(String newText) {
+                // 사용자가 검색어를 입력할 때마다 호출되는 메서드
+                adapter.getFilter().filter(newText);
+                return false;
             }
         });
 
@@ -105,6 +83,27 @@ public class HomeFragment extends Fragment {
         return v;
     }
 
+    private List<JobPost> getData() {
+        List<JobPost> data = new ArrayList<>();
+        FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("posts").addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                data.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    JobPost post = dataSnapshot.getValue(JobPost.class);
+                    data.add(post);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, "error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        return data;
+    }
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onResume() {
