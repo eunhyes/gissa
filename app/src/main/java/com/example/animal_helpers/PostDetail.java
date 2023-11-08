@@ -6,11 +6,13 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.animal_helpers.databinding.ActivityPostDetailBinding;
 import com.example.animal_helpers.models.JobPost;
@@ -51,7 +53,7 @@ public class PostDetail extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         HashMap<String, Object> receivedDataMap = (HashMap<String, Object>) bundle.getSerializable("dataMap");
 
-        if(receivedDataMap != null){
+        if (receivedDataMap != null) {
             uid = (String) receivedDataMap.get("uid");
             body = (String) receivedDataMap.get("body");
             title = (String) receivedDataMap.get("title");
@@ -70,7 +72,7 @@ public class PostDetail extends AppCompatActivity {
         databaseRef = FirebaseDatabase.getInstance().getReference();
         rootRef = databaseRef.child("Animal-Helpers");
 
-        if(myUid.equals(uid)){
+        if (myUid.equals(uid)) {
             binding.btnRegister.setEnabled(false);
             binding.btnRegister.setBackgroundColor(Color.parseColor("#999999"));
         }
@@ -95,8 +97,10 @@ public class PostDetail extends AppCompatActivity {
                     binding.tvStore.setText(post.getWritingDate());
                 }
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
         rootRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             String time;
@@ -126,13 +130,13 @@ public class PostDetail extends AppCompatActivity {
 //                }
 //            });
 
-                    date = startDate+"~"+endDate;
-                    time = startTime+"~"+endTime;
-                    binding.tvStore    .setText(task.getResult().child("UserAccount").child(uid).child("nickname").getValue(String.class));
-                    binding.tvTel      .setText(task.getResult().child("UserAccount").child(uid).child("tel").getValue(String.class));
-                    binding.tvAddress  .setText(address);
-                    binding.tvTitle    .setText(title);
-                    binding.tvBody     .setText(body);
+                    date = startDate + "~" + endDate;
+                    time = startTime + "~" + endTime;
+                    binding.tvStore.setText(task.getResult().child("UserAccount").child(uid).child("nickname").getValue(String.class));
+                    binding.tvTel.setText(task.getResult().child("UserAccount").child(uid).child("tel").getValue(String.class));
+                    binding.tvAddress.setText(address);
+                    binding.tvTitle.setText(title);
+                    binding.tvBody.setText(body);
                     binding.tvEmployees.setText(employees);
                     binding.tvCondition.setText(condition);
 
@@ -143,7 +147,6 @@ public class PostDetail extends AppCompatActivity {
                     binding.tvBody     .setText(task.getResult().child("JobPost").child(uid).child("body").getValue(String.class));
                     binding.tvEmployees.setText(task.getResult().child("JobPost").child(uid).child("employees").getValue(String.class));
                     binding.tvCondition.setText(task.getResult().child("JobPost").child(uid).child("condition").getValue(String.class));*/
-
 
 
                     String address = binding.tvAddress.getText().toString();
@@ -187,6 +190,26 @@ public class PostDetail extends AppCompatActivity {
                 binding.tvDate.setText(date);
             }
         });
+
+
+        // 툴바_상세페이지
+
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar_postdetail);
+        setSupportActionBar(tb);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 활성화
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("상세페이지");
+
+        tb.setNavigationOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // 뒤로가기 버튼 클릭 시 동작
+            }
+
+        });
+
+
 
     }
 
