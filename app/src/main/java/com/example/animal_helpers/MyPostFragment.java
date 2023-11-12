@@ -55,8 +55,6 @@ public class MyPostFragment extends Fragment {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-
-        // 현재 로그인한 사용자의 UID
         String currentUserUID = user.getUid();
 
         DatabaseReference postsReference = FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("posts");

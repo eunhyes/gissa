@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -37,12 +39,15 @@ public class HomeFragment extends Fragment {
     JobPostRecyclerViewAdapter adapter;
     FirebaseUser user;
     Context context;
-    List<JobPost> JobPostItemList = new ArrayList<>();
+    List<JobPost> jobPostItemList = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-        adapter = new JobPostRecyclerViewAdapter(getActivity(), JobPostItemList);
+        context = v.getContext();
+
+        adapter = new JobPostRecyclerViewAdapter(getActivity(), jobPostItemList);
         recyclerView = (RecyclerView) v.findViewById(R.id.fragment_home_recyclerView);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
@@ -55,43 +60,29 @@ public class HomeFragment extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                JobPostItemList.clear();
+                jobPostItemList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     JobPost post = dataSnapshot.getValue(JobPost.class);
-                    JobPostItemList.add(post);
-
-                    Log.v("postdata", String.valueOf(JobPostItemList));
-                    //database에서 데이터 가져오기
-//                    String Uid = dataSnapshot.getKey();
-//                    String title = dataSnapshot.child("title").getValue(String.class);
-//                    String location = dataSnapshot.child("location").getValue(String.class);
-//                    String writingDate = dataSnapshot.child("writingDate").getValue(String.class);
-
-//                    adapter.addItem(Uid, title, location, writingDate);
+                    if (post != null) {
+                        jobPostItemList.add(post);
+                        Log.v("postdata", String.valueOf(jobPostItemList));
+                    }
                 }
+                Collections.sort(jobPostItemList, new Comparator<JobPost>() {
+                    @Override
+                    public int compare(JobPost o1, JobPost o2) {
+                        return o2.getWritingDate().compareTo(o1.getWritingDate());
+                    }
+                });
                 adapter.notifyDataSetChanged();
             }
-/*
-            EditText searchEditText = findViewById(R.id.searchEditText);
-            searchEditText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String query = s.toString();
-                    adapter.filter(query);
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                }
-            });*/
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                if (error.getCode() != DatabaseError.PERMISSION_DENIED) {
+                    // 파일을 찾지 못했을 때, 권한 오류가 아닌 경우에만 토스트 메시지 표시
+                    Toast.makeText(context, "error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
