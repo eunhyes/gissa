@@ -21,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -69,6 +70,20 @@ public class AccountFragment extends Fragment {
             intent.setType("image/*");
             launcher.launch(intent);
         });
+
+        btn_viewmyposts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyPostFragment myPostFragment = new MyPostFragment();
+
+                // FragmentTransaction을 사용하여 MyPostFragment를 표시
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, myPostFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
 
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
