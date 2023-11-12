@@ -100,6 +100,7 @@ public class WritePostActivity extends AppCompatActivity {
             }
         });
 
+
         // 툴바_글작성페이지
         Toolbar tb = (Toolbar) findViewById(R.id.toolbar_writepost);
         setSupportActionBar(tb);

@@ -38,6 +38,9 @@ public class JoinActivity extends AppCompatActivity {
     EditText et_tel;
     TextView tv_error_email;
     TextView tv_error_tel;
+    EditText et_password;
+    EditText et_password_check;
+    TextView tv_error_password_check;
 
 
 
@@ -128,6 +131,7 @@ public class JoinActivity extends AppCompatActivity {
         });
 
         //이메일 warning text
+
         et_email = findViewById(R.id.edt_email);
         tv_error_email = findViewById(R.id.tv_error_email);
 
@@ -202,8 +206,40 @@ public class JoinActivity extends AppCompatActivity {
         });
 
 
-    }
+        // 비밀번호확인 warning text
 
+       et_password = findViewById(R.id.edt_password);
+       et_password_check = findViewById(R.id.edt_password_check);
+       tv_error_password_check = findViewById(R.id.tv_error_password_check);
+
+        et_password_check.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String password = et_password.getText().toString().trim();
+                String passwordCheck = editable.toString().trim();
+
+                if (!password.equals(passwordCheck)) {
+                    // 비밀번호와 비밀번호 확인 값이 다를 경우
+                    tv_error_password_check.setText("비밀번호가 일치하지 않습니다.");
+                    et_password_check.setBackgroundResource(R.drawable.red_edittext);
+                }
+
+                else {
+                    tv_error_password_check.setText("");
+                    et_password_check.setBackgroundResource(R.drawable.white_edittext);
+                }
+            }
+        });
+
+    }
 
     private void createUser(String name, String email, String password, String nickname, String tel, String address) {
         mAuth.createUserWithEmailAndPassword(email, password)
