@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,6 +55,30 @@ public class ChatActivity extends AppCompatActivity {
 
         init();
         sendMsg();
+
+
+        // 툴바_채팅방
+
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar_chatactivity);
+        setSupportActionBar(tb);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 활성화
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//      getSupportActionBar().setTitle("채팅");
+
+        tb.setNavigationOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // 뒤로가기 버튼 클릭 시 동작
+            }
+
+        });
+
+    }
+
+
+    private void setToolbarTitle(String nickname) {
+        getSupportActionBar().setTitle(nickname);
     }
 
     private void init() {
@@ -171,6 +196,9 @@ public class ChatActivity extends AppCompatActivity {
 
                     //채팅 내용 읽어들임
                     getMessageList();
+
+                    // 상대방의 nickname을 툴바 제목으로 설정
+                    setToolbarTitle(destUser);
                 }
 
                 @Override
