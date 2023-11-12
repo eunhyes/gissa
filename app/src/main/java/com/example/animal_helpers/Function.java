@@ -17,20 +17,25 @@ import com.google.firebase.storage.StorageReference;
 public class Function {
     public void getUserProfileImage(String uid, ImageView imageView, Context context){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference("Animal-helper");
-        storageReference.child(uid).child("img_profile").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                //이미지 로드 성공시
-                Glide.with(context).load(uri).into(imageView);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                //이미지 로드 실패시
-                Toast.makeText(context, "실패", Toast.LENGTH_SHORT).show();
-                Log.v("에러", String.valueOf(exception));
-            }
-        });
+
+        storageReference.child(uid).child("img_profile").getDownloadUrl()
+                .addOnSuccessListener(uri -> {
+                    // 이미지 다운로드 성공
+                    String imageUrl = uri.toString();
+                    // 이미지를 imageView에 설정
+                    Glide.with(context)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.default_profile) // 기본 이미지 설정
+                            .into(imageView);
+                })
+                .addOnFailureListener(e -> {
+                    // 이미지 다운로드 실패
+                    Log.e("Firebase Storage", "Error downloading image: " + e.getMessage());
+                    // 이미지가 없는 경우 기본 이미지 설정 또는 다른 처리를 수행
+                    Glide.with(context)
+                            .load(R.drawable.default_profile)
+                            .into(imageView);
+                });
 
     }
 }

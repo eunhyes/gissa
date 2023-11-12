@@ -113,15 +113,16 @@ public class ChatFragment extends Fragment {
             FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("UserAccount").child(destinationUid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    /*UserAccount account = snapshot.getValue(UserAccount.class);
-                    assert account != null;
-                    Log.v("name", Objects.requireNonNull(snapshot.getValue()).toString());
-                    */
-
                     String destUserName = (String) snapshot.child("name").getValue();
-                    customViewHolder.textView_title.setText(destUserName);
-                    function.getUserProfileImage(destUid, customViewHolder.imageView_profile, getActivity());
-                    Log.v("destUserName", destUserName);
+                    if (destUserName != null && !destUserName.isEmpty()) {
+                        customViewHolder.textView_title.setText(destUserName);
+                        function.getUserProfileImage(destUid, customViewHolder.imageView_profile, getActivity());
+                        Log.v("destUserName", destUserName);
+                    } else {
+                        // destUserName이 null 또는 empty인 경우 대체 텍스트 설정 또는 다른 처리를 할 수 있습니다.
+                        customViewHolder.textView_title.setText("Unknown User");
+                        Log.v("destUserName", "값이 null이거나 비어 있습니다");
+                    }
                 }
 
                 @Override

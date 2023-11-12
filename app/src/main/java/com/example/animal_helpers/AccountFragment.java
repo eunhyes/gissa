@@ -2,6 +2,7 @@ package com.example.animal_helpers;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -167,6 +168,7 @@ public class AccountFragment extends Fragment {
             new ActivityResultCallback<>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
+                    // onActivityResult의 내용은 그대로 둡니다.
                     String Uid = FirebaseAuth.getInstance().getUid();
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference("Animal-helper");
 
@@ -179,14 +181,19 @@ public class AccountFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getActivity(), "업로드에 성공했습니다", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireActivity(), "업로드에 성공했습니다", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(getActivity(), "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireActivity(), "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 }
             });
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
 
     private void upload(String Uid) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference("Animal-helper");
@@ -212,5 +219,9 @@ public class AccountFragment extends Fragment {
             }
 
         });
+    }
+
+    public void onDetach() {
+        super.onDetach();
     }
 }
