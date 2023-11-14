@@ -6,7 +6,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -94,7 +93,7 @@ public class PostDetail extends AppCompatActivity {
 
                 JobPost post = snapshot.getValue(JobPost.class);
                 if (post != null) {
-                    binding.tvStore.setText(post.getWritingDate());
+                    binding.tvNickname.setText(post.getWritingDate());
                 }
             }
 
@@ -132,7 +131,7 @@ public class PostDetail extends AppCompatActivity {
 
                     date = startDate + "~" + endDate;
                     time = startTime + "~" + endTime;
-                    binding.tvStore.setText(task.getResult().child("UserAccount").child(uid).child("nickname").getValue(String.class));
+                    binding.tvNickname.setText(task.getResult().child("UserAccount").child(uid).child("nickname").getValue(String.class));
                     binding.tvTel.setText(task.getResult().child("UserAccount").child(uid).child("tel").getValue(String.class));
                     binding.tvAddress.setText(address);
                     binding.tvTitle.setText(title);

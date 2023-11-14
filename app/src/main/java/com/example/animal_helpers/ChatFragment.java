@@ -121,7 +121,6 @@ public class ChatFragment extends Fragment {
                     String destUserName = (String) snapshot.child("name").getValue();
                     customViewHolder.textView_title.setText(destUserName);
                     function.getUserProfileImage(destUid, customViewHolder.imageView_profile, getActivity());
-                    Log.v("destUserName", destUserName);
                 }
 
                 @Override

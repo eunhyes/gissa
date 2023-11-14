@@ -107,19 +107,20 @@
                 <TextView
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:padding="16dp"
+                    android:padding="12dp"
+                    android:textColor="#999999"
                     android:text="모집조건"
-                    android:textSize="16sp"/>
-
-                <EditText
-                    android:id="@+id/tv_Condition"
-                    android:padding="16dp"
-                    android:background="#ffffff"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="만 19세 이상"
                     android:textSize="16sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_Condition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="만 19세 이상"
+                    android:textColor="#000000"
+                    android:padding="16dp"
+                    android:textSize="16sp" />
                     />
             </LinearLayout>
 
@@ -184,14 +185,14 @@
                     android:layout_height="wrap_content"
                     android:padding="12dp"
                     android:textColor="#999999"
-                    android:text="장소"
+                    android:text="작성자"
                     android:textSize="16sp"/>
 
                 <TextView
-                    android:id="@+id/tv_store"
+                    android:id="@+id/tv_nickname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="아이조이 수원동탄점"
+                    android:text="name"
                     android:textColor="#000000"
                     android:padding="16dp"
                     android:textSize="16sp" />
