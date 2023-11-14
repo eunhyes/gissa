@@ -168,7 +168,6 @@ public class AccountFragment extends Fragment {
             new ActivityResultCallback<>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    // onActivityResult의 내용은 그대로 둡니다.
                     String Uid = FirebaseAuth.getInstance().getUid();
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference("Animal-helper");
 
@@ -176,18 +175,27 @@ public class AccountFragment extends Fragment {
                         uri = result.getData().getData();
                         Log.d("test", uri.toString());
                         Glide.with(requireActivity()).load(uri).circleCrop().into(iv_profile);
-                    }
-                    storageReference.child(Objects.requireNonNull(Uid)).child("img_profile").putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(requireActivity(), "업로드에 성공했습니다", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(requireActivity(), "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
-                            }
+
+                        if (uri != null) {
+                            storageReference.child(Objects.requireNonNull(Uid)).child("img_profile").putFile(uri)
+                                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                            // 프래그먼트가 여전히 활성화된 상태인지 확인
+                                            if (isAdded()) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(requireActivity(), "업로드에 성공했습니다", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(requireActivity(), "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        }
+                                    });
                         }
-                    });
+                    }
                 }
+
+
             });
 
     @Override
