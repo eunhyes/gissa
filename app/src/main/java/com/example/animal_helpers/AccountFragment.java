@@ -2,6 +2,7 @@ package com.example.animal_helpers;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +22,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,7 +35,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -71,12 +70,12 @@ public class AccountFragment extends Fragment {
             launcher.launch(intent);
         });
 
+        // 내쓴글
         btn_viewmyposts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MyPostFragment myPostFragment = new MyPostFragment();
 
-                // FragmentTransaction을 사용하여 MyPostFragment를 표시
                 requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, myPostFragment)
                         .addToBackStack(null)
@@ -84,7 +83,7 @@ public class AccountFragment extends Fragment {
             }
         });
 
-
+        // 로그아웃
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,8 +91,6 @@ public class AccountFragment extends Fragment {
                 if (currentUser != null) {
                     mAuth.signOut(); // 로그아웃
                     Log.d("logout", "로그아웃");
-
-                    // 로그아웃 후 로그인 화면으로 이동
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
                     requireActivity().finish();
@@ -103,19 +100,17 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        // 회원탈퇴
         btn_quit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseUser currentUser = mAuth.getCurrentUser();
 
                 if (currentUser != null) {
-                    // Firebase Authentication에서 사용자 삭제
                     currentUser.delete()
                             .addOnCompleteListener(getActivity(), task -> {
                                 if (task.isSuccessful()) {
-                                    // 로그아웃
                                     mAuth.signOut();
-                                    // 회원탈퇴 완료 후 원하는 화면으로 이동 (예: 로그인 화면)
                                     startActivity(new Intent(getActivity(), LoginActivity.class));
                                     requireActivity().finish();
                                 } else {
@@ -126,23 +121,16 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        // AccountFragment.java
-
+        // 닉네임 표기
         if (user != null) {
-            // 사용자가 로그인한 경우
-            String userId = user.getUid(); // 사용자의 UID 가져오기
-
-            // Firebase Database 또는 Firestore를 사용하여 사용자의 닉네임을 가져오기
-            // 예를 들어 Firebase Database를 사용한다면 다음과 같이 데이터를 가져올 수 있습니다.
+            String userId = user.getUid();
             DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("UserAccount").child(userId);
 
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        // 사용자의 닉네임을 가져오고 CardView의 TextView에 설정
                         String nickname = dataSnapshot.child("nickname").getValue(String.class);
-
                         CardView cardView = v.findViewById(R.id.cardView);
                         TextView nicknameTextView = cardView.findViewById(R.id.nicknameTextView);
                         nicknameTextView.setText(nickname);
@@ -151,17 +139,15 @@ public class AccountFragment extends Fragment {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // 오류 처리
                 }
             });
         } else {
-            // 사용자가 로그인하지 않은 경우
-            // 로그인 화면으로 이동하거나 다른 처리를 수행하세요.
         }
 
         return v;
     }
 
+    // 프로필 및 셧다운 방지(프래그먼트 상태 확인)
     private final ActivityResultLauncher<Intent> launcher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<>() {
@@ -174,18 +160,26 @@ public class AccountFragment extends Fragment {
                         uri = result.getData().getData();
                         Log.d("test", uri.toString());
                         Glide.with(requireActivity()).load(uri).circleCrop().into(iv_profile);
-                    }
-                    storageReference.child(Objects.requireNonNull(Uid)).child("img_profile").putFile(uri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getActivity(), "업로드에 성공했습니다", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getActivity(), "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
-                            }
+
+                        if (uri != null) {
+                            storageReference.child(Objects.requireNonNull(Uid)).child("img_profile").putFile(uri)
+                                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                            if (isAdded()) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(requireActivity(), "업로드에 성공했습니다", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(requireActivity(), "업로드에 실패했습니다", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        }
+                                    });
                         }
-                    });
+                    }
                 }
+
+
             });
 
     private void upload(String Uid) {

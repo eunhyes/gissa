@@ -35,7 +35,12 @@ public class JoinActivity extends AppCompatActivity {
     private ActivityJoinBinding binding;
 
     EditText et_email;
+    EditText et_tel;
     TextView tv_error_email;
+    TextView tv_error_tel;
+    EditText et_password;
+    EditText et_password_check;
+    TextView tv_error_password_check;
 
 
 
@@ -50,32 +55,6 @@ public class JoinActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         DatabaseRef = FirebaseDatabase.getInstance().getReference("Animal-Helpers");
 
-        //이메일 warningtext
-        et_email = findViewById(R.id.edt_email);
-        tv_error_email = findViewById(R.id.tv_error_email);
-
-        et_email.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
-                    tv_error_email.setText("이메일 형식으로 입력해주세요.");
-                    et_email.setBackgroundResource(R.drawable.red_edittext);
-                } else {
-                    tv_error_email.setText("");
-                    et_email.setBackgroundResource(R.drawable.white_edittext);
-                }
-
-            }
-
-        });
 
 
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -150,8 +129,117 @@ public class JoinActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
 
+        //이메일 warning text
+
+        et_email = findViewById(R.id.edt_email);
+        tv_error_email = findViewById(R.id.tv_error_email);
+
+
+        et_email.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()) {
+                    tv_error_email.setText("이메일 형식으로 입력해주세요.");
+                    et_email.setBackgroundResource(R.drawable.red_edittext);
+                }
+
+                else {
+                    tv_error_email.setText("");
+                    et_email.setBackgroundResource(R.drawable.white_edittext);
+                }
+
+            }
+
+        });
+
+
+        // 휴대폰 번호 warning text
+
+        et_tel = findViewById(R.id.edt_tel);
+        tv_error_tel = findViewById(R.id.tv_error_tel);
+
+        et_tel.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String tel = editable.toString().trim();
+
+                if (tel.length() == 11 && isValidPhoneNumber(tel)) {
+                    // 11자리 숫자가 입력되고 유효한 전화번호인 경우
+                    tv_error_tel.setText("");
+                    et_tel.setBackgroundResource(R.drawable.white_edittext);
+                }
+
+                else {
+
+                    tv_error_tel.setText("'-' 빼고 11개의 숫자를 입력해주세요.");
+                    et_tel.setBackgroundResource(R.drawable.red_edittext);
+
+                }
+            }
+
+            // 유효한 전화번호인지를 체크하는 메소드
+            private boolean isValidPhoneNumber(String phoneNumber) {
+
+                return phoneNumber.matches("[0-9]+");
+
+            }
+
+        });
+
+
+        // 비밀번호확인 warning text
+
+       et_password = findViewById(R.id.edt_password);
+       et_password_check = findViewById(R.id.edt_password_check);
+       tv_error_password_check = findViewById(R.id.tv_error_password_check);
+
+        et_password_check.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String password = et_password.getText().toString().trim();
+                String passwordCheck = editable.toString().trim();
+
+                if (!password.equals(passwordCheck)) {
+                    // 비밀번호와 비밀번호 확인 값이 다를 경우
+                    tv_error_password_check.setText("비밀번호가 일치하지 않습니다.");
+                    et_password_check.setBackgroundResource(R.drawable.red_edittext);
+                }
+
+                else {
+                    tv_error_password_check.setText("");
+                    et_password_check.setBackgroundResource(R.drawable.white_edittext);
+                }
+            }
+        });
+
+    }
 
     private void createUser(String name, String email, String password, String nickname, String tel, String address) {
         mAuth.createUserWithEmailAndPassword(email, password)

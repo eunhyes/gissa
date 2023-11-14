@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.animal_helpers.databinding.ActivityWritePostBinding;
 import com.example.animal_helpers.models.JobPost;
@@ -98,6 +99,24 @@ public class WritePostActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        // 툴바_글작성페이지
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar_writepost);
+        setSupportActionBar(tb);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 활성화
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("글 작성하기");
+
+        tb.setNavigationOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onBackPressed(); // 뒤로가기 버튼 클릭 시 동작
+            }
+
+        });
+
     }
 
 

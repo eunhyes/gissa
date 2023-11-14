@@ -58,7 +58,6 @@ public class ChatActivity extends AppCompatActivity {
 
 
         // 툴바_채팅방
-
         Toolbar tb = (Toolbar) findViewById(R.id.toolbar_chatactivity);
         setSupportActionBar(tb);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 활성화
