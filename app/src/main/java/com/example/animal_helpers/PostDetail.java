@@ -7,6 +7,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,6 +19,7 @@ import com.example.animal_helpers.databinding.ActivityPostDetailBinding;
 import com.example.animal_helpers.models.JobPost;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +43,7 @@ public class PostDetail extends AppCompatActivity {
     DatabaseReference databaseRef;
     MapView mapView;
     String uid, body, title, address, condition, writingDate, startDate, endDate, startTime, endTime, employees;
+    boolean isMyPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,7 @@ public class PostDetail extends AppCompatActivity {
         rootRef = databaseRef.child("Animal-Helpers");
 
         if (myUid.equals(uid)) {
+            isMyPost = true;
             binding.btnRegister.setEnabled(false);
             binding.btnRegister.setBackgroundColor(Color.parseColor("#999999"));
         }
@@ -94,7 +98,7 @@ public class PostDetail extends AppCompatActivity {
 
                 JobPost post = snapshot.getValue(JobPost.class);
                 if (post != null) {
-                    binding.tvStore.setText(post.getWritingDate());
+                    binding.tvNickname.setText(post.getWritingDate());
                 }
             }
 
@@ -132,7 +136,7 @@ public class PostDetail extends AppCompatActivity {
 
                     date = startDate + "~" + endDate;
                     time = startTime + "~" + endTime;
-                    binding.tvStore.setText(task.getResult().child("UserAccount").child(uid).child("nickname").getValue(String.class));
+                    binding.tvNickname.setText(task.getResult().child("UserAccount").child(uid).child("nickname").getValue(String.class));
                     binding.tvTel.setText(task.getResult().child("UserAccount").child(uid).child("tel").getValue(String.class));
                     binding.tvAddress.setText(address);
                     binding.tvTitle.setText(title);
@@ -208,9 +212,46 @@ public class PostDetail extends AppCompatActivity {
             }
 
         });
+    }
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            Log.d("isMyPost", "Value: " + isMyPost);
+            if (isMyPost) {
+                getMenuInflater().inflate(R.menu.postedit_menu, menu);
+                return true;
+            }
+            return super.onCreateOptionsMenu(menu);
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_edit:
+                    // 수정 버튼을 눌렀을 때의 동작 처리
+                    showSnackbar("수정 버튼을 눌렀습니다.");
+
+
+                    return true;
+
+                case R.id.menu_delete:
+                    // 삭제 버튼을 눌렀을 때의 동작 처리
+//                    showSnackbar("삭제 버튼을 눌렀습니다.");
 
 
 
+                    return true;
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+        }
+
+    private void showSnackbar(String message) {
+        // Snackbar를 표시하는 도우미 메서드
+        // TODO: 적절한 동작으로 수정해주세요.
+        // 예를 들어, 수정 버튼을 누를 때 수정 화면으로 이동하도록 수정할 수 있습니다.
+        Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_SHORT).show();
     }
 
+
 }
+
