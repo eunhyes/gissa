@@ -119,7 +119,6 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textEmailAddress"
                 android:text=" 비밀번호"
                 android:textSize="20sp" />
 
@@ -146,7 +145,6 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textEmailAddress"
                 android:text=" 비밀번호 확인"
                 android:textSize="20sp" />
 
@@ -183,7 +181,6 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textEmailAddress"
                 android:text=" 닉네임"
                 android:textSize="20sp" />
 
@@ -210,7 +207,6 @@
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textEmailAddress"
                 android:text=" 주소"
                 android:textSize="20sp" />
 

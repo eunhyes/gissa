@@ -88,7 +88,7 @@ public class WritePostActivity extends AppCompatActivity {
                 String title = binding.edtTitle.getText().toString();
                 String address = binding.edtAddress.getText().toString();
                 String condition = binding.edtCondition.getText().toString();
-                String startDate = binding.tvStartTime.getText().toString();
+                String startDate = binding.tvStartDate.getText().toString();
                 String endDate = binding.tvEndDate.getText().toString();
                 String startTime = binding.tvStartTime.getText().toString();
                 String endTime = binding.tvEndTime.getText().toString();

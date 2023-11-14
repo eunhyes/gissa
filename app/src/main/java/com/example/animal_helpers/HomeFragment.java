@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +40,7 @@ public class HomeFragment extends Fragment {
     JobPostRecyclerViewAdapter adapter;
     FirebaseUser user;
     Context context;
-    List<JobPost> jobPostItemList = new ArrayList<>();
+    SearchView search_view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,8 +48,9 @@ public class HomeFragment extends Fragment {
 
         context = v.getContext();
 
-        adapter = new JobPostRecyclerViewAdapter(getActivity(), jobPostItemList);
-        recyclerView = (RecyclerView) v.findViewById(R.id.fragment_home_recyclerView);
+        adapter = new JobPostRecyclerViewAdapter(getActivity(), getData());
+        recyclerView = v.findViewById(R.id.fragment_home_recyclerView);
+        search_view = v.findViewById(R.id.search_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
 
@@ -56,35 +58,25 @@ public class HomeFragment extends Fragment {
         user = mAuth.getCurrentUser();
         write_button = (Button) v.findViewById(R.id.write_button);
 
-        FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("posts").addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
+        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                jobPostItemList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    JobPost post = dataSnapshot.getValue(JobPost.class);
-                    if (post != null) {
-                        jobPostItemList.add(post);
-                        Log.v("postdata", String.valueOf(jobPostItemList));
-                    }
-                }
-                Collections.sort(jobPostItemList, new Comparator<JobPost>() {
-                    @Override
-                    public int compare(JobPost o1, JobPost o2) {
-                        return o2.getWritingDate().compareTo(o1.getWritingDate());
-                    }
-                });
-                adapter.notifyDataSetChanged();
+            public boolean onQueryTextSubmit(String query) {
+                // 사용자가 검색 버튼을 누를 때 처리할 작업
+
+                return true;
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                if (error.getCode() != DatabaseError.PERMISSION_DENIED) {
-                    // 파일을 찾지 못했을 때, 권한 오류가 아닌 경우에만 토스트 메시지 표시
-                    Toast.makeText(context, "error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+            public boolean onQueryTextChange(String newText) {
+                // 사용자가 검색어를 입력할 때마다 호출되는 메서드
+                adapter.getFilter().filter(newText);
+                return false;
             }
         });
+
+
+
 
         write_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +86,42 @@ public class HomeFragment extends Fragment {
             }
         });
         return v;
+    }
+
+    private List<JobPost> getData() {
+        List<JobPost> data = new ArrayList<>();
+        FirebaseDatabase.getInstance().getReference().child("Animal-Helpers").child("posts").addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                data.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    JobPost post = dataSnapshot.getValue(JobPost.class);
+                    if (post != null) {
+                        data.add(post);
+                        Log.v("postdata", String.valueOf(data));
+                    }
+                }
+                Collections.sort(data, new Comparator<JobPost>() {
+                    @Override
+                    public int compare(JobPost o1, JobPost o2) {
+                        return o2.getWritingDate().compareTo(o1.getWritingDate());
+                    }
+                });
+                adapter.notifyDataSetChanged();
+            }
+
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                if (error.getCode() != DatabaseError.PERMISSION_DENIED) {
+                    // 파일을 찾지 못했을 때, 권한 오류가 아닌 경우에만 토스트 메시지 표시
+                    Toast.makeText(context, "error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return data;
     }
 
     @SuppressLint("NotifyDataSetChanged")

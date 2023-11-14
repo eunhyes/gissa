@@ -3,7 +3,9 @@ package com.example.animal_helpers.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.example.animal_helpers.models.JobPost;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -29,13 +32,15 @@ public class JobPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     Context context;
     private List<JobPost> itemList;
     private List<JobPost> filteredData;
-
-
+    private static final String PREF_NAME = "FavoritePosts";
+    private static final String KEY_FAVORITE_POSTS = "favoritePosts";
+    private SharedPreferences preferences;
 
     public JobPostRecyclerViewAdapter(Context context, List<JobPost> data) {
         this.context = context;
         this.itemList = data;
         this.filteredData = data;
+        this.preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
 
@@ -47,7 +52,7 @@ public class JobPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-//            CustomViewHolder customViewHolder = (CustomViewHolder) holder;
+        CustomViewHolder viewHolder = (CustomViewHolder) holder;
         JobPost item = filteredData.get(position);
 
         ((CustomViewHolder) holder).titleText.setText(item.getTitle());
@@ -57,7 +62,10 @@ public class JobPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         ((CustomViewHolder) holder).favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                item.setFavorite(((CustomViewHolder) holder).favorite.isChecked());
+                boolean isChecked = viewHolder.favorite.isChecked();
+                item.setFavorite(isChecked);
+                saveFavoritePosts();
+//                item.setFavorite(((CustomViewHolder) holder).favorite.isChecked());
                 Log.v("즐겨찾기", String.valueOf(item.isFavorite()));
                 // 여기에서 즐겨찾기 상태를 저장 또는 업데이트할 수 있습니다.
                 // TODO : 즐겨찾기 기능 포인트
@@ -104,6 +112,29 @@ public class JobPostRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             this.addressText = view.findViewById(R.id.textview_address);
             this.writingDateText = view.findViewById(R.id.textview_writingDate);
             this.favorite = view.findViewById(R.id.cb_favorite);
+        }
+    }
+
+    private void saveFavoritePosts() {
+        List<String> favoritePostIds = new ArrayList<>();
+        for (JobPost post : itemList) {
+            if (post.isFavorite()) {
+                favoritePostIds.add(post.getUid());
+            }
+        }
+
+        String serializedList = TextUtils.join(",", favoritePostIds);
+        preferences.edit().putString(KEY_FAVORITE_POSTS, serializedList).apply();
+    }
+
+    // Load favorite posts from SharedPreferences
+    public static List<String> loadFavoritePosts(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        String serializedList = preferences.getString(KEY_FAVORITE_POSTS, "");
+        if (!serializedList.isEmpty()) {
+            return new ArrayList<>(Arrays.asList(TextUtils.split(serializedList, ",")));
+        } else {
+            return new ArrayList<>();
         }
     }
 
