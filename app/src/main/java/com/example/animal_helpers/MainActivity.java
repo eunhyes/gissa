@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             switch (menuItem.getItemId()) {
                 case R.id.tab_search: {
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.home_ly, new SearchFragment())
+                            .replace(R.id.home_ly, new FavoriteFragment())
                             .commit();
                     return true;
                 }
