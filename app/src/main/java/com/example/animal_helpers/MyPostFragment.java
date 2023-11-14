@@ -71,11 +71,9 @@ public class MyPostFragment extends Fragment {
                         Log.v("postdata", String.valueOf(JobPostItemList));
                     }
                 }
-                // Sort the list in descending order based on the timestamp
                 Collections.sort(JobPostItemList, new Comparator<JobPost>() {
                     @Override
                     public int compare(JobPost o1, JobPost o2) {
-                        // Compare timestamps in reverse order for Strings
                         return o2.getWritingDate().compareTo(o1.getWritingDate());
                     }
                 });
